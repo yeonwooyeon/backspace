@@ -14,4 +14,8 @@ public class TestController {
 		model.addAttribute("name", "타임리프테스트");
 		return "hello";
 	}
+	
+	public String index() {
+		return "index";
+	}
 }
