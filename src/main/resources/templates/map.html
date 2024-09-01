@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>VACANCY</title>
+    <style>
+.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+</style>
 </head>
+
 <body>
     <h1>공실정보</h1>
 	
@@ -12,52 +20,92 @@
 	
 	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee"></script>
 	<script>
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+		// 지도
+        var mapContainer = document.getElementById('map'), 
             mapOption = {
-                center: new kakao.maps.LatLng(36.351199, 127.454488), // 지도의 중심좌표
-                level: 3 // 지도의 확대 레벨
+                center: new kakao.maps.LatLng(37.54699, 127.09598), level: 3 
             };
 
-        // 지도 생성
-        var map = new kakao.maps.Map(mapContainer, mapOption);
-
-        // 마커가 표시될 위치
-        var markerPosition = new kakao.maps.LatLng(36.351199, 127.454488);
-
-        // 마커 생성
-        var marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
-		
-		// 일반지도 / 스카이뷰지도 타입 전환
-		var mapTypeControl = new kakao.maps.MapTypeControl();
-		
-		// 컨트롤 추가		
+        var map = new kakao.maps.Map(mapContainer, mapOption);        
+	    
+		var mapTypeControl = new kakao.maps.MapTypeControl();   
+	    			
 		map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
-		// 지도 확대 축소를 제어할 수 있는 줌 컨트롤 생성
+		
 		var zoomControl = new kakao.maps.ZoomControl();
-		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);		
 		
-		// 마커 표시
-        marker.setMap(map);
+		// 현재위치		
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var lat = position.coords.latitude;
+					var lng = position.coords.longitude;
+					var locPosition = new kakao.maps.LatLng(lat, lng);
+					
+					//마커
+                    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', 
+                        imageSize = new kakao.maps.Size(64, 69), 
+                        imageOption = {offset: new kakao.maps.Point(27, 69)}; 
+                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+                    
+                    var marker = new kakao.maps.Marker({
+                        position: locPosition,
+                        image: markerImage 
+                    });
+                    
+                    marker.setMap(map);
+                    marker.setDraggable(true);
+                    
+            		// 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성
+            		var iwContent = '<div>눌러서 방 정보 보기</div>';		
+            		var infowindow = new kakao.maps.InfoWindow({
+            			content : iwContent
+            		});				
+            		kakao.maps.event.addListener(marker, 'mouseover', function() {			
+            			infowindow.open(map, marker);
+            		});		
+            		kakao.maps.event.addListener(marker, 'mouseout', function() {			
+            			infowindow.close();
+            		});		
+
+            		// 클릭 이벤트 등록
+            		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수 호출
+            		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+            			// 클릭한 위도, 경도 정보를 가져옵니다 
+            			var latlng = mouseEvent.latLng;
+            			// 마커 위치를 클릭한 위치로 옮깁니다
+            			marker.setPosition(latlng);
+            			var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+            			message += '경도는 ' + latlng.getLng() + ' 입니다';
+            			var resultDiv = document.getElementById('clickLatlng');
+            			resultDiv.innerHTML = message;
+            		});
+                    
+					// 오버레이
+					var content = '<div class="customoverlay">'
+							+ '  <a href="https://map.kakao.com/link/map/' + lat + ',' + lng + '" target="_blank">'
+							+ '    <span class="title">현재 위치</span>'
+							+ '  </a>' + '</div>';
+					var customOverlay = new kakao.maps.CustomOverlay(
+							{
+								position : locPosition,
+								content : content,
+								yAnchor : 1
+							});
+							customOverlay.setMap(map);
+							map.setCenter(locPosition); 
+						}, 						
+		function(error) {
+			alert('위치 정보를 가져오는 데 실패했습니다.');
+			});
+		} else {
+		alert('현재 위치를 지원하지 않는 브라우저입니다.');
+		}
+	}
+	getLocation();
 		
-		// 클릭 이벤트 등록
-		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수 호출
-		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-		    
-	    // 클릭한 위도, 경도 정보를 가져옵니다 
-	    var latlng = mouseEvent.latLng; 
-	    
-	    // 마커 위치를 클릭한 위치로 옮깁니다
-	    marker.setPosition(latlng);
-		
-		var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-		   message += '경도는 ' + latlng.getLng() + ' 입니다';	   
-	    
-	    var resultDiv = document.getElementById('clickLatlng'); 
-	    resultDiv.innerHTML = message;
-		});
+
 		
 </script>
 </body>
