@@ -1,6 +1,7 @@
 {
 	"folders": {},
 	"connections": {
+<<<<<<< HEAD
 		"mysql8-191bd05357d-27f5447be27ccb7": {
 			"provider": "mysql",
 			"driver": "mysql8",
@@ -11,6 +12,18 @@
 				"port": "3306",
 				"database": "MySQL",
 				"url": "jdbc:mysql://localhost:3306/MySQL",
+=======
+		"mysql8-191bcb95438-6e4913fee83cc5eb": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "vacancy",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "vacancy",
+				"url": "jdbc:mysql://localhost:3306/vacancy",
+>>>>>>> branch 'master' of https://github.com/yeonwooyeon/backspace.git
 				"configurationType": "MANUAL",
 				"home": "mysql_client",
 				"type": "dev",

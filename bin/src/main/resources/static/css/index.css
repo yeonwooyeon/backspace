@@ -1,0 +1,154 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 2px solid #FFB74D;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+header nav, 
+header .user-menu {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+header .user-menu a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #FF5722;
+    border: 1px solid #FF5722;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.7em;
+}
+
+header .user-menu a:hover {
+    background-color: #FF5722;
+    color: white;
+}
+
+.info-banner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #FFB74D;
+    padding: 3% 20%;
+    color: white;
+    font-size: 1.2em;
+}
+
+.info-banner .info-item h2 {
+    margin: 0%;
+    font-size: 1.5em;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    height: 100%; /* 부모 컨테이너의 높이를 전체로 설정 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.search-section {
+    background-color: white;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-container {
+    display: inline-flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.search-container input[type="text"] {
+    padding: 10px;
+    border: none;
+    outline: none;
+    width: 150px;
+}
+
+.search-container button {
+    background-color: #FF5722;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.property-list {
+    padding: 2%;
+    padding-left: 20%;
+    padding-right: 20%;
+    background-color: white;
+}
+
+.property-list h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.properties {
+    display: flex;
+    justify-content: space-around;
+}
+
+.property-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1%;
+    text-align: center;
+    width: 30%;
+}
+
+.property-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.property-card p {
+    margin: 10px 0;
+    color: #666;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    text-align: left;
+    padding-left: 15%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.5em;
+}
