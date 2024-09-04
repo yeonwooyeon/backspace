@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class TestController {
@@ -24,5 +25,11 @@ public class TestController {
 	public String test() {
 		return "test";
 	}
+	
+    @GetMapping("/test2")
+    @ResponseBody
+    public String test2() {
+        return "안뇽안뇽";
+    }
 	
 }

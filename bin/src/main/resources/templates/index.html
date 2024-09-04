@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VACANCY</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 </head>
 <body>
-HELLO
+    <header>
+        <div class="logo">
+            <img src="../images/logo.png" alt="Vacancy Logo">
+            <span>VACANCY</span>
+        </div>
+        <nav>
+            <a href="#">공실정보</a>
+            <a href="#">관리물건</a>
+            <a href="#">매매정보</a>
+            <a href="#">분양사무실</a>
+        </nav>
+        <div class="user-menu">
+            <a href="#">고객센터</a>
+            <a href="#">마이페이지</a>
+            <a href="#">로그인</a>
+            <a href="#">회원가입</a>
+        </div>
+    </header>
+    <section class="info-banner">
+        <div class="info-item">
+            <h2>공실정보</h2>
+            <p>00,000건</p>
+            <!-- 공실정보 갯수는 카운트해서 넣을듯 하면 됩니다 -->
+        </div>
+        <div class="info-item">
+            <h2>임대정보</h2>
+            <p>00,000건</p>
+        </div>
+        <div class="info-item">
+            <h2>신규공실정보</h2>
+            <p>00,000건</p>
+        </div>
+    </section>
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" placeholder="대전광역시">
+            <input type="text" placeholder="시/군/구">
+            <button type="submit">검색</button>
+        </div>
+    </section>
+    <section class="property-list">
+        <h3>실시간 공실 정보</h3>
+        <div class="properties">
+            <div class="property-card">
+                <img src="property1.jpg">
+                <p>전세 2,600</p>
+                <p>동구 자양동</p>
+            </div>
+            <div class="property-card">
+                <img src="property2.jpg">
+                <p>월세 300/35</p>
+                <p>동구 자양동</p>
+            </div>
+            <div class="property-card">
+                <img src="property3.jpg">
+                <p>월세 100/21</p>
+                <p>동구 자양동</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>백스페이스 프로젝트</p>
+        <p>신상언, 이수연, 윤연우, 이희섭
+    </footer>
 </body>
 </html>
