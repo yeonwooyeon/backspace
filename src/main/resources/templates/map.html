@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>VACANCY</title>
-    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services"></script>
-	<style>
-	#map {width:750px; height:350px;}	
-	#searchBox { margin-bottom: 10px;}
-	.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-	.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-	.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-	.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-	.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-	</style>
+<meta charset="UTF-8">
+<title>VACANCY</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="../css/map.css">
+<script type="text/javascript"
+   src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 
 <body>
-    <h1>공실정보</h1>
-    <div id="searchBox">
-        <input type="text" id="address" placeholder="도로명 주소를 입력하세요">
-        <button id="searchBtn">검색</button>
-    </div>
-    <div id="map"></div>
-    <div id="clickLatlng"></div>
+   <header>
+      <div class="header">
+         <img src="../images/logo.png" alt="Vacancy Logo" class="logo">
+         <h1>공실정보</h1>
+      </div>
+      <div id="searchBox">
+         <input type="text" id="address" placeholder="주소를 입력하세요">
+         <button id="searchBtn">검색</button>
+      </div>
+   </header>
+   <!-- Bootstrap JS and dependencies -->
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <!-- Custom JS -->
+   <script src="js/map.js" defer></script>
+   <div id="map"></div>
+   <div id="clickLatlng"></div>   
 
-    <script>
-        var map, marker, customOverlay;     
+   <script>
+        var map, marker, customOverlay, clusterer;     
 
         kakao.maps.load(function() {
+        	var markers = [];
+        	 
             function initializeMap(lat, lng) {
                 var locPosition = new kakao.maps.LatLng(lat, lng);
 
@@ -43,18 +51,42 @@
                 map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
                 var zoomControl = new kakao.maps.ZoomControl();
                 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-                var markerImageUrl = 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png';
-                var markerImageSize = new kakao.maps.Size(40, 42);
-                var markerImageOptions = { offset: new kakao.maps.Point(20, 42) };
-                var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
-
-                marker = new kakao.maps.Marker({
-                    position: locPosition,
-                    draggable: true,
-                    image: markerImage,
-                    map: map
+                
+                clusterer = new kakao.maps.MarkerClusterer({
+                    map: map,
+                    averageCenter: true,
+                    minClusterSize: 2,
+                    styles: [{
+                        width: '40px',
+                        height: '40px',
+                        background: 'rgba(0, 0, 0, 0.8)',
+                        borderRadius: '50%',
+                        color: '#fff',
+                        textAlign: 'center',
+                        lineHeight: '40px',
+                        fontSize: '12px',
+                        fontWeight: 'bold' // Optional: makes the text bold
+                    }]
                 });
+                
+                var markerImageUrl = 'https://cdn-icons-png.flaticon.com/128/16138/16138394.png',
+                    markerImageSize = new kakao.maps.Size(40, 42),
+                    markerImageOptions = { offset: new kakao.maps.Point(20, 42) },
+                    markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+
+                function addMarker(lat, lng) {
+                    var position = new kakao.maps.LatLng(lat, lng);
+                    var marker = new kakao.maps.Marker({
+                        position: position,
+                        image: markerImage
+                    });
+                    markers.push(marker);
+                    marker.setMap(map);
+                }
+
+                function updateCluster() {
+                    clusterer.addMarkers(markers);
+                }
                 
                 kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
                     var latlng = mouseEvent.latLng;
@@ -64,10 +96,11 @@
                         customOverlay.setMap(null);
                     }
 
+               
                     var content = `
                         <div class="customoverlay">
                             <a href="https://map.kakao.com/link/map/${latlng.getLat()},${latlng.getLng()}" target="_blank">
-                                <span class="title">위도: ${latlng.getLat().toFixed(6)}, 경도: ${latlng.getLng().toFixed(6)}</span>
+                                <span class="title">위도: ${latlng.getLat().toFixed(5)}, 경도: ${latlng.getLng().toFixed(5)}</span>
                             </a>
                         </div>
                     `;
@@ -77,11 +110,18 @@
                         yAnchor: 1
                     });
                     customOverlay.setMap(map);
-
-                    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, 경도는 ' + latlng.getLng() + ' 입니다';
+                   
                     var resultDiv = document.getElementById('clickLatlng');
-                    resultDiv.innerHTML = message;
+                    
                 });
+                
+             // Add sample markers for demonstration
+                // Replace with actual data for restaurants
+                addMarker(37.5665, 126.978); // Example coordinates
+                addMarker(37.5651, 126.989); // Example coordinates
+                addMarker(37.5700, 126.975); // Example coordinates
+                updateCluster();
+            
             }
 
             function searchAddress() {
@@ -98,7 +138,7 @@
                         var lat = result.y;
                         var lng = result.x;
                         
-                        console.log(lat, lng);
+                        
 
                         if (!map) {
                             initializeMap(lat, lng);
@@ -107,14 +147,12 @@
                             marker.setPosition(new kakao.maps.LatLng(lat, lng));
                             if (customOverlay) {
                                 customOverlay.setMap(null);
-                            }
-                            
+                            }                          
                          
-
                             var content = `
                                 <div class="customoverlay">
                                     <a href="https://map.kakao.com/link/map/${lat},${lng}" target="_blank">
-                                        <span class="title">위도: ${lat.toFixed(6)}, 경도: ${lng.toFixed(6)}</span>
+                                        <span class="title">위도: ${lat.toFixed(0)}, 경도: ${lng.toFixed(0)}</span>
                                     </a>
                                 </div>
                             `;
@@ -125,11 +163,10 @@
                             });
                             customOverlay.setMap(map);
                         }
-
-                        var message = '검색한 위치의 위도는 ' + lat + ' 이고, 경도는 ' + lng + ' 입니다';
+                        
                         var resultDiv = document.getElementById('clickLatlng');
-                        resultDiv.innerHTML = message;
-                    } else {
+                       
+                       } else {
                         alert('도로명 주소를 찾을 수 없습니다.');
                     }
                 });
@@ -168,8 +205,14 @@
             document.getElementById('searchBtn').addEventListener('click', function() {
                 searchAddress();
             });
+            document.getElementById('address').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    searchAddress();
+                }
+            });
         });
-		
+      
 </script>
 </body>
 </html>
+

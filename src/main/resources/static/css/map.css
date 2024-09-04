@@ -1,0 +1,123 @@
+/* 전체 페이지의 스타일링 */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* 헤더 스타일링 */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 2px solid #FFB74D;
+}
+.logo {
+    height: 5em; /* 로고 크기 조정 */
+    margin-right: 10px; /* 로고와 텍스트 사이의 간격 */
+}
+
+h1 {
+    color: #333;
+    margin: 0;
+    font-size: 4em;
+}
+
+/* 검색 박스 스타일링 */
+#searchBox {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#searchBox input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    width: 300px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#searchBox input[type="text"]:focus {
+    border-color: #d95050;
+}
+
+#searchBox button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #d95050;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#searchBox button:hover {
+    background-color: #b03b3b;
+}
+
+/* 지도 스타일링 */
+#map {
+    width: 900px;
+    height: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 클릭 좌표 스타일링 */
+#clickLatlng {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* 커스텀 오버레이 스타일링 */
+.customoverlay {
+    border: 1px solid #d95050;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    color: #d95050;
+}
+
+.customoverlay a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+}
+
+.customoverlay .title {
+    background: #fff;
+    margin-right: 35px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.customoverlay:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
+}
+
