@@ -11,4 +11,9 @@ public class MapController {
     public String map() {
         return "map";  // map.html 템플릿을 렌더링
     }
+    
+    @GetMapping("/map2")
+    public String map2() {
+        return "map2";  // map.html 템플릿을 렌더링
+    }
 }

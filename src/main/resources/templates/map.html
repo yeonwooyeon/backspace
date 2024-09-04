@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>VACANCY</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Custom CSS -->
 <link rel="stylesheet" href="../css/map.css">
 <script type="text/javascript"
-   src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services"></script>
-<style>
-</style>
+   src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 
 <body>
@@ -21,13 +21,21 @@
          <button id="searchBtn">검색</button>
       </div>
    </header>
+   <!-- Bootstrap JS and dependencies -->
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <!-- Custom JS -->
+   <script src="js/map.js" defer></script>
    <div id="map"></div>
-   <div id="clickLatlng"></div>
+   <div id="clickLatlng"></div>   
 
    <script>
-        var map, marker, customOverlay;     
+        var map, marker, customOverlay, clusterer;     
 
         kakao.maps.load(function() {
+        	var markers = [];
+        	 
             function initializeMap(lat, lng) {
                 var locPosition = new kakao.maps.LatLng(lat, lng);
 
@@ -44,17 +52,41 @@
                 var zoomControl = new kakao.maps.ZoomControl();
                 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
                 
+                clusterer = new kakao.maps.MarkerClusterer({
+                    map: map,
+                    averageCenter: true,
+                    minClusterSize: 2,
+                    styles: [{
+                        width: '40px',
+                        height: '40px',
+                        background: 'rgba(0, 0, 0, 0.8)',
+                        borderRadius: '50%',
+                        color: '#fff',
+                        textAlign: 'center',
+                        lineHeight: '40px',
+                        fontSize: '12px',
+                        fontWeight: 'bold' // Optional: makes the text bold
+                    }]
+                });
+                
                 var markerImageUrl = 'https://cdn-icons-png.flaticon.com/128/16138/16138394.png',
                     markerImageSize = new kakao.maps.Size(40, 42),
                     markerImageOptions = { offset: new kakao.maps.Point(20, 42) },
                     markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
 
-                marker = new kakao.maps.Marker({
-                         position: locPosition,
-                         draggable: true,
-                          image: markerImage,
-                         map: map
-                      });
+                function addMarker(lat, lng) {
+                    var position = new kakao.maps.LatLng(lat, lng);
+                    var marker = new kakao.maps.Marker({
+                        position: position,
+                        image: markerImage
+                    });
+                    markers.push(marker);
+                    marker.setMap(map);
+                }
+
+                function updateCluster() {
+                    clusterer.addMarkers(markers);
+                }
                 
                 kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
                     var latlng = mouseEvent.latLng;
@@ -82,6 +114,14 @@
                     var resultDiv = document.getElementById('clickLatlng');
                     
                 });
+                
+             // Add sample markers for demonstration
+                // Replace with actual data for restaurants
+                addMarker(37.5665, 126.978); // Example coordinates
+                addMarker(37.5651, 126.989); // Example coordinates
+                addMarker(37.5700, 126.975); // Example coordinates
+                updateCluster();
+            
             }
 
             function searchAddress() {
@@ -98,7 +138,7 @@
                         var lat = result.y;
                         var lng = result.x;
                         
-                        console.log(lat, lng);
+                        
 
                         if (!map) {
                             initializeMap(lat, lng);
