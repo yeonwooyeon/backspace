@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
 }
@@ -19,9 +18,14 @@ header .logo {
     align-items: center;
 }
 
+header span {
+    font-weight: bold;
+}
+
 header .logo img {
     height: 40px;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 header nav a {
@@ -150,5 +154,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    font-size: 0.5em;
+    height: 100px;
+    font-size: 1em;
+    padding-top: 10px;
 }
