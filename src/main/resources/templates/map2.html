@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VACANCY</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/map.css">
+    
+    <!-- Favicon 설정 -->
+    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+    
+    <!-- Kakao 지도 API -->
+    <script type="text/javascript"
+       src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+</head>
+
+<body>
+   <header>
+      <div class="header">
+         <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
+         <h1>공실정보</h1>
+      </div>
+      <div id="searchBox">
+         <input type="text" id="address" placeholder="주소를 입력하세요">
+         <button id="searchBtn">검색</button>
+      </div>
+   </header>
+
+   <!-- Bootstrap 및 종속성 JS -->
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+   <!-- Custom JS -->
+   <script src="js/map.js" defer></script>
+
+   <div id="map"></div>
+   <div id="clickLatlng"></div>
+
+   <script>
+        var map, marker, customOverlay, clusterer;
+        var isDragging = false;  // 드래그 상태 변수
+        var startLatLng;  // 마우스 클릭 시작 위치 저장
+        var threshold = 5;  // 클릭과 드래그를 구분하는 임계값
+
+        kakao.maps.load(function() {
+            var markers = []; // 마커 배열
+
+            // 지도 초기화 함수
+            function initializeMap(lat, lng) {
+                var locPosition = new kakao.maps.LatLng(lat, lng);
+
+                var mapContainer = document.getElementById('map');
+                var mapOptions = {
+                    center: locPosition,
+                    level: 3,
+                    mapTypeId: kakao.maps.MapTypeId.ROADMAP
+                };
+                map = new kakao.maps.Map(mapContainer, mapOptions);
+
+                var markerImageUrl = 'https://cdn-icons-png.flaticon.com/128/16138/16138394.png',
+                    markerImageSize = new kakao.maps.Size(40, 42),
+                    markerImageOptions = { offset: new kakao.maps.Point(20, 42) },
+                    markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+
+                // 지도에 마우스 이벤트 추가
+                kakao.maps.event.addListener(map, 'mousedown', function(mouseEvent) {
+                    isDragging = false;  // 드래그 상태 초기화
+                    startLatLng = mouseEvent.latLng;  // 마우스 클릭 시작 위치 저장
+                });
+
+                kakao.maps.event.addListener(map, 'mousemove', function(mouseEvent) {
+                    if (startLatLng) {
+                        var moveLatLng = mouseEvent.latLng;
+                        var distance = Math.sqrt(Math.pow(moveLatLng.getLat() - startLatLng.getLat(), 2) + Math.pow(moveLatLng.getLng() - startLatLng.getLng(), 2));
+                        
+                        if (distance > threshold) {  // 임계값보다 큰 이동일 경우 드래그로 간주
+                            isDragging = true;
+                        }
+                    }
+                });
+
+                kakao.maps.event.addListener(map, 'mouseup', function(mouseEvent) {
+                    if (!isDragging) {
+                        // 클릭 이벤트 처리
+                        var latlng = mouseEvent.latLng;
+
+                        if (customOverlay) {
+                            customOverlay.setMap(null); // 기존 오버레이 제거
+                        }
+
+                        var content = `
+                            <div class="customoverlay">
+                                <a href="https://map.kakao.com/link/map/${latlng.getLat()},${latlng.getLng()}" target="_blank">
+                                    <span class="title">위도: ${latlng.getLat().toFixed(5)}, 경도: ${latlng.getLng().toFixed(5)}</span>
+                                </a>
+                            </div>
+                        `;
+                        customOverlay = new kakao.maps.CustomOverlay({
+                            position: latlng,
+                            content: content,
+                            yAnchor: 1
+                        });
+                        customOverlay.setMap(map);
+                    }
+
+                    startLatLng = null;  // 드래그가 끝나면 초기화
+                    isDragging = false;  // 드래그 상태 초기화
+                });
+            }
+
+            // 현재 위치로 지도 초기화 함수
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var lat = position.coords.latitude;
+                        var lng = position.coords.longitude;
+                        initializeMap(lat, lng);
+                    });
+                }
+            }
+
+            getLocation();
+        });
+   </script>
+</body>
+</html>
