@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="../css/map.css">
+<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
 <script type="text/javascript"
    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
@@ -13,7 +14,7 @@
 <body>
    <header>
       <div class="header">
-         <img src="../images/logo.png" alt="Vacancy Logo" class="logo">
+         <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
          <h1>공실정보</h1>
       </div>
       <div id="searchBox">
@@ -209,6 +210,12 @@
                 if (event.key === 'Enter') {
                     searchAddress();
                 }
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('logo').addEventListener('click', function() {
+                window.location.href = '/index'; // 로고 클릭 시 /index로 이동
             });
         });
       
