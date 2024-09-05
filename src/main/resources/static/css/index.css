@@ -154,5 +154,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    font-size: 0.5em;
+    height: 100px;
+    font-size: 1em;
+    padding-top: 10px;
 }

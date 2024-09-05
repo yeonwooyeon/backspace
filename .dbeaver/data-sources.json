@@ -20,6 +20,23 @@
 				},
 				"auth-model": "native"
 			}
+		},
+		"mysql8-191c1f6050d-1791888ead2ae749": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "MySQL 2",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "1005",
+				"database": "MySQL",
+				"url": "jdbc:mysql://localhost:1005/MySQL",
+				"configurationType": "MANUAL",
+				"home": "mysql_client",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
 		}
 	},
 	"connection-types": {
