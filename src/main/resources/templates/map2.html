@@ -45,105 +45,112 @@
 	<div id="map"></div>
 	<div id="clickLatlng"></div>
 
-	<script>
-        var map, marker, customOverlay, clusterer;
-        var isDragging = false;  // 드래그 상태 변수
-        var startLatLng = null;  // 마우스 클릭 시작 위치 저장
-        var threshold = 5;  // 클릭과 드래그를 구분하는 임계값
+	<script type="text/javascript">
+    var map, customOverlay, clusterer;
+    var markers = [];
+    var markerImage = new kakao.maps.MarkerImage(
+        'https://cdn-icons-png.flaticon.com/128/16138/16138394.png', 
+        new kakao.maps.Size(40, 42), 
+        { offset: new kakao.maps.Point(20, 42) }
+    );
 
-        kakao.maps.load(function() {
-            var markers = []; // 마커 배열
-
-            // 지도 초기화 함수
-            function initializeMap(lat, lng) {
-                var locPosition = new kakao.maps.LatLng(lat, lng);
-
-                var mapContainer = document.getElementById('map');
-                var mapOptions = {
-                    center: locPosition,
-                    level: 3,
-                    mapTypeId: kakao.maps.MapTypeId.ROADMAP
-                };
-                map = new kakao.maps.Map(mapContainer, mapOptions);
-
-                var markerImageUrl = 'https://cdn-icons-png.flaticon.com/128/16138/16138394.png',
-                    markerImageSize = new kakao.maps.Size(40, 42),
-                    markerImageOptions = { offset: new kakao.maps.Point(20, 42) },
-                    markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
-
-                // 지도에 마우스 이벤트 추가
-                kakao.maps.event.addListener(map, 'mousedown', function(mouseEvent) {
-                    isDragging = false;  // 드래그 상태 초기화
-                    startLatLng = mouseEvent.latLng;  // 마우스 클릭 시작 위치 저장
-                });
-
-                kakao.maps.event.addListener(map, 'mousemove', function(mouseEvent) {
-                    if (startLatLng) {
-                        var moveLatLng = mouseEvent.latLng;
-                        var distance = Math.sqrt(Math.pow(moveLatLng.getLat() - startLatLng.getLat(), 2) + Math.pow(moveLatLng.getLng() - startLatLng.getLng(), 2));
-                        
-                        if (distance > threshold) {  // 임계값보다 큰 이동일 경우 드래그로 간주
-                            isDragging = true;  // 드래그 상태 설정
-                        }
-                    }
-                });
-
-                kakao.maps.event.addListener(map, 'mouseup', function(mouseEvent) {
-                    // 드래그 중이지 않은 경우에만 클릭 처리
-                    if (!isDragging && startLatLng) {  
-                        var latlng = mouseEvent.latLng;
-
-                        if (customOverlay) {
-                            customOverlay.setMap(null); // 기존 오버레이 제거
-                        }
-
-                        var content = `
-                            <div class="customoverlay">
-                                <a href="https://map.kakao.com/link/map/${latlng.getLat()},${latlng.getLng()}" target="_blank">
-                                    <span class="title">위도: ${latlng.getLat().toFixed(5)}, 경도: ${latlng.getLng().toFixed(5)}</span>
-                                </a>
-                            </div>
-                        `;
-                        customOverlay = new kakao.maps.CustomOverlay({
-                            position: latlng,
-                            content: content,
-                            yAnchor: 1
-                        });
-                        if (isDragging) { 
-                        customOverlay.setMap(map);
-                        
-                        }
-                    }
-
-                    // 상태 초기화
-                    startLatLng = null;
-                    isDragging = false;
-                });
-            }
-
-            // 현재 위치로 지도 초기화 함수
-            function getLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        var lat = position.coords.latitude;
-                        var lng = position.coords.longitude;
-                        initializeMap(lat, lng);
-                    });
-                }
-            }
-
-            getLocation();
+    function initializeMap(lat, lng) {
+        map = new kakao.maps.Map(document.getElementById('map'), {
+            center: new kakao.maps.LatLng(lat, lng),
+            level: 3,
+            mapTypeId: kakao.maps.MapTypeId.ROADMAP
         });
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('logo').addEventListener('click', function() {
-                window.location.href = '/index'; // 로고 클릭 시 /index로 이동
+
+        map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+        map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+
+        clusterer = new kakao.maps.MarkerClusterer({
+            map: map,
+            averageCenter: true,
+            minClusterSize: 2,
+            styles: [{
+                width: '40px',
+                height: '40px',
+                background: 'rgba(0, 0, 0, 0.8)',
+                borderRadius: '50%',
+                color: '#fff',
+                textAlign: 'center',
+                lineHeight: '40px',
+                fontSize: '12px',
+                fontWeight: 'bold'
+            }]
+        });
+
+        addSampleMarkers();
+    }
+
+    function addSampleMarkers() {
+        const sampleData = [
+            { lat: 37.5665, lng: 126.978, title: '서울시청' },
+            { lat: 37.5651, lng: 126.989, title: '남산' },
+            { lat: 37.5700, lng: 126.975, title: '경복궁' }
+        ];
+        sampleData.forEach(data => addMarker(data.lat, data.lng, data.title));
+        updateCluster();
+    }
+
+    function addMarker(lat, lng, title) {
+        const position = new kakao.maps.LatLng(lat, lng);
+        const marker = new kakao.maps.Marker({ position, image: markerImage, title });
+
+        marker.setMap(map);
+        markers.push(marker);
+
+        kakao.maps.event.addListener(marker, 'click', () => {
+            if (customOverlay) customOverlay.setMap(null);
+            customOverlay = new kakao.maps.CustomOverlay({
+                position,
+                content: `<div class="customoverlay">
+                            <a href="https://map.kakao.com/link/map/${lat},${lng}" target="_blank">
+                                <span class="title">${title}</span>
+                            </a>
+                          </div>`,
+                yAnchor: 1
+            }).setMap(map);
+        });
+    }
+
+    function updateCluster() {
+        clusterer.addMarkers(markers);
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                initializeMap(lat, lng);
+
+                new kakao.maps.Marker({
+                    position: new kakao.maps.LatLng(lat, lng),
+                    map: map
+                }).setMap(map);
+
+                new kakao.maps.CustomOverlay({
+                    position: new kakao.maps.LatLng(lat, lng),
+                    yAnchor: 1
+                }).setMap(map);
+            }, (error) => {
+                alert('위치 정보를 가져오는 데 실패했습니다.');
             });
-        });
-   </script>
-   <footer>
-		<p>백스페이스 프로젝트</p>
-		<p>신상언, 이수연, 윤연우, 이희섭
-	</footer>
+        } else {
+            alert('현재 위치를 지원하지 않는 브라우저입니다.');
+        }
+    }
+
+    // 페이지 로드 시 현재 위치로 지도 초기화
+    window.onload = function() {
+        getLocation();
+    };
+</script>
+<footer>
+        <p>백스페이스 프로젝트</p>
+        <p>신상언, 이수연, 윤연우, 이희섭
+    </footer>
 </body>
 </html>
