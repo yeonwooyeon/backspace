@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>VACANCY</title>
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/map.css">
-    
-    <!-- Favicon 설정 -->
-    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-    
-    <!-- Kakao 지도 API -->
-    <script type="text/javascript"
-       src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+<meta charset="UTF-8">
+<title>VACANCY</title>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="../css/map.css">
+
+<!-- Favicon 설정 -->
+<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+
+<!-- Kakao 지도 API -->
+<script type="text/javascript"
+	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 
 <body>
-   <header>
-      <div class="header">
-         <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
-         <h1>공실정보</h1>
-      </div>
-      <div id="searchBox">
-         <input type="text" id="address" placeholder="주소를 입력하세요">
-         <button id="searchBtn">검색</button>
-      </div>
-   </header>
+	<header>
+		<div class="header">
+			<img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
+			<h1>공실정보</h1>
+		</div>
+		<div id="searchBox">
+			<input type="text" id="address" placeholder="주소를 입력하세요">
+			<button id="searchBtn">검색</button>
+		</div>
+	</header>
 
-   <!-- Bootstrap 및 종속성 JS -->
-   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- Bootstrap 및 종속성 JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-   <!-- Custom JS -->
-   <script src="js/map.js" defer></script>
+	<!-- Custom JS -->
+	<script src="js/map.js" defer></script>
 
-   <div id="map"></div>
-   <div id="clickLatlng"></div>
+	<div id="map"></div>
+	<div id="clickLatlng"></div>
 
-   <script>
+	<script>
         var map, marker, customOverlay, clusterer;
         var isDragging = false;  // 드래그 상태 변수
-        var startLatLng;  // 마우스 클릭 시작 위치 저장
+        var startLatLng = null;  // 마우스 클릭 시작 위치 저장
         var threshold = 5;  // 클릭과 드래그를 구분하는 임계값
 
         kakao.maps.load(function() {
@@ -79,14 +82,14 @@
                         var distance = Math.sqrt(Math.pow(moveLatLng.getLat() - startLatLng.getLat(), 2) + Math.pow(moveLatLng.getLng() - startLatLng.getLng(), 2));
                         
                         if (distance > threshold) {  // 임계값보다 큰 이동일 경우 드래그로 간주
-                            isDragging = true;
+                            isDragging = true;  // 드래그 상태 설정
                         }
                     }
                 });
 
                 kakao.maps.event.addListener(map, 'mouseup', function(mouseEvent) {
-                    if (!isDragging) {
-                        // 클릭 이벤트 처리
+                    // 드래그 중이지 않은 경우에만 클릭 처리
+                    if (!isDragging && startLatLng) {  
                         var latlng = mouseEvent.latLng;
 
                         if (customOverlay) {
@@ -105,11 +108,15 @@
                             content: content,
                             yAnchor: 1
                         });
+                        if (isDragging) { 
                         customOverlay.setMap(map);
+                        
+                        }
                     }
 
-                    startLatLng = null;  // 드래그가 끝나면 초기화
-                    isDragging = false;  // 드래그 상태 초기화
+                    // 상태 초기화
+                    startLatLng = null;
+                    isDragging = false;
                 });
             }
 
@@ -125,6 +132,12 @@
             }
 
             getLocation();
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('logo').addEventListener('click', function() {
+                window.location.href = '/index'; // 로고 클릭 시 /index로 이동
+            });
         });
    </script>
 </body>
