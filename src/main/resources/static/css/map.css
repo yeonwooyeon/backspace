@@ -69,7 +69,24 @@ h1 {
     margin: 0 auto;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
+
+#locateMeBtn {
+        position: absolute;
+        bottom: 15%;
+        right: 25%; 
+        transform: translate(-50%, -50%);
+        background-color: #FFA500;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        z-index: 10;
+       
+    }
 
 /* 클릭 좌표 스타일링 */
 #clickLatlng {
