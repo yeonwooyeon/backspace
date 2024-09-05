@@ -3,27 +3,34 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
 /* 헤더 스타일링 */
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 10px 20px;
     background-color: white;
     border-bottom: 2px solid #FFB74D;
 }
-.logo {
-    height: 5em; /* 로고 크기 조정 */
-    margin-right: 10px; /* 로고와 텍스트 사이의 간격 */
+
+/* 로고 컨테이너를 Flexbox로 설정하여 이미지와 텍스트 수평 정렬 */
+.logo-container {
+    display: flex;
+    align-items: center; /* 이미지와 텍스트를 수직 중앙 정렬 */
 }
 
-h1 {
-    color: #333;
-    margin: 0;
-    font-size: 4em;
+/* 이미지 스타일 */
+.logo {
+    height: 40px; /* 로고 크기 조정 */
+    margin-right: 15px; /* 로고와 텍스트 사이 간격 */
+}
+
+/* 텍스트 스타일 */
+.logo-text {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center; /* 텍스트도 중앙 정렬 */
+    line-height: 1; /* 텍스트 간격을 조정하여 수직 정렬을 맞춤 */
 }
 
 /* 검색 박스 스타일링 */
@@ -38,7 +45,8 @@ h1 {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px 0 0 4px;
-    width: 300px;
+    width: 100%;
+    max-width: 300px; /* 최대 너비 설정 */
     outline: none;
     transition: border-color 0.3s ease;
 }
@@ -64,7 +72,8 @@ h1 {
 
 /* 지도 스타일링 */
 #map {
-    width: 900px;
+    width: 100%;
+    max-width: 900px; /* 최대 너비 설정 */
     height: 600px;
     margin: 0 auto;
     border: 1px solid #ccc;
@@ -81,6 +90,7 @@ h1 {
 
 /* 커스텀 오버레이 스타일링 */
 .customoverlay {
+    position: relative;
     border: 1px solid #d95050;
     background-color: #fff;
     padding: 5px;
@@ -120,4 +130,3 @@ h1 {
     height: 12px;
     background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
 }
-
