@@ -25,6 +25,7 @@ header span {
 header .logo img {
     height: 40px;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 header nav a {

@@ -22,6 +22,7 @@ body {
 .logo {
     height: 40px; /* 로고 크기 조정 */
     margin-right: 15px; /* 로고와 텍스트 사이 간격 */
+    cursor: pointer;
 }
 
 /* 텍스트 스타일 */
