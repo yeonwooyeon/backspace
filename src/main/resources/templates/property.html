@@ -1,48 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>관리물건(test)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff; /* 하얀색 배경 */
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .divider {
-            height: 2px;
-            background-color: #ff9800; /* 주황색 구분선 */
-            margin-bottom: 20px;
-            border-radius: 2px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .property-item {
-            border-bottom: 1px solid #e0e0e0;
-            padding: 15px 0;
-        }
-        .property-item:last-child {
-            border-bottom: none;
-        }
-        .property-info {
-            color: #555;
-        }
-    </style>
+	<meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	     <title>관리물건(test)</title>
+	    <link rel="stylesheet" href="../css/property.css">
+	    <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 </head>
 <body>
-    <h1>관리물건(test)</h1>
+    <div class="header">
+		<a href="http://localhost:1004">
+        <img src="../images/logo.ico" alt="로고" class="logo">
+		</a>
+        <h1>관리물건(test)</h1>
+    </div>
     <div class="divider"></div> <!-- 주황색 구분선 추가 -->
     <div class="container">
         <div th:each="property : ${propertyList}" class="property-item">
