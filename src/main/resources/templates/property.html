@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>목록 테스트용</h1>
+	<div class="container">
+		<div th:each="property : ${propertyList}">
+		        <p th:text="${property.info_no}"></p>
+		        <p th:text="${property.info_name}"></p>
+		 </div>
+	</div>
+</body>
+</html>
