@@ -3,301 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <title>VACANCY</title>
-<!-- Custom CSS -->
 <link rel="stylesheet" href="../css/map.css">
 <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
 <script type="text/javascript"
-   src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+		src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
-
 <body>
-   <header>
-      <div class="header">
-         <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
-         <h1>공실정보</h1>
-      </div>
-      <div id="searchBox">
-         <input type="text" id="address" placeholder="주소를 입력하세요">
-         <button id="searchBtn">검색</button>
-         <input type="text" id="keyword" placeholder="장소를 입력하세요">
-         <button id="searchPlaceBtn">검색</button>
-      </div>
-   </header>
-  
-   <div id="map"></div>
-   <div id="clickLatlng"></div>   
+	<header>
+		<div class="header"><img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo"><h1>공실정보</h1>
+		</div>
+		<div id="searchBox">
+			<input type="text" id="address" placeholder="주소를 입력하세요"><button id="searchBtn">검색</button>
+			<input type="text" id="keyword" placeholder="장소를 입력하세요"><button id="searchPlaceBtn">검색</button>
+		</div>
+	</header>
+	
+<div id="map"></div>
+<div id="clickLatlng"></div>
+<button id="locateMeBtn">내위치</button>
 
-   <script>
-   var map, customOverlay, clusterer;
-   var markers = [];
-   markerImage = new kakao.maps.MarkerImage('https://cdn-icons-png.flaticon.com/128/16138/16138394.png', new kakao.maps.Size(40, 42), { offset: new kakao.maps.Point(20, 42) });
-
+<script>
+   var map, marker, customOverlay, clusterer;
+   
    function initializeMap(lat, lng) {
        map = new kakao.maps.Map(document.getElementById('map'), {
            center: new kakao.maps.LatLng(lat, lng),
            level: 3,
            mapTypeId: kakao.maps.MapTypeId.ROADMAP
        });
-
        map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
        map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-
-       clusterer = new kakao.maps.MarkerClusterer({
-           map: map,
-           averageCenter: true,
-           minClusterSize: 2,
-           styles: [{
-               width: '40px',
-               height: '40px',
-               background: 'rgba(0, 0, 0, 0.8)',
-               borderRadius: '50%',
-               color: '#fff',
-               textAlign: 'center',
-               lineHeight: '40px',
-               fontSize: '12px',
-               fontWeight: 'bold'
-           }]
+       marker = new kakao.maps.Marker({
+           position: new kakao.maps.LatLng(lat, lng),
+           map: map
        });
-
-       addSampleMarkers();
-   }
-
-   function addSampleMarkers() {
-       const sampleData = [
-           { lat: 37.5665, lng: 126.978, title: '서울시청' },
-           { lat: 37.5651, lng: 126.989, title: '남산' },
-           { lat: 37.5700, lng: 126.975, title: '경복궁' }
-       ];
-       sampleData.forEach(data => addMarker(data.lat, data.lng, data.title));
-       updateCluster();
-   }
-
-   function addMarker(lat, lng, title) {
-       const position = new kakao.maps.LatLng(lat, lng);
-       const marker = new kakao.maps.Marker({ position, image: markerImage, title });
-
-       marker.setMap(map);
-       markers.push(marker);
-
-       kakao.maps.event.addListener(marker, 'click', () => {
-           if (customOverlay) customOverlay.setMap(null);
-           customOverlay = new kakao.maps.CustomOverlay({
-               position,
-               content: `<div class="customoverlay">
-                           <a href="https://map.kakao.com/link/map/${lat},${lng}" target="_blank">
-                               <span class="title">${title}</span>
-                           </a>
-                       </div>`,
-               yAnchor: 1
-           }).setMap(map);
-       });
-
-    
-   }
-
-   function updateCluster() {
-       clusterer.addMarkers(markers);
-   }
-
-   function searchAddress() {
-       const address = document.getElementById('address').value;
-       if (!address) return alert('주소를 입력하세요.');
-
-       new kakao.maps.services.Geocoder().addressSearch(address, (results, status) => {
-           if (status === kakao.maps.services.Status.OK) {
-               const { y: lat, x: lng } = results[0];
-               map.setCenter(new kakao.maps.LatLng(lat, lng));
-               if (customOverlay) customOverlay.setMap(null);
-
-               customOverlay = new kakao.maps.CustomOverlay({
-                   position: new kakao.maps.LatLng(lat, lng),
-                   content: `<div class="customoverlay">
-                               <a href="https://map.kakao.com/link/map/${lat},${lng}" target="_blank">
-                                   <span class="title">위도: ${lat.toFixed(0)}, 경도: ${lng.toFixed(0)}</span>
-                               </a>
-                           </div>`,
-                   yAnchor: 1
-               }).setMap(map);
-           } else {
-               alert('주소를 찾을 수 없습니다.');
+       
+       kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+           const latlng = mouseEvent.latLng;           
+           if (marker) {
+               marker.setMap(null);
            }
-       });
-   }
-
-   function searchPlace() {
-       const keyword = document.getElementById('keyword').value;
-       if (!keyword) return alert('장소를 입력하세요.');
-
-       new kakao.maps.services.Places().keywordSearch(keyword, (data, status) => {
-           if (status === kakao.maps.services.Status.OK) {
-               const places = data.documents;
-               const bounds = new kakao.maps.LatLngBounds();
-               markers.forEach(marker => marker.setMap(null));
-               markers = [];
-
-               places.forEach(place => {
-                   const { y: lat, x: lng, place_name: title } = place;
-                   const position = new kakao.maps.LatLng(lat, lng);
-                   const marker = new kakao.maps.Marker({ position, map, title });
-
-                   marker.setMap(map);
-                   markers.push(marker);
-                   bounds.extend(position);
-
-                   kakao.maps.event.addListener(marker, 'click', () => {
-                       if (customOverlay) customOverlay.setMap(null);
-                       customOverlay = new kakao.maps.CustomOverlay({
-                           position,
-                           content: `<div class="customoverlay">
-                                       <a href="https://map.kakao.com/link/map/${lat},${lng}" target="_blank">
-                                           <span class="title">${title}</span>
-                                       </a>
-                                   </div>`,
-                           yAnchor: 1
-                       }).setMap(map);
-                   });
-               });
-               map.setBounds(bounds);
-               updateCluster();
-           } else {
-               alert('장소를 찾을 수 없습니다.');
-           }
-       });
-   }
-
-   function getLocation() {
-       if (navigator.geolocation) {
-           navigator.geolocation.getCurrentPosition((position) => {
-               const lat = position.coords.latitude;
-               const lng = position.coords.longitude;
-               initializeMap(lat, lng);
-
-               new kakao.maps.Marker({
-                   position: new kakao.maps.LatLng(lat, lng),
-                   map
-                   
-               }).setMap(map);
-
-               new kakao.maps.CustomOverlay({
-                   position: new kakao.maps.LatLng(lat, lng),
-                   content: '<div class="customoverlay"><span class="title">현재 위치</span></div>',
-                   yAnchor: 1
-               }).setMap(map);
-           }, (error) => {
-               alert({
-                   [error.PERMISSION_DENIED]: '사용자가 위치 정보 요청을 거부했습니다.',
-                   [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
-                   [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
-                   [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
-               }[error.code] || '위치 정보를 가져오는 데 실패했습니다.');
+           marker = new kakao.maps.Marker({
+               position: latlng,
+               map: map
            });
+       });
+   }
+
+   function getLocation(callback) {
+       if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(
+               position => callback(position.coords.latitude, position.coords.longitude),
+               error => {
+                   const errorMsgs = {
+                       [error.PERMISSION_DENIED]: '사용자가 위치 정보 요청을 거부했습니다.',
+                       [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
+                       [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
+                       [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
+                   };
+                   alert(errorMsgs[error.code] || '알 수 없는 오류가 발생했습니다.');
+               }
+           );
        } else {
            alert('현재 위치를 지원하지 않는 브라우저입니다.');
        }
    }
-
-<<<<<<< HEAD
-   kakao.maps.load(() => {
-       getLocation();
-       document.getElementById('searchBtn').addEventListener('click', searchAddress);
-       document.getElementById('address').addEventListener('keypress', (event) => {
-           if (event.key === 'Enter') searchAddress();
+   
+   document.addEventListener('DOMContentLoaded', function() {
+       getLocation((lat, lng) => initializeMap(lat, lng));
+       document.getElementById('logo').addEventListener('click', function() {
+           window.location.href = '/index'; 
        });
-       document.getElementById('searchPlaceBtn').addEventListener('click', searchPlace);
-       document.getElementById('keyword').addEventListener('keypress', (event) => {
-           if (event.key === 'Enter') searchPlace();
+
+       document.getElementById('locateMeBtn').addEventListener('click', function() {
+           getLocation((lat, lng) => {
+               map.setCenter(new kakao.maps.LatLng(lat, lng));
+               if (marker) {
+                   marker.setPosition(new kakao.maps.LatLng(lat, lng));
+               } else {
+                   marker = new kakao.maps.Marker({
+                       position: new kakao.maps.LatLng(lat, lng),
+                       map: map
+                   });
+               }
+           });
        });
-   });
-=======
-                var geocoder = new kakao.maps.services.Geocoder();
-                geocoder.addressSearch(address, function(results, status) {
-                    if (status === kakao.maps.services.Status.OK) {
-                        var result = results[0];
-                        var lat = result.y;
-                        var lng = result.x;
-                        
-                        
-
-                        if (!map) {
-                            initializeMap(lat, lng);
-                        } else {
-                            map.setCenter(new kakao.maps.LatLng(lat, lng));
-                            marker.setPosition(new kakao.maps.LatLng(lat, lng));
-                            if (customOverlay) {
-                                customOverlay.setMap(null);
-                            }                          
-                         
-                            var content = `
-                                <div class="customoverlay">
-                                    <a href="https://map.kakao.com/link/map/${lat},${lng}" target="_blank">
-                                        <span class="title">위도: ${lat.toFixed(0)}, 경도: ${lng.toFixed(0)}</span>
-                                    </a>
-                                </div>
-                            `;
-                            customOverlay = new kakao.maps.CustomOverlay({
-                                position: new kakao.maps.LatLng(lat, lng),
-                                content: content,
-                                yAnchor: 1
-                            });
-                            customOverlay.setMap(map);
-                        }
-                        
-                        var resultDiv = document.getElementById('clickLatlng');
-                       
-                       } else {
-                        alert('도로명 주소를 찾을 수 없습니다.');
-                    }
-                });
-            }
-
-            function getLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        var lat = position.coords.latitude;
-                        var lng = position.coords.longitude;
-                        initializeMap(lat, lng);
-                    }, function(error) {
-                        var errorMsg = '위치 정보를 가져오는 데 실패했습니다.';
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMsg = '사용자가 위치 정보 요청을 거부했습니다.';
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMsg = '위치 정보를 사용할 수 없습니다.';
-                                break;
-                            case error.TIMEOUT:
-                                errorMsg = '위치 정보 요청이 시간 초과되었습니다.';
-                                break;
-                            case error.UNKNOWN_ERROR:
-                                errorMsg = '알 수 없는 오류가 발생했습니다.';
-                                break;
-                        }
-                        alert(errorMsg);
-                    });
-                } else {
-                    alert('현재 위치를 지원하지 않는 브라우저입니다.');
-                }
-            }
-
-            getLocation();
-            document.getElementById('searchBtn').addEventListener('click', function() {
-                searchAddress();
-            });
-            document.getElementById('address').addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    searchAddress();
-                }
-            });
-        });
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('logo').addEventListener('click', function() {
-                window.location.href = '/index'; // 로고 클릭 시 /index로 이동
-            });
-        });
-      
->>>>>>> branch 'master' of https://github.com/yeonwooyeon/backspace.git
+});
 </script>
 </body>
 </html>
-
