@@ -23,4 +23,9 @@ public class PropertyController {
 		return "property";
 	}
 	
+    @GetMapping("/propertytest")
+    public String propertytest() {
+        return "propertytest";
+    }
+	
 }

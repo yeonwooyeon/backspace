@@ -9,12 +9,15 @@
 </head>
 <body>
     <div class="header">
-		<a href="http://localhost:1004">
-        <img src="../images/logo.ico" alt="로고" class="logo">
-		</a>
+        <a href="http://localhost:1005">
+            <img src="../images/logo.ico" alt="로고" class="logo">
+        </a>
         <h1>관리물건(test)</h1>
     </div>
     <div class="divider"></div> <!-- 주황색 구분선 추가 -->
+	<div class="button-container"> <!-- 버튼을 감싸는 div 추가 -->
+	<a href="propertytest" class="register-button">물건 등록하기</a>
+	</div>
     <div class="container">
         <div th:each="property : ${propertyList}" class="property-item">
             <p class="property-info" th:text="${property.info_no}"></p>
@@ -22,4 +25,5 @@
         </div>
     </div>
 </body>
+</html>
 </html>
