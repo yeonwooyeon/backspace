@@ -9,6 +9,7 @@ public class MapController {
 	
     @GetMapping("/map")
     public String map() {
+    	
         return "map";  // map.html 템플릿을 렌더링
     }
     
@@ -16,4 +17,6 @@ public class MapController {
     public String map2() {
         return "map2";  // map2.html 템플릿을 렌더링
     }
+    
+    
 }

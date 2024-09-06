@@ -26,10 +26,6 @@ public class TestController {
 		return "test";
 	}
 	
-    @GetMapping("/test2")
-    @ResponseBody
-    public String test2() {
-        return "안뇽안뇽";
-    }
+   
 	
 }

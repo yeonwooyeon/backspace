@@ -9,86 +9,216 @@
 		src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-	<header>
-		<div class="header"><img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo"><h1>공실정보</h1>
-		</div>
-		<div id="searchBox">
-			<input type="text" id="address" placeholder="주소를 입력하세요"><button id="searchBtn">검색</button>
-			<input type="text" id="keyword" placeholder="장소를 입력하세요"><button id="searchPlaceBtn">검색</button>
-		</div>
-	</header>
-	
-<div id="map"></div>
-<div id="clickLatlng"></div>
-<button id="locateMeBtn">내위치</button>
+ <header>
+        <div class="header">
+            <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
+            <h1>공실정보</h1>
+        </div>
+        <div id="searchBox">
+            <input type="text" id="address" placeholder="동 / 도로명"><button id="addressSearchBtn">검색</button>
+            <input type="text" id="keyword2" placeholder="안돼"><button id="searchBtn">검색</button>
+        </div>
+</header>
+
+    <div class="map_wrap">
+    <div id="map"></div>
+    <div id="menu_wrap" class="bg_white">
+        <div class="option">
+            <form onsubmit="searchPlaces(); return false;">
+                <label for="keyword">키워드:</label>
+                <input type="text" id="keyword" value="이태원 맛집" size="15">
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        <hr>
+        <ul id="placesList"></ul>
+        <div id="pagination"></div>
+    </div>
+</div>
+<button id="locateMeBtn">내 위치</button> 	
 
 <script>
-   var map, marker, customOverlay, clusterer;
-   
-   function initializeMap(lat, lng) {
-       map = new kakao.maps.Map(document.getElementById('map'), {
-           center: new kakao.maps.LatLng(lat, lng),
-           level: 3,
-           mapTypeId: kakao.maps.MapTypeId.ROADMAP
-       });
-       map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-       map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-       marker = new kakao.maps.Marker({
-           position: new kakao.maps.LatLng(lat, lng),
-           map: map
-       });
-       
-       kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-           const latlng = mouseEvent.latLng;           
-           if (marker) {
-               marker.setMap(null);
-           }
-           marker = new kakao.maps.Marker({
-               position: latlng,
-               map: map
-           });
-       });
-   }
+var map, marker, infowindow, ps, geocoder;
+var markers = [];
 
-   function getLocation(callback) {
-       if (navigator.geolocation) {
-           navigator.geolocation.getCurrentPosition(
-               position => callback(position.coords.latitude, position.coords.longitude),
-               error => {
-                   const errorMsgs = {
-                       [error.PERMISSION_DENIED]: '사용자가 위치 정보 요청을 거부했습니다.',
-                       [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
-                       [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
-                       [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
-                   };
-                   alert(errorMsgs[error.code] || '알 수 없는 오류가 발생했습니다.');
-               }
-           );
-       } else {
-           alert('현재 위치를 지원하지 않는 브라우저입니다.');
-       }
-   }
-   
-   document.addEventListener('DOMContentLoaded', function() {
-       getLocation((lat, lng) => initializeMap(lat, lng));
-       document.getElementById('logo').addEventListener('click', function() {
-           window.location.href = '/index'; 
-       });
+function initializeMap(lat, lng) {
+    map = new kakao.maps.Map(document.getElementById('map'), {
+        center: new kakao.maps.LatLng(lat, lng),
+        level: 3
+    });
+    map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+    map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
-       document.getElementById('locateMeBtn').addEventListener('click', function() {
-           getLocation((lat, lng) => {
-               map.setCenter(new kakao.maps.LatLng(lat, lng));
-               if (marker) {
-                   marker.setPosition(new kakao.maps.LatLng(lat, lng));
-               } else {
-                   marker = new kakao.maps.Marker({
-                       position: new kakao.maps.LatLng(lat, lng),
-                       map: map
-                   });
-               }
-           });
-       });
+    marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(lat, lng),
+        map: map
+    });
+    infowindow = new kakao.maps.InfoWindow({zIndex: 1});
+    ps = new kakao.maps.services.Places();
+    geocoder = new kakao.maps.services.Geocoder();
+    
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+        const latlng = mouseEvent.latLng;
+        marker.setMap(null);
+        marker = new kakao.maps.Marker({
+            position: latlng,
+            map: map
+        });
+    });
+}
+
+function searchPlaces() {
+    const keyword = document.getElementById('keyword').value.trim();
+    if (!keyword) return alert('검색어를 입력해주세요!');
+
+    removeMarkers();
+    document.getElementById('placesList').innerHTML = '';
+    document.getElementById('pagination').innerHTML = '';
+
+    ps.keywordSearch(keyword, placesSearchCB);
+}
+
+function placesSearchCB(data, status, pagination) {
+    if (status === kakao.maps.services.Status.OK) {
+        displayPlaces(data);
+        displayPagination(pagination);
+    } else {
+        alert(status === kakao.maps.services.Status.ZERO_RESULT ? '검색 결과가 없습니다.' : '검색 결과 중 오류가 발생했습니다.');
+    }
+}
+
+function displayPlaces(places) {
+    const listEl = document.getElementById('placesList');
+    const fragment = document.createDocumentFragment();
+    const bounds = new kakao.maps.LatLngBounds();
+
+    removeMarkers();
+    places.forEach((place, i) => {
+        const position = new kakao.maps.LatLng(place.y, place.x);
+        bounds.extend(position);
+
+        const itemEl = document.createElement('li');
+        itemEl.className = 'item';
+        itemEl.innerHTML = `
+            <span class="markerbg marker_${i + 1}"></span>
+            <div class="info">
+                <h5>${place.place_name}</h5>
+                <span class="jibun gray">${place.road_address_name}</span>
+                <span class="tel">${place.phone}</span>
+            </div>`;
+        kakao.maps.event.addListener(itemEl, 'click', () => {
+            map.setCenter(position);
+            marker.setPosition(position);
+            infowindow.setContent(`<div style="padding:5px;">${place.place_name}</div>`);
+            infowindow.open(map, marker);
+        });
+
+        fragment.appendChild(itemEl);
+    });
+
+    listEl.appendChild(fragment);
+    map.setBounds(bounds);
+}
+
+function removeMarkers() {
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
+}
+
+function searchAddress() {
+    const address = document.getElementById('address').value.trim();
+    if (!address) return alert('주소를 입력해주세요!');
+
+    geocoder.addressSearch(address, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            map.setCenter(coords);
+            if (marker) {
+                marker.setPosition(coords);
+            } else {
+                marker = new kakao.maps.Marker({
+                    position: coords,
+                    map: map
+                });
+            }
+        } else {
+            alert('주소 검색 결과가 없습니다.');
+        }
+    });
+}
+
+function displayPagination(pagination) {
+    const paginationEl = document.getElementById('pagination');
+    paginationEl.innerHTML = '';
+
+    for (let i = 1; i <= pagination.last; i++) {
+        const paginationBtn = document.createElement('a');
+        paginationBtn.href = "#";
+        paginationBtn.innerHTML = i;
+        paginationBtn.className = (i === pagination.current) ? 'on' : '';
+        paginationBtn.addEventListener('click', () => pagination.gotoPage(i));
+        paginationEl.appendChild(paginationBtn);
+    }
+}
+
+function getLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => callback(position.coords.latitude, position.coords.longitude),
+            error => {
+                const errorMsgs = {
+                    [error.PERMISSION_DENIED]: '위치 정보 요청이 거부되었습니다.',
+                    [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
+                    [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
+                    [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
+                };
+                alert(errorMsgs[error.code] || '알 수 없는 오류가 발생했습니다.');
+            }
+        );
+    } else {
+        alert('현재 위치를 지원하지 않는 브라우저입니다.');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    getLocation((lat, lng) => initializeMap(lat, lng));
+
+    document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
+    document.getElementById('searchBtn').addEventListener('click', searchPlaces);
+    document.getElementById('addressSearchBtn').addEventListener('click', searchAddress);
+
+    document.getElementById('keyword').addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            searchPlaces();
+        }
+    });
+
+    document.getElementById('address').addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            searchAddress();
+        }
+    });
+
+    document.getElementById('locateMeBtn').addEventListener('click', () => {
+        getLocation((lat, lng) => {
+            const coords = new kakao.maps.LatLng(lat, lng);
+            map.setCenter(coords);
+            if (marker) {
+                marker.setPosition(coords);
+            } else {
+                marker = new kakao.maps.Marker({
+                    position: coords,
+                    map: map
+                });
+            }
+        });
+    });
 });
 </script>
+<footer>
+        <div>© 2024 Vacancy. All rights reserved.</div>
+ </footer>
 </body>
 </html>
