@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공동중개 물건 등록하기</title>
+    <link rel="stylesheet" href="../css/propregister.css">
+</head>
+<body>
+    <div class="container">
+        <h2>공동중개 물건 등록하기</h2>
+        <p>매물 등록시 포인트 (300p) 이벤트중</p>
+
+        <form action="/submit" method="post">
+            <div class="form-group">
+                <label for="address">주소</label>
+                <input type="text" id="address" name="address" placeholder="지번주소" required>
+                <input type="text" id="roadAddress" name="roadAddress" placeholder="도로명주소">
+            </div>
+
+            <div class="form-group">
+                <label for="buildingType">해당층/전체층</label>
+                <select id="buildingType" name="buildingType">
+                    <option value="지상">지상</option>
+                    <option value="지하">지하</option>
+                </select>
+                <input type="text" name="floor" placeholder="해당층">
+                <input type="text" name="totalFloor" placeholder="전체층">
+            </div>
+
+            <div class="form-group">
+                <label for="visibility">상세주소 공개 여부</label>
+                <input type="radio" id="public" name="visibility" value="public" checked> 공개
+                <input type="radio" id="private" name="visibility" value="private"> 비공개
+            </div>
+
+            <div class="form-group">
+                <label for="transactionType">거래형태</label>
+                <input type="radio" id="monthly" name="transactionType" value="월세" checked> 월세
+                <input type="radio" id="jeonse" name="transactionType" value="전세"> 전세
+                <input type="radio" id="sale" name="transactionType" value="매매"> 매매
+            </div>
+
+            <div class="form-group">
+                <label for="price">매물종류</label>
+                <select id="propertyType" name="propertyType">
+                    <option value="주택">주택</option>
+                    <option value="원룸">원룸</option>
+                    <option value="오피스텔">오피스텔</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="rent">월세</label>
+                <input type="number" id="rent" name="rent" placeholder="만원">
+            </div>
+
+            <div class="form-group">
+                <label for="deposit">보증금</label>
+                <input type="number" id="deposit" name="deposit" placeholder="만원">
+            </div>
+
+            <div class="form-group">
+                <label for="manageFee">관리비</label>
+                <input type="number" id="manageFee" name="manageFee" placeholder="만원">
+            </div>
+
+            <div class="form-group">
+                <label for="moveInDate">입주 가능일</label>
+                <input type="date" id="moveInDate" name="moveInDate">
+            </div>
+
+            <div class="form-group">
+                <button type="submit">등록</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
