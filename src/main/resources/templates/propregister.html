@@ -7,10 +7,16 @@
 <link rel="stylesheet" href="../css/propregister.css">
 </head>
 <body>
+	<div class="header">
+		<a href="http://localhost:1005"> <img src="../images/logo.ico"
+			alt="로고" class="logo">
+		</a>
+		<h1>공동중개 물건 등록하기</h1>
+		<p>미완성이지롱</p>
+	</div>
+	<div class="divider"></div>
+	<!-- 주황색 구분선 추가 -->
 	<div class="container">
-		<h2>공동중개 물건 등록하기</h2>
-		<p>이쁘게 꾸며주세여</p>
-
 		<form action="/submit" method="post">
 			<div class="form-group">
 				<label for="address">주소</label> <input type="text" id="address"
@@ -71,9 +77,22 @@
 					id="moveInDate" name="moveInDate">
 			</div>
 
+			<h3>상세내용</h3>
 			<div class="form-group">
-				<button type="submit">등록</button>
+				<label for="description">상세내용</label>
+				<textarea id="description" name="description" rows="5"
+					placeholder="상세 내용을 입력하세요" maxlength="2000"></textarea>
+				<small>최대 2000자 입력 가능</small>
 			</div>
+
+			<!-- 사진 업로드 섹션 -->
+			<h3>사진</h3>
+			<div class="form-group">
+				<label for="photos">사진 첨부</label> <input type="file" id="photos"
+					name="photos" accept="image/*" multiple> <small>사진은
+					3장 이상 등록해야 포인트가 지급됩니다.</small>
+			</div>
+
 			<h3>추가정보 (선택사항)</h3>
 			<div class="form-group">
 				<label for="feeStatus">중개수수료 여부</label> <input type="radio"
@@ -112,7 +131,7 @@
 
 			<div class="form-group">
 				<label for="contactNumber">연락처</label> <input type="text"
-					id="contactNumber" name="contactNumber" value="01046525241">
+					id="contactNumber" name="contactNumber" value="010-">
 			</div>
 
 			<!-- 등록 버튼 -->

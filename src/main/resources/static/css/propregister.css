@@ -6,10 +6,17 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #ffff;
 }
+.header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
 
 .container {
+	border: 2px solid orange; /* 주황색 테두리 */
     width: 70%;
     margin: 0 auto;
     padding: 20px;
@@ -18,7 +25,7 @@ body {
     border-radius: 8px;
 }
 
-h2 {
+h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -73,6 +80,25 @@ h3 {
 input[type="number"], select {
     width: auto;
     margin-right: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    display: block;
+    margin-top: 10px;
+}
+
+small {
+    display: block;
+    margin-top: 5px;
+    color: #777;
 }
 
 button[type="submit"] {
