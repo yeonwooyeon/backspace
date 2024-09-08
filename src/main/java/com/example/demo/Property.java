@@ -3,8 +3,7 @@ package com.example.demo;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 
 @Entity
