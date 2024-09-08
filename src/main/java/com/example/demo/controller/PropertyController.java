@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
-import com.domain.Property;
+import com.example.demo.Property;
 import com.example.demo.service.PropertyService;
 
 @Controller
@@ -35,9 +36,8 @@ public class PropertyController {
     }
     
     @PostMapping("/addProperty")
-    public ResponseEntity<String> addProperty(@ModelAttribute Property property) {
+    public RedirectView addProperty(@ModelAttribute Property property) {
         propertyService.addProperty(property);
-        return ResponseEntity.ok("Property added successfully");
+        return new RedirectView("/property");
     }
-
 }
