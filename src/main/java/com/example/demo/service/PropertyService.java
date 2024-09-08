@@ -6,4 +6,5 @@ import com.domain.Property;
 
 public interface PropertyService {
 	List<Property> getAllPropertylist();
+	void addProperty(Property property);
 }

@@ -15,8 +15,11 @@ public class PropertyServiceImpl implements PropertyService {
 	private PropertyRepository propertyRepository;
 
 	public List<Property> getAllPropertylist() {
-		// TODO Auto-generated method stub
 		return propertyRepository.getAllPropertyList();
 	}
+	
+    public void addProperty(Property property) {
+        propertyRepository.insertProperty(property);
+    }
 
 }

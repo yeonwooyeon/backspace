@@ -12,7 +12,7 @@ public class PropertyRepositoryImpl implements PropertyRepository {
 	private List<Property> listOfProperty = new ArrayList<Property>();
 
 	public PropertyRepositoryImpl() {
-		Property Property1 = new Property(00001, "세아빌딩");
+		Property Property1 = new Property();
 		Property1.setInfo_add("대전폴리텍 앞인디");
 		Property1.setInfo_sell(500);
 
@@ -21,8 +21,12 @@ public class PropertyRepositoryImpl implements PropertyRepository {
 
 	@Override
 	public List<Property> getAllPropertyList() {
-		// TODO Auto-generated method stub
 		return listOfProperty;
 	}
+
+    @Override
+    public void insertProperty(Property property) {
+        listOfProperty.add(property);
+    }
 
 	}

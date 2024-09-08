@@ -1,144 +1,117 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>공동중개 물건 등록하기</title>
-<link rel="stylesheet" href="../css/propregister.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공동중개 물건 등록하기</title>
+    <link rel="stylesheet" href="../css/propregister.css">
 </head>
 <body>
-	<div class="header">
-		<a href="http://localhost:1004"> <img src="../images/logo.ico"
-			alt="로고" class="logo">
-		</a>
-		<h1>공동중개 물건 등록하기</h1>
-		<p>미완성이지롱</p>
-	</div>
-	<div class="divider"></div>
-	<!-- 주황색 구분선 추가 -->
-	<div class="container">
-		<form action="/submit" method="post">
-			<div class="form-group">
-				<label for="address">주소</label> <input type="text" id="address"
-					name="address" placeholder="지번주소" required> <input
-					type="text" id="roadAddress" name="roadAddress" placeholder="도로명주소">
-			</div>
+    <div class="header">
+        <a href="http://localhost:1004"> <img src="../images/logo.ico" alt="로고" class="logo"></a>
+        <h1>공동중개 물건 등록하기</h1>
+        <p>미완성이지롱</p>
+    </div>
+    <div class="divider"></div>
+    <div class="container">
+        <form action="/property/addProperty" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="address">주소</label>
+                <input type="text" id="info_add" name="info_add" placeholder="주소" required>
+            </div>
 
-			<div class="form-group">
-				<label for="buildingType">해당층/전체층</label> <select id="buildingType"
-					name="buildingType">
-					<option value="지상">지상</option>
-					<option value="지하">지하</option>
-				</select> <input type="text" name="floor" placeholder="해당층"> <input
-					type="text" name="totalFloor" placeholder="전체층">
-			</div>
+            <div class="form-group">
+                <label for="buildingType">해당층/전체층</label>
+				<input type="number" id="info_fl" name="info_fl" placeholder="해당층수">
+				<input type="number" id="info_allfl" name="info_allfl" placeholder="전체층수">
+            </div>
 
-			<div class="form-group">
-				<label for="visibility">상세주소 공개 여부</label> <input type="radio"
-					id="public" name="visibility" value="public" checked> 공개 <input
-					type="radio" id="private" name="visibility" value="private">
-				비공개
-			</div>
+            <div class="form-group">
+                <label for="transactionType">거래형태</label>
+                <input type="radio" id="monthly" name="transactionType" value="월세" checked> 월세
+                <input type="radio" id="jeonse" name="transactionType" value="전세"> 전세
+                <input type="radio" id="sale" name="transactionType" value="매매"> 매매
+            </div>
 
-			<div class="form-group">
-				<label for="transactionType">거래형태</label> <input type="radio"
-					id="monthly" name="transactionType" value="월세" checked> 월세
-				<input type="radio" id="jeonse" name="transactionType" value="전세">
-				전세 <input type="radio" id="sale" name="transactionType" value="매매">
-				매매
-			</div>
+            <div class="form-group">
+                <label for="propertyType">매물종류</label>
+                <select id="propertyType" name="propertyType">
+                    <option value="주택">주택</option>
+                    <option value="원룸">원룸</option>
+                    <option value="오피스텔">오피스텔</option>
+                </select>
+            </div>
 
-			<div class="form-group">
-				<label for="price">매물종류</label> <select id="propertyType"
-					name="propertyType">
-					<option value="주택">주택</option>
-					<option value="원룸">원룸</option>
-					<option value="오피스텔">오피스텔</option>
-				</select>
-			</div>
+            <div class="form-group">
+                <label for="rent">월세</label>
+				<input type="number" id="info_month" name="info_month" placeholder="만원">
+            </div>
 
-			<div class="form-group">
-				<label for="rent">월세</label> <input type="number" id="rent"
-					name="rent" placeholder="만원">
-			</div>
+            <div class="form-group">
+                <label for="deposit">보증금</label>
+                <input type="number" id="info_deposit" name="info_deposit" placeholder="만원">
+            </div>
 
-			<div class="form-group">
-				<label for="deposit">보증금</label> <input type="number" id="deposit"
-					name="deposit" placeholder="만원">
-			</div>
+            <div class="form-group">
+                <label for="manageFee">관리비</label>
+                <input type="number" id="option_cost" name="option_cost" placeholder="만원">
+            </div>
 
-			<div class="form-group">
-				<label for="manageFee">관리비</label> <input type="number"
-					id="manageFee" name="manageFee" placeholder="만원">
-			</div>
+            <div class="form-group">
+                <label for="moveInDate">입주 가능일</label>
+                <input type="date" id="info_move" name="info_move">
+            </div>
 
-			<div class="form-group">
-				<label for="moveInDate">입주 가능일</label> <input type="date"
-					id="moveInDate" name="moveInDate">
-			</div>
+            <h3>사진</h3>
+            <div class="form-group">
+                <label for="photos">사진 첨부</label>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple required>
+            </div>
 
-			<h3>상세내용</h3>
-			<div class="form-group">
-				<label for="description">상세내용</label>
-				<textarea id="description" name="description" rows="5"
-					placeholder="상세 내용을 입력하세요" maxlength="2000"></textarea>
-				<small>최대 2000자 입력 가능</small>
-			</div>
+            <h3>추가정보 (선택사항)</h3>
+            <div class="form-group">
+                <label for="feeStatus">중개수수료 여부</label>
+                <input type="radio" id="noFee" name="feeStatus" value="미지급"> 미지급
+                <input type="radio" id="paidFee" name="feeStatus" value="지급" checked> 지급
+                <input type="number" id="feeAmount" name="feeAmount" placeholder="금액 또는 수수료 퍼센트 입력">
+                <select name="feeType">
+                    <option value="percentage">%</option>
+                    <option value="amount">원</option>
+                </select>
+            </div>
 
-			<!-- 사진 업로드 섹션 -->
-			<h3>사진</h3>
-			<div class="form-group">
-				<label for="photos">사진 첨부</label> <input type="file" id="photos"
-					name="photos" accept="image/*" multiple> <small>사진은
-					3장 이상 등록해야 포인트가 지급됩니다.</small>
-			</div>
+            <div class="form-group">
+                <label for="elevator">엘리베이터</label>
+                <input type="radio" id="elevatorYes" name="elevator" value="있음"> 있음
+                <input type="radio" id="elevatorNo" name="elevator" value="없음"> 없음
+            </div>
 
-			<h3>추가정보 (선택사항)</h3>
-			<div class="form-group">
-				<label for="feeStatus">중개수수료 여부</label> <input type="radio"
-					id="noFee" name="feeStatus" value="미지급"> 미지급 <input
-					type="radio" id="paidFee" name="feeStatus" value="지급" checked>
-				지급 <input type="number" id="feeAmount" name="feeAmount"
-					placeholder="금액 또는 수수료 퍼센트 입력"> <select name="feeType">
-					<option value="percentage">%</option>
-					<option value="amount">원</option>
-				</select>
-			</div>
+            <div class="form-group">
+                <label for="parking">주차</label>
+                <input type="radio" id="parkingYes" name="parking" value="가능"> 가능
+                <input type="radio" id="parkingNo" name="parking" value="불가능"> 불가능
+            </div>
 
-			<div class="form-group">
-				<label for="elevator">엘리베이터</label> <input type="radio"
-					id="elevatorYes" name="elevator" value="있음"> 있음 <input
-					type="radio" id="elevatorNo" name="elevator" value="없음"> 없음
-			</div>
+            <div class="form-group">
+                <label for="exclusiveArea">전용면적</label>
+                <input type="text" id="exclusiveArea" name="exclusiveArea" placeholder="m²">
+            </div>
 
-			<div class="form-group">
-				<label for="parking">주차</label> <input type="radio" id="parkingYes"
-					name="parking" value="가능"> 가능 <input type="radio"
-					id="parkingNo" name="parking" value="불가능"> 불가능
-			</div>
+            <h3>내정보</h3>
+            <div class="form-group">
+                <label for="agencyName">중개사무소명</label>
+                <input type="text" id="agencyName" name="agencyName" value="이름입력중개사무소" required>
+            </div>
 
-			<div class="form-group">
-				<label for="exclusiveArea">전용면적</label> <input type="text"
-					id="exclusiveArea" name="exclusiveArea" placeholder="m²">
-			</div>
+            <div class="form-group">
+                <label for="contactNumber">연락처</label>
+                <input type="text" id="contactNumber" name="contactNumber" placeholder="연락처를 입력하세요" required>
+            </div>
 
-			<!-- 내정보 섹션 -->
-			<h3>내정보</h3>
-			<div class="form-group">
-				<label for="agencyName">중개사무소명</label> <input type="text"
-					id="agencyName" name="agencyName" value="이름입력중개사무소">
-			</div>
-
-			<div class="form-group">
-				<label for="contactNumber">연락처</label> <input type="text"
-					id="contactNumber" name="contactNumber" value="010-">
-			</div>
-
-			<!-- 등록 버튼 -->
-			<div class="form-group">
-				<button type="submit">등록하기</button>
-			</div>
-		</form>
-	</div>
+            <div class="form-group">
+                <button type="submit">등록하기</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
