@@ -26,12 +26,67 @@
 				<input type="number" id="info_allfl" name="info_allfl" placeholder="전체층수">
             </div>
 
-            <div class="form-group">
-                <label for="transactionType">거래형태</label>
-                <input type="radio" id="monthly" name="transactionType" value="월세" checked> 월세
-                <input type="radio" id="jeonse" name="transactionType" value="전세"> 전세
-                <input type="radio" id="sale" name="transactionType" value="매매"> 매매
-            </div>
+			<div class="form-group">
+			    <label for="transactionType">거래형태</label>
+			    <input type="radio" id="monthly" name="transactionType" value="월세" checked onclick="toggleTransactionFields()"> 월세
+			    <input type="radio" id="jeonse" name="transactionType" value="전세" onclick="toggleTransactionFields()"> 전세
+			    <input type="radio" id="sale" name="transactionType" value="매매" onclick="toggleTransactionFields()"> 매매
+			</div>
+			
+			<!-- 월세 입력란 -->
+			<div id="monthlyFields" class="form-group">
+			    <label for="rent">월세</label>
+			    <input type="number" id="info_month" name="info_month" placeholder="만원">
+			</div>
+			
+			<!-- 전세 입력란 -->
+			<div id="jeonseFields" class="form-group" style="display:none;">
+			    <label for="jeonsePrice">전세가</label>
+			    <input type="number" id="info_sell" name="info_sell" placeholder="만원">
+			</div>
+			
+			<!-- 매매 입력란 -->
+			<div id="saleFields" class="form-group" style="display:none;">
+			    <label for="salePrice">매매가</label>
+			    <input type="number" id="info_sale" name="info_sale" placeholder="만원">
+			</div>
+			
+			<script>
+			    // 거래형태에 따라 입력란을 보여주거나 숨기는 함수
+			    function toggleTransactionFields() {
+			        const monthly = document.getElementById('monthly');
+			        const jeonse = document.getElementById('jeonse');
+			        const sale = document.getElementById('sale');
+			        
+			        const monthlyFields = document.getElementById('monthlyFields');
+			        const jeonseFields = document.getElementById('jeonseFields');
+			        const saleFields = document.getElementById('saleFields');
+			
+			        // 월세 선택 시 월세 입력란만 표시
+			        if (monthly.checked) {
+			            monthlyFields.style.display = 'block';
+			            jeonseFields.style.display = 'none';
+			            saleFields.style.display = 'none';
+			        }
+			        // 전세 선택 시 전세 입력란만 표시
+			        else if (jeonse.checked) {
+			            monthlyFields.style.display = 'none';
+			            jeonseFields.style.display = 'block';
+			            saleFields.style.display = 'none';
+			        }
+			        // 매매 선택 시 매매 입력란만 표시
+			        else if (sale.checked) {
+			            monthlyFields.style.display = 'none';
+			            jeonseFields.style.display = 'none';
+			            saleFields.style.display = 'block';
+			        }
+			    }
+			
+			    // 초기 로드 시 선택된 옵션에 따라 필드를 표시
+			    window.onload = function() {
+			        toggleTransactionFields();
+			    };
+			</script>
 
             <div class="form-group">
                 <label for="propertyType">매물종류</label>
@@ -40,11 +95,6 @@
                     <option value="원룸">원룸</option>
                     <option value="오피스텔">오피스텔</option>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label for="rent">월세</label>
-				<input type="number" id="info_month" name="info_month" placeholder="만원">
             </div>
 
             <div class="form-group">
@@ -80,32 +130,44 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="elevator">엘리베이터</label>
-                <input type="radio" id="elevatorYes" name="elevator" value="있음"> 있음
-                <input type="radio" id="elevatorNo" name="elevator" value="없음"> 없음
-            </div>
+
 
             <div class="form-group">
-                <label for="parking">주차</label>
-                <input type="radio" id="parkingYes" name="parking" value="가능"> 가능
-                <input type="radio" id="parkingNo" name="parking" value="불가능"> 불가능
+                <label for="info_size">전용면적</label>
+                <input type="text" id="info_size" name="info_size" placeholder="m²">
             </div>
-
+            
             <div class="form-group">
-                <label for="exclusiveArea">전용면적</label>
-                <input type="text" id="exclusiveArea" name="exclusiveArea" placeholder="m²">
-            </div>
+				<label for="option_etc">상세 옵션</label>
+				<input type="radio" id="optionEtc1" name="option_op" value="세탁기"> 세탁기
+				<input type="radio" id="optionEtc2" name="option_op" value="에어컨"> 에어컨
+				<input type="radio" id="optionEtc3" name="option_op" value="인덕션"> 인덕션
+				<input type="radio" id="optionEtc4" name="option_op" value="가스렌지"> 가스렌지
+				<input type="radio" id="optionEtc5" name="option_op" value="TV"> TV
+				<input type="radio" id="optionEtc6" name="option_op" value="침대"> 침대
+			</div>
+            
+            <div class="form-group">
+				<label for="option_etc">기타 옵션</label>
+				<input type="radio" id="optionEtc1" name="option_etc" value="분리형"> 분리형
+				<input type="radio" id="optionEtc2" name="option_etc" value="복층"> 복층
+				<input type="radio" id="optionEtc3" name="option_etc" value="옥탑"> 옥탑
+				<input type="radio" id="optionEtc4" name="option_etc" value="신축"> 신축
+				<input type="radio" id="optionEtc5" name="option_etc" value="주차"> 주차
+				<input type="radio" id="optionEtc6" name="option_etc" value="엘리베이터"> 엘리베이터
+				<input type="radio" id="optionEtc7" name="option_etc" value="반려동물"> 반려동물
+				<input type="radio" id="optionEtc8" name="option_etc" value="전세대출"> 전세대출
+			</div>
 
             <h3>내정보</h3>
             <div class="form-group">
-                <label for="agencyName">중개사무소명</label>
-                <input type="text" id="agencyName" name="agencyName" value="이름입력중개사무소" required>
+                <label for="agent_name">중개사무소명</label>
+                <input type="text" id="agent_name" name="agent_name" value="이름입력중개사무소" required>
             </div>
 
             <div class="form-group">
-                <label for="contactNumber">연락처</label>
-                <input type="text" id="contactNumber" name="contactNumber" placeholder="연락처를 입력하세요" required>
+                <label for="mem_phone">연락처</label>
+                <input type="text" id="mem_phone" name="mem_phone" placeholder="연락처를 입력하세요" required>
             </div>
 
             <div class="form-group">
