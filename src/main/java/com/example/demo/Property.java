@@ -3,9 +3,14 @@ package com.example.demo;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.springframework.data.annotation.Id;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Property {
 	
+	@Id
 	private Integer info_no; //건물번호
 	private Integer mem_No; //회원넘버
 	private String info_name; //건물명
