@@ -21,5 +21,6 @@ public class PropertyServiceImpl implements PropertyService {
     public void addProperty(Property property) {
         propertyRepository.insertProperty(property);
     }
+    
 
 }
