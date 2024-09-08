@@ -15,8 +15,12 @@
     <div class="divider"></div>
     <div class="container">
         <form action="/property/addProperty" method="post" enctype="multipart/form-data">
+        	<div class="form-group">
+    			<label for="info_name">건물 이름</label>
+    			<input type="text" id="info_name" name="info_name" placeholder="건물 이름을 입력하세요" required>
+			</div>
             <div class="form-group">
-                <label for="address">주소</label>
+                <label for="info_add">주소</label>
                 <input type="text" id="info_add" name="info_add" placeholder="주소" required>
             </div>
 
@@ -28,9 +32,9 @@
 
 			<div class="form-group">
 			    <label for="transactionType">거래형태</label>
-			    <input type="radio" id="monthly" name="transactionType" value="월세" checked onclick="toggleTransactionFields()"> 월세
-			    <input type="radio" id="jeonse" name="transactionType" value="전세" onclick="toggleTransactionFields()"> 전세
-			    <input type="radio" id="sale" name="transactionType" value="매매" onclick="toggleTransactionFields()"> 매매
+			    <input type="radio" id="monthly" name="info_type" value="월세" checked onclick="toggleTransactionFields()">월세
+			    <input type="radio" id="jeonse" name="info_type" value="전세" onclick="toggleTransactionFields()">전세
+			    <input type="radio" id="sale" name="info_type" value="매매" onclick="toggleTransactionFields()">매매
 			</div>
 			
 			<!-- 월세 입력란 -->
@@ -41,13 +45,13 @@
 			
 			<!-- 전세 입력란 -->
 			<div id="jeonseFields" class="form-group" style="display:none;">
-			    <label for="jeonsePrice">전세가</label>
+			    <label for="jeonsePrice">전세</label>
 			    <input type="number" id="info_sell" name="info_sell" placeholder="만원">
 			</div>
 			
 			<!-- 매매 입력란 -->
 			<div id="saleFields" class="form-group" style="display:none;">
-			    <label for="salePrice">매매가</label>
+			    <label for="salePrice">매매</label>
 			    <input type="number" id="info_sale" name="info_sale" placeholder="만원">
 			</div>
 			
@@ -90,7 +94,7 @@
 
             <div class="form-group">
                 <label for="propertyType">매물종류</label>
-                <select id="propertyType" name="propertyType">
+                <select id="propertyType" name="info_option">
                     <option value="주택">주택</option>
                     <option value="원룸">원룸</option>
                     <option value="오피스텔">오피스텔</option>
@@ -111,11 +115,16 @@
                 <label for="moveInDate">입주 가능일</label>
                 <input type="date" id="info_move" name="info_move">
             </div>
+            
+            <div class="form-group">
+                <label for="CompletionDate">준공날짜</label>
+                <input type="date" id="info_comp" name="info_comp">
+            </div>
 
             <h3>사진</h3>
             <div class="form-group">
                 <label for="photos">사진 첨부</label>
-                <input type="file" id="photos" name="photos" accept="image/*" multiple required>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple>
             </div>
 
             <h3>추가정보 (선택사항)</h3>
@@ -135,6 +144,11 @@
             <div class="form-group">
                 <label for="info_size">전용면적</label>
                 <input type="text" id="info_size" name="info_size" placeholder="m²">
+            </div>
+            
+            <div class="form-group">
+                <label for="info_count">방개수</label>
+                <input type="text" id="info_count" name="info_count" placeholder="개">
             </div>
             
             <div class="form-group">
@@ -158,18 +172,7 @@
 				<input type="radio" id="optionEtc7" name="option_etc" value="반려동물"> 반려동물
 				<input type="radio" id="optionEtc8" name="option_etc" value="전세대출"> 전세대출
 			</div>
-
-            <h3>내정보</h3>
-            <div class="form-group">
-                <label for="agent_name">중개사무소명</label>
-                <input type="text" id="agent_name" name="agent_name" value="이름입력중개사무소" required>
-            </div>
-
-            <div class="form-group">
-                <label for="mem_phone">연락처</label>
-                <input type="text" id="mem_phone" name="mem_phone" placeholder="연락처를 입력하세요" required>
-            </div>
-
+			
             <div class="form-group">
                 <button type="submit">등록하기</button>
             </div>
