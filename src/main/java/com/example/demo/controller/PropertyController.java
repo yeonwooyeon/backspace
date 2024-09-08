@@ -23,12 +23,12 @@ public class PropertyController {
 	@Autowired
 	private PropertyService propertyService;
 
-	@GetMapping
-	public String requestPropertyList(Model model) {
-		List<Property> list = propertyService.getAllPropertylist();
-		model.addAttribute("propertyList", list);
-		return "property";
-	}
+    @GetMapping
+    public String requestPropertyList(Model model) {
+        List<Property> propertyList = propertyService.getAllPropertylist(); // 모든 Property 객체 가져오기
+        model.addAttribute("propertyList", propertyList); // 모델에 추가
+        return "property"; // property.html로 이동
+    }
 
     @GetMapping("/propregister")
     public String propregister() {

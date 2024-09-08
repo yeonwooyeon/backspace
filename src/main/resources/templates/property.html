@@ -1,37 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>관리물건(test)</title>
-<link rel="stylesheet" href="../css/property.css">
-<link rel="icon" href="../images/logo.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리물건(test)</title>
+    <link rel="stylesheet" href="../css/property.css">
+    <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 </head>
 <body>
-	<div class="header">
-		<a href="http://localhost:1004"> <img src="../images/logo.ico"
-			alt="로고" class="logo">
-		</a>
-		<h1>관리물건(test)</h1>
-	</div>
-	<div class="divider"></div>
-	<!-- 주황색 구분선 추가 -->
-	<div class="button-container">
-		<!-- 버튼을 감싸는 div 추가 -->
-		<a href="../property/propregister" class="register-button">물건 등록하기</a>
-	</div>
-	<div class="container">
-		<div th:each="property : ${propertyList}" class="property-item">
-			<p class="property-info" th:text="${property.info_no}"></p>
-			<p class="property-info" th:text="${property.info_name}"></p>
-			<p class="property-info" th:text="${property.info_add}"></p>
-			<p class="property-info" th:text="${property.info_sell}"></p>
-		</div>
-	</div>
-	<footer>
-		<p>백스페이스 프로젝트</p>
-		<p>신상언, 이수연, 윤연우, 이희섭
-	</footer>
+    <div class="header">
+        <a href="http://localhost:1004"> <img src="../images/logo.ico" alt="로고" class="logo"></a>
+        <h1>관리물건(test)</h1>
+    </div>
+    <div class="divider"></div>
+    <!-- 주황색 구분선 추가 -->
+    <div class="button-container">
+        <a href="../property/propregister" class="register-button">물건 등록하기</a>
+    </div>
+    <div class="container">
+
+    </div>
+    <footer>
+        <p>백스페이스 프로젝트</p>
+        <p>신상언, 이수연, 윤연우, 이희섭</p>
+    </footer>
 </body>
-</html>
 </html>
