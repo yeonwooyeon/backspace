@@ -5,11 +5,14 @@ import java.sql.Timestamp;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 @Entity
 public class Property {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer info_no; //건물번호
 	private Integer mem_No; //회원넘버
 	private String info_name; //건물명
