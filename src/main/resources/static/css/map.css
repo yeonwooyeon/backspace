@@ -1,40 +1,35 @@
-/* 전체 페이지의 스타일링 */
+/* 전체 페이지 스타일 */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-/* 헤더 스타일링 */
+/* 헤더 스타일 */
 .header {
     padding: 10px 20px;
     background-color: white;
     border-bottom: 2px solid #FFB74D;
 }
 
-/* 로고 컨테이너를 Flexbox로 설정하여 이미지와 텍스트 수평 정렬 */
 .logo-container {
     display: flex;
-    align-items: center; /* 이미지와 텍스트를 수직 중앙 정렬 */
+    align-items: center;
 }
 
-/* 이미지 스타일 */
 .logo {
-    height: 40px; /* 로고 크기 조정 */
-    margin-right: 15px; /* 로고와 텍스트 사이 간격 */
+    height: 40px;
+    margin-right: 15px;
     cursor: pointer;
 }
 
-/* 텍스트 스타일 */
 .logo-text {
     font-size: 1.2em;
     font-weight: bold;
-    display: flex;
-    align-items: center; /* 텍스트도 중앙 정렬 */
-    line-height: 1; /* 텍스트 간격을 조정하여 수직 정렬을 맞춤 */
+    line-height: 1;
 }
 
-/* 검색 박스 스타일링 */
+/* 검색 박스 스타일 */
 #searchBox {
     display: flex;
     justify-content: center;
@@ -46,8 +41,7 @@ body {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px 0 0 4px;
-    width: 100%;
-    max-width: 300px; /* 최대 너비 설정 */
+    max-width: 300px;
     outline: none;
     transition: border-color 0.3s ease;
 }
@@ -70,45 +64,112 @@ body {
 #searchBox button:hover {
     background-color: #b03b3b;
 }
-
-/* 지도 스타일링 */
+.container {
+    display: flex;
+    justify-content: space-between; /* 두 요소 사이에 여백을 설정 */
+    align-items: flex-start; /* 상단에 맞추어 정렬 */
+    width: 100%; /* 부모 요소의 너비를 100%로 설정 */
+    height: 700px; /* 높이는 map 요소의 높이와 맞추기 */
+}
+/* 지도 스타일 */
 #map {
-    width: 100%;
-    max-width: 900px; /* 최대 너비 설정 */
-    height: 500px;
-    margin: 0 auto;
+    width: 40vw;
+    height: 700px;
+    margin-left: 9.5%;
     border: 1px solid #ccc;
-    border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 #locateMeBtn {
-        position: absolute;
-        bottom: 15%;
-        right: 25%; 
-        transform: translate(-50%, -50%);
-        background-color: #FFA500;
-        border: 1px solid #ddd;
-        padding: 10px 15px;
-        cursor: pointer;
-        border-radius: 5px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-        font-size: 14px;
-        z-index: 10;
-       
-    }
-
-/* 클릭 좌표 스타일링 */
-#clickLatlng {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 16px;
-    color: #555;
+    position: absolute;
+    bottom: 15%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #00A5FF;
+    color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    z-index: 10;
 }
 
-/* 커스텀 오버레이 스타일링 */
+/* 메뉴 스타일 */
+#menu_wrap {
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    height:100%;
+    margin-right: 10%;
+    z-index: 1;
+    font-size: 12px;
+    background: rgba(255, 255, 0, 0.0);
+    border: 1px solid #000;
+}
+
+#menu_wrap hr {
+    border-top: 2px solid #5F5F5F;
+    margin: 3px 0;
+}
+
+#menu_wrap .option {
+    text-align: center;
+}
+
+/* 장소 목록 스타일 */
+#placesList {
+    list-style: none;
+}
+
+#placesList .item {
+    position: relative;
+    border-bottom: 1px solid #888;
+    min-height: 65px;
+    cursor: pointer;
+}
+
+#placesList .info {
+    padding: 10px 0 10px 55px;
+}
+
+#placesList .gray {
+    color: #8a8a8a;
+}
+
+#placesList .tel {
+    color: #009900;
+}
+
+/* 마커 스타일 */
+#placesList .markerbg {
+    position: absolute;
+    width: 36px;
+    height: 37px;
+    margin: 10px 0 0 10px;
+    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
+}
+
+/* 페이지네이션 스타일 */
+#pagination {
+    margin: 10px auto;
+    text-align: center;
+}
+
+#pagination a {
+    margin-right: 10px;
+}
+
+#pagination .on {
+    font-weight: bold;
+    color: #777;
+    cursor: default;
+}
+
+/* 커스텀 오버레이 스타일 */
 .customoverlay {
     position: relative;
     border: 1px solid #d95050;
@@ -121,20 +182,17 @@ body {
 }
 
 .customoverlay a {
-    display: block;
     text-decoration: none;
     color: inherit;
-    text-align: center;
+    background: #d95050;
     border-radius: 6px;
     font-size: 14px;
     font-weight: bold;
-    overflow: hidden;
-    background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+    text-align: center;
 }
 
 .customoverlay .title {
     background: #fff;
-    margin-right: 35px;
     padding: 10px 15px;
     font-size: 14px;
     font-weight: bold;
@@ -151,165 +209,12 @@ body {
     background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
 }
 
+/* 푸터 스타일 */
 footer {
     background-color: grey;
     color: white;
     text-align: left;
-    padding-left: 15%;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
+    padding: 20px 15%;
     font-size: 1em;
-    padding-top: 20px;
-    margin-top: 100px; /* 풋터와 지도 사이에 여백 추가 */
-}
-/* 기본 스타일 설정 */
-.map_wrap,
-.map_wrap * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
-    font-size: 12px;
-}
-
-.map_wrap a,
-.map_wrap a:hover,
-.map_wrap a:active {
-    color: #000;
-    text-decoration: none;
-    border: 2px solid #000;
-}
-
-/* 지도 감싸는 요소 */
-.map_wrap {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    border: 2px solid #000;
-}
-
-/* 메뉴 감싸는 요소 */
-#menu_wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    margin: 10px 0 30px 10px;
-    padding: 5px;
-    overflow-y: auto;
-    background: rgba(255, 255, 0, 0.0);
-    z-index: 1;
-    font-size: 12px;
-    border-radius: 10px;
-    border: 2px solid #000;
-}
-
-
-/* 메뉴 구분선 */
-#menu_wrap hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 2px solid #5F5F5F;
-    margin: 3px 0;
-}
-
-/* 메뉴 옵션 설정 */
-#menu_wrap .option {
-    text-align: center;
-}
-
-#menu_wrap .option p {
-    margin: 10px 0;
-}
-
-#menu_wrap .option button {
-    margin-left: 5px;
-}
-
-/* 장소 목록 스타일 */
-#placesList li {
-    list-style: none;
-}
-
-#placesList .item {
-    position: relative;
-    border-bottom: 1px solid #888;
-    overflow: hidden;
-    cursor: pointer;
-    min-height: 65px;
-}
-
-#placesList .item span {
-    display: block;
-    margin-top: 4px;
-}
-
-#placesList .item h5,
-#placesList .item .info {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-#placesList .item .info {
-    padding: 10px 0 10px 55px;
-}
-
-#placesList .info .gray {
-    color: #8a8a8a;
-}
-
-#placesList .info .jibun {
-    padding-left: 26px;
-    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
-}
-
-#placesList .info .tel {
-    color: #009900;
-}
-
-/* 마커 스타일 */
-#placesList .item .markerbg {
-    float: left;
-    position: absolute;
-    width: 36px;
-    height: 37px;
-    margin: 10px 0 0 10px;
-    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
-}
-
-#placesList .item .marker_1 { background-position: 0 -10px; }
-#placesList .item .marker_2 { background-position: 0 -56px; }
-#placesList .item .marker_3 { background-position: 0 -102px; }
-#placesList .item .marker_4 { background-position: 0 -148px; }
-#placesList .item .marker_5 { background-position: 0 -194px; }
-#placesList .item .marker_6 { background-position: 0 -240px; }
-#placesList .item .marker_7 { background-position: 0 -286px; }
-#placesList .item .marker_8 { background-position: 0 -332px; }
-#placesList .item .marker_9 { background-position: 0 -378px; }
-#placesList .item .marker_10 { background-position: 0 -423px; }
-#placesList .item .marker_11 { background-position: 0 -470px; }
-#placesList .item .marker_12 { background-position: 0 -516px; }
-#placesList .item .marker_13 { background-position: 0 -562px; }
-#placesList .item .marker_14 { background-position: 0 -608px; }
-#placesList .item .marker_15 { background-position: 0 -654px; }
-
-/* 페이지네이션 스타일 */
-#pagination {
-    margin: 10px auto;
-    text-align: center;
-}
-
-#pagination a {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-#pagination .on {
-    font-weight: bold;
-    cursor: default;
-    color: #777;
+    margin-top: 100px;
 }
