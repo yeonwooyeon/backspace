@@ -169,46 +169,6 @@ body {
     cursor: default;
 }
 
-/* 커스텀 오버레이 스타일 */
-.customoverlay {
-    position: relative;
-    border: 1px solid #d95050;
-    background-color: #fff;
-    padding: 5px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-weight: bold;
-    color: #d95050;
-}
-
-.customoverlay a {
-    text-decoration: none;
-    color: inherit;
-    background: #d95050;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.customoverlay .title {
-    background: #fff;
-    padding: 10px 15px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.customoverlay:after {
-    content: '';
-    position: absolute;
-    margin-left: -12px;
-    left: 50%;
-    bottom: -12px;
-    width: 22px;
-    height: 12px;
-    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
-}
-
 /* 푸터 스타일 */
 footer {
     background-color: grey;
