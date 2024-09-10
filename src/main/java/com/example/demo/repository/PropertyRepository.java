@@ -7,7 +7,7 @@ import com.example.demo.Property;
 
 @Mapper
 public interface PropertyRepository {
-    public List<Property> getAllPropertyList();
+    List<Property> getAllPropertyList();
     
     void insertProperty(Property property);
 }
