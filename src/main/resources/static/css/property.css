@@ -27,6 +27,115 @@ body {
     padding: 20px;
 }
 
+.item {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item:hover {
+    background-color: #f0f0f0;
+}
+
+/* 이미지 컨테이너 스타일 업데이트 */
+.image-container {
+    width: 200px; /* 이미지 박스를 크게 네모로 만듭니다 */
+    height: 200px;
+    background-color: #fff; /* 흰 배경 */
+    border: 1px solid #ddd; /* 네모칸 테두리 */
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* 로고 배경 위치를 위해 설정 */
+}
+
+/* 이미지가 없는 경우 로고를 표시 */
+.image-container::before {
+    content: '';
+    background-image: url('/images/logo.png'); /* 로고 이미지 경로 */
+    background-size: 100px 100px; /* 로고 크기 조정 */
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3; /* 로고를 투명하게 설정 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* 이미지 자체 스타일 */
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    display: none; /* 기본적으로 이미지가 없는 상태로 설정 */
+}
+
+/* 이미지가 로드된 경우 */
+.image-container img.loaded {
+    display: block; /* 이미지가 로드되면 보이도록 설정 */
+}
+
+
+.details {
+    flex: 1;
+}
+
+.price {
+    font-size: 1.5em;
+    color: #ff7f50;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.address {
+    color: #333;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.info {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    margin-top: 10px;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button.secondary {
+    background-color: #6c757d;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.button.secondary:hover {
+    background-color: #5a6268;
+}
+
+
 /* 헤더 스타일 */
 .header {
     padding: 10px 20px;

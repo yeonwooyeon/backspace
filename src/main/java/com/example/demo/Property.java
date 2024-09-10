@@ -169,4 +169,6 @@ public class Property {
 		this.info_move = info_move;
 	}
 	
+	
+	
 }
