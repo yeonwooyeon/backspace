@@ -33,9 +33,17 @@
                     </div>
                     <div class="info-container">
                         <!-- 건물명 출력 -->
-                        <p th:text="${property.info_name}">건물명 정보 없음</p>
-                        <!-- 월세 값 출력 -->
-                        <span th:text="${property.info_month}">월세 정보 없음</span>
+                        <p th:text="${property.info_name}"/>
+                        <!-- 매매유형 출력 -->
+                        <span th:text="${property.info_type}"></span>
+                        <!-- 월세, 전세, 매매 값 출력 -->
+                         <div class="price">
+                        <span th:text="${property.info_month}"></span>
+                        <span th:text="${property.info_year}"></span>
+                        <span th:text="${property.info_sell}"></span>
+                        </div>
+                        <!-- 주소 값 출력 -->
+                        <span th:text="${property.info_add}"></span>
                         <div class="buttons">
                             <a href="#" class="button">연락처 보기</a> 
                             <a href="#" class="button secondary">신규등기열람</a>
