@@ -26,6 +26,7 @@ public class PropertyController {
     @GetMapping
     public String requestPropertyList(Model model) {
         List<Property> propertyList = propertyService.getAllPropertylist(); // 모든 Property 객체 가져오기
+        propertyList.forEach(p -> System.out.println(p.getInfo_name())); // 데이터 확인용 로그 출력
         model.addAttribute("propertyList", propertyList); // 모델에 추가
         return "property"; // property.html로 이동
     }

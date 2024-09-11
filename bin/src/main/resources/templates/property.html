@@ -26,25 +26,22 @@
 
 		<div class="container">
 		        <!-- 첫 번째 매물 -->
-		       <div th:each="property : ${propertyList}">
-        <div class="item">
-            <div class="details">
-                <img src="../images/logo.ico" alt="매물 이미지">
-                <div>
-                    <!-- 월세 값 출력 -->
-                    <span th:text="${property.info_month}">월세 정보 없음</span>
-                </div>
-                <div>
-                    <!-- 건물명 출력 -->
-                    <p th:text="${property.info_name}">건물명 정보 없음</p>
-                </div>
-            </div>
-            <div class="buttons">
-                <a href="#" class="button">연락처 보기</a>
-                <a href="#" class="button secondary">신규등기열람</a>
-            </div>
-        </div>
-    </div>
+		        <div class="item">
+		            <div class="details">
+		                <img src="../images/logo.ico" alt="매물 이미지">
+						<div>
+							<span th:if="${property != null}" th:text="${property.info_month}"></span>
+						</div>
+						<div>
+						    <p th:text="${property != null} ? ${property.info_name} : 'null'"></p>
+						</div>
+
+		            </div>
+		            <div class="buttons">
+		                <a href="#" class="button">연락처 보기</a>
+		                <a href="#" class="button secondary">신규등기열람</a>
+		            </div>
+		        </div>
 
 		        <!-- 두 번째 매물 -->
 		        <div class="item">
