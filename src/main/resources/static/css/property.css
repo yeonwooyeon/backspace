@@ -3,12 +3,14 @@ html, body {
     height: 100%; /* 페이지 전체 높이를 100%로 설정 */
     margin: 0;
     padding: 0;
+    white-space: nowrap;
 }
 
 body {
     display: flex;
     flex-direction: column; /* 수직으로 요소를 배치 */
     font-family: 'Arial', sans-serif;
+    background-color: #FFB74D;
 }
 
 .wrapper {
@@ -17,13 +19,65 @@ body {
     min-height: 100vh; /* 페이지 전체 높이를 최소화 */
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 2px solid #FFB74D;
+}
+
+header span {
+    font-weight: bold;
+}
+
+.logo {
+    display: flex; /* 이미지와 텍스트를 한 줄로 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+header .logo img {
+    height: 40px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+header nav, 
+header .user-menu {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+header .user-menu a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #FF5722;
+    border: 1px solid #FF5722;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.7em;
+}
+
+header .user-menu a:hover {
+    background-color: #FF5722;
+    color: white;
+}
+
 .container {
     flex: 1; /* 컨텐츠가 적을 때도 푸터를 밀어내도록 함 */
     width: 50%;
     margin: 0 auto;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
 }
 
@@ -45,15 +99,12 @@ body {
 
 /* 이미지 컨테이너 스타일 업데이트 */
 .image-container {
-    width: 200px; /* 이미지 박스를 크게 네모로 만듭니다 */
+    width: 200px; /* 정사각형 이미지 컨테이너 크기 */
     height: 200px;
-    background-color: #fff; /* 흰 배경 */
-    border: 1px solid #ddd; /* 네모칸 테두리 */
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
     align-items: center;
-    position: relative; /* 로고 배경 위치를 위해 설정 */
+    position: relative;
     margin-right: 40px;
 }
 
@@ -61,22 +112,20 @@ body {
 .image-container::before {
     content: '';
     background-image: url('/images/logo.png'); /* 로고 이미지 경로 */
-    background-size: 100px 100px; /* 로고 크기 조정 */
-    background-position: center;
+    background-size: contain; /* 이미지 비율을 유지하면서 컨테이너에 맞춤 */
+    background-position: center; /* 중앙에 배치 */
     background-repeat: no-repeat;
     opacity: 0.3; /* 로고를 투명하게 설정 */
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    left: 10%; /* 좌우로 10% 여백 */
+    right: 10%; /* 좌우로 10% 여백 */
     bottom: 0;
 }
 
 /* 이미지 자체 스타일 */
 .image-container img {
     max-width: 100%;
-    max-height: 100%;
-    border-radius: 10px;
     display: none; /* 기본적으로 이미지가 없는 상태로 설정 */
 }
 
@@ -158,44 +207,13 @@ body {
 }
 
 
-/* 헤더 스타일 */
-.header {
-    padding: 10px 20px;
-    background-color: white;
-    border-bottom: 2px solid #FFB74D;
-    margin-bottom: 3%;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    height: 40px;
-    margin-right: 15px;
-    cursor: pointer;
-}
-
-.logo-text {
-    font-size: 1.2em;
-    font-weight: bold;
-    line-height: 1;
-}
-
-.divider {
-    height: 2px;
-    background-color: #ff9800; /* 주황색 구분선 */
-    margin-bottom: 20px;
-    border-radius: 2px;
-}
-
 /* 등록 버튼 스타일 */
 .register-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #ff9800;
-    color: white;
+    background-color: white;
+    color: #ff7f50;
+    font-weight: bold;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -211,7 +229,7 @@ body {
 .button-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 /* 푸터 스타일 */

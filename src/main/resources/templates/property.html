@@ -1,97 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리물건(test)</title>
-    <link rel="stylesheet" href="../css/property.css">
-    <link rel="icon" href="../images/logo.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리물건(test)</title>
+<link rel="stylesheet" href="../css/property.css">
+<link rel="icon" href="../images/logo.ico" type="image/x-icon">
 </head>
 <body>
-    <div class="wrapper">
-        <header>
-            <div class="header">
-                <div class="logo-container">
-                    <a href="/"> 
-                        <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
-                    </a> 
-                    <span class="logo-text">관리물건</span>
-                </div>
-            </div>
-        </header>
+	<div class="wrapper">
+		<header>
+			<div class="logo">
+				<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
+					class="logo" id="logo">
+				</a> <span>VACANCY</span>
+			</div>
+			<nav>
+				<a href="map">공실정보</a> 
+				<a href="property">관리물건</a> 
+				<a href="#">매매정보</a>
+				<a href="#">분양사무실</a>
+			</nav>
+			<div class="user-menu">
+				<a href="#">고객센터</a> 
+				<a href="#">마이페이지</a> 
+				<a href="#">로그인</a> 
+				<a href="#">회원가입</a>
+			</div>
+		</header>
 
-        <div class="button-container">
-            <a href="../property/propregister" class="register-button">물건 등록하기</a>
-        </div>
+		<div class="button-container">
+			<a href="../property/propregister" class="register-button">물건
+				등록하기</a>
+		</div>
 
-        <div class="container">
-            <!-- 첫 번째 매물 -->
-            <div th:each="property : ${propertyList}" class="item">
-                <div class="details">
-                    <div class="image-container">
-                        <img src="../images/logo.ico" alt="매물 이미지">
-                    </div>
-                    <div class="info-container">
-                        <!-- 건물명 출력 -->
-                        <p th:text="${property.info_name}"/>
-                        <!-- 매매유형 출력 -->
-                        <span th:text="${property.info_type}"></span>
-                        <!-- 월세, 전세, 매매 값 출력 -->
-                         <div class="price">
-                        <span th:text="${property.info_month}"></span>
-                        <span th:text="${property.info_year}"></span>
-                        <span th:text="${property.info_sell}"></span>
-                        </div>
-                        <!-- 주소 값 출력 -->
-                        <span th:text="${property.info_add}"></span>
-                        <div class="buttons">
-                            <a href="#" class="button">연락처 보기</a> 
-                            <a href="#" class="button secondary">신규등기열람</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+		<div class="container">
+			<!-- 첫 번째 매물 -->
+			<div th:each="property : ${propertyList}" class="item">
+				<div class="details">
+					<div class="image-container">
+						<img src="../images/logo.png" alt="매물 이미지">
+					</div>
+					<div class="info-container">
+						<!-- 건물명 출력 -->
+						<p th:text="${property.info_name}" />
+						<!-- 매매유형 출력 -->
+						<span th:text="${property.info_type}"></span>
+						<!-- 월세, 전세, 매매 값 출력 -->
+						<div class="price">
+							<span th:text="${property.info_month}"></span> <span
+								th:text="${property.info_year}"></span> <span
+								th:text="${property.info_sell}"></span>
+						</div>
+						<!-- 주소 값 출력 -->
+						<span th:text="${property.info_add}"></span>
+						<div class="buttons">
+							<a href="#" class="button">연락처 보기</a> <a href="#"
+								class="button secondary">신규등기열람</a>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <!-- 두 번째 매물 -->
-            <div class="item">
-                <div class="details">
-                    <div class="image-container">
-                        <img src="../images/logo.ico" alt="매물 이미지">
-                    </div>
-                    <div class="info-container">
-                        <div class="price">월세 10,000 / 165</div>
-                        <div class="address">진주시 장안동 176, 2층</div>
-                        <div class="info">관리비포함 | 2/4층 | 무얼선 | 236.3m²/181.8m²</div>
-                        <div class="buttons">
-                            <a href="#" class="button">연락처 보기</a>
-                            <a href="#" class="button secondary">신규등기열람</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+		</div>
 
-            <!-- 세 번째 매물 -->
-            <div class="item">
-                <div class="details">
-                    <div class="image-container">
-                        <img src="../images/logo.ico" alt="매물 이미지">
-                    </div>
-                    <div class="info-container">
-                        <div class="price">월세 300 / 30</div>
-                        <div class="address">진주시 신안동 10-20 현대빌리지, 2층 202</div>
-                        <div class="info">관리비포함 | 2/4층 | 주차가능 | 휘률선 | 연락처 미입력</div>
-                        <div class="buttons">
-                            <a href="#" class="button">연락처 보기</a>
-                            <a href="#" class="button secondary">신규등기열람</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <div>© 2024 Vacancy. All rights reserved.</div>
-        </footer>
-    </div>
+		<footer>
+			<div>© 2024 Vacancy. All rights reserved.</div>
+		</footer>
+	</div>
 </body>
 </html>
