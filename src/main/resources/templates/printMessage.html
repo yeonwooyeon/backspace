@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+</head>
+<body>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+      var message = /*[[${message}]]*/ 'null';
+      if (message !== 'null') {
+        alert(message);
+      }
+      var nextUrl = /*[[${nextUrl}]]*/ 'null';
+      if (nextUrl !== 'null') {
+        window.location.href = nextUrl;
+      }
+    }
+    /*]]>*/
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+package com.study.basicboard.config;
+
+import com.study.basicboard.config.auth.MyAccessDeniedHandler;
+import com.study.basicboard.config.auth.MyAuthenticationEntryPoint;
+import com.study.basicboard.config.auth.MyLoginSuccessHandler;
+import com.study.basicboard.config.auth.MyLogoutSuccessHandler;
+import com.study.basicboard.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final UserRepository userRepository;
+
+    // 로그인하지 않은 유저들만 접근 가능한 URL
+    private static final String[] anonymousUserUrl = {"/users/login", "/users/join"};
+
+    // 로그인한 유저들만 접근 가능한 URL
+    private static final String[] authenticatedUserUrl = {"/boards/**/**/edit", "/boards/**/**/delete", "/likes/**", "/users/myPage/**", "/users/edit", "/users/delete"};
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf().disable()
+                .cors().and()
+                .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(anonymousUserUrl).anonymous()
+                    .requestMatchers(authenticatedUserUrl).authenticated()
+                    .requestMatchers("/boards/greeting/write").hasAnyAuthority("BRONZE", "ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/boards/greeting").hasAnyAuthority("BRONZE", "ADMIN")
+                    .requestMatchers("/boards/free/write").hasAnyAuthority("SILVER", "GOLD", "ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/boards/free").hasAnyAuthority("SILVER", "GOLD", "ADMIN")
+                    .requestMatchers("/boards/gold/**").hasAnyAuthority("GOLD", "ADMIN")
+                    .requestMatchers("/users/admin/**").hasAuthority("ADMIN")
+                    .requestMatchers("/comments/**").hasAnyAuthority("BRONZE", "SILVER", "GOLD", "ADMIN")
+                    .anyRequest().permitAll()
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                    .accessDeniedHandler(new MyAccessDeniedHandler(userRepository))
+                    .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                )
+                .formLogin(formLogin -> formLogin
+                    .loginPage("/users/login")
+                    .usernameParameter("loginId")
+                    .passwordParameter("password")
+                    .failureUrl("/users/login?fail")
+                    .successHandler(new MyLoginSuccessHandler(userRepository))
+                )
+                .logout(logout -> logout
+                    .logoutUrl("/users/logout")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessHandler(new MyLogoutSuccessHandler())
+                )
+                .build();
+    }
+
+}
