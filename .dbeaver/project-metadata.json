@@ -1,1 +1,1 @@
-{"resources":{"Scripts/Script-1.sql":{"default-datasource":"mysql8-191c1f6050d-1791888ead2ae749","default-catalog":"vacancy"},"Scripts/Script.sql":{"default-datasource":"mysql8-191bcc264d2-50d94dfb2450b999","default-catalog":"sakila"}}}
+{"resources":{"Scripts/Script-2.sql":{"default-datasource":"mysql8-191e51c0d1a-65ceeba68bd2fd68","default-catalog":"mysql"},"Scripts/Script.sql":{"default-datasource":"mysql8-191bcc264d2-50d94dfb2450b999","default-catalog":"sakila"}}}
