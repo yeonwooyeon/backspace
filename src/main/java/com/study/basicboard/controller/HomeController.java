@@ -1,6 +1,5 @@
 package com.study.basicboard.controller;
 
-import com.study.basicboard.domain.dto.BoardCntDto;
 import com.study.basicboard.service.BoardService;
 import com.study.basicboard.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ public class HomeController {
     private final UserService userService;
     private final BoardService boardService;
 
-    @GetMapping(value = {"", "/"})
+	/* @GetMapping(value = {"", "/"}) */
     public String home(Model model) {
         model.addAttribute("userCntDto", userService.getUserCnt());
         model.addAttribute("boardCntDto", boardService.getBoardCnt());

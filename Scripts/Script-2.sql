@@ -1,0 +1,10 @@
+USE vacancy;
+SHOW TABLES;
+CREATE TABLE user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    login_id VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    nickname VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    -- 기타 필요한 필드를 추가
+);

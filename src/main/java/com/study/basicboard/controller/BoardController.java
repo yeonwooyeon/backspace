@@ -7,7 +7,6 @@ import com.study.basicboard.domain.dto.CommentCreateRequest;
 import com.study.basicboard.domain.enum_class.BoardCategory;
 import com.study.basicboard.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -153,11 +152,7 @@ public class BoardController {
         return "printMessage";
     }
 
-    @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource(s3UploadService.getFullPath(filename));
-    }
+    
 
     @GetMapping("/images/download/{boardId}")
     public ResponseEntity<UrlResource> downloadImage(@PathVariable Long boardId) throws MalformedURLException {
@@ -165,14 +160,3 @@ public class BoardController {
     }
 }
 
-/*
- * /boards/{category} : 카테고리에 해당하는 글 리스트를 return 하는 URL. 
- * sortType으로 정렬 방식을 입력받아 PageRequest 설정을 통해 정렬 구현. 
- * searchType, keyword로 글 제목, 작성자 닉네임에 keyword가 포함되는 글을 return 함으로써 검색 기능 구현. 
- * /boards/{category}/{boardId} : 게시글 상세 조회 페이지 
- * 만약 로그인 한 유저라면 loginUserLoginId를 전송함으로써, 화면에서 본인이 작성한 글인지 확인 할 수 있게함. 
- * 로그인 한 유저가 이 글에 좋아요를 눌렀는지 여부를 likeCheck에 담아 전송함으로써, 화면에서 하트를 누르면 좋아요를 추가 시킬지, 제거 시킬지 알 수 있게함.
- * 또한, 글 상세 페이지에서는 해당 글에 추가된 댓글 리스트도 같이 전송 시킴 
- * /boards/images/{filename} : Resource 타입으로 파일을 전송함으로써, 해당 게시글에 추가된 이미지를 화면에서 출력시킴.
- * /boards/images/download/{filename} : ResponseEntity<UrlResource> 타입으로 파일을
- * 										전송함으로써, 해당 URL에 접속 시 저장된 이미지를 다운로드 하게 함.*/
