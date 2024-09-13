@@ -115,14 +115,20 @@ public class BoardService {
         User boardUser = board.getUser();
         boardUser.likeChange(boardUser.getReceivedLikeCnt() - board.getLikeCnt());
         if (board.getUploadImage() != null) {
-            s3UploadService.deleteImage(board.getUploadImage());
+            // 로컬 파일 시스템에서 이미지 삭제
+            deleteImage(board.getUploadImage());  // deleteImage() 메서드를 호출
             board.setUploadImage(null);
         }
         boardRepository.deleteById(boardId);
         return boardId;
     }
 
-    public String getCategory(Long boardId) {
+    private void deleteImage(UploadImage uploadImage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getCategory(Long boardId) {
         Board board = boardRepository.findById(boardId).get();
         return board.getCategory().toString().toLowerCase();
     }
@@ -164,14 +170,3 @@ public class BoardService {
     }
 }
 
-/*
- * getBoardList() : 해당 카테고리에 있는 글 list를 return 이 때, 검색을 했다면 제목, 유저 닉네임에 키워드가 포함되는 글을 return 
- * 
- * writeBoard() : 글 작성 Board 저장 -> 이미지가 있다면 이미지 저장 후 저장된 Board에 해당 이미지 정보 추가 삽입 만약 가입 인사 게시판에 글이 저장된 경우라면 
- * 					로그인 한 유저의 등급을 SILVER로 조정
- * 
- * findMyBoard() : 마이 페이지에서 내가 작성한 글, 내가 좋아요 누른 글, 내가 댓글을 추가한 글을 category로 분류해
- * 					List를 return 해주는 메소드 내가 좋아요 누른 글은 로그인 한 유저의 loginId를 가지는 Like를 모두 불러온 후 Like에
- * 					저장된 Board들을 List로 변환 후 return 내가 댓글을 추가한 글도 좋아요와 비슷하긴 하지만 하나의 글에 여러개의 댓글을 단 경우, 
- * 					한번만 return 되게 하기 위해 HashSet을 사용하여 중복을 제거해서 return
- */

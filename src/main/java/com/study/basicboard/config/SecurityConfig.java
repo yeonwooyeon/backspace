@@ -21,10 +21,17 @@ public class SecurityConfig {
     private final UserRepository userRepository;
 
     // 로그인하지 않은 유저들만 접근 가능한 URL
-    private static final String[] anonymousUserUrl = {"/users/login", "/users/join"};
+    private static final String[] ANONYMOUS_USER_URLS = {"/users/login", "/users/join"};
 
     // 로그인한 유저들만 접근 가능한 URL
-    private static final String[] authenticatedUserUrl = {"/boards/**/**/edit", "/boards/**/**/delete", "/likes/**", "/users/myPage/**", "/users/edit", "/users/delete"};
+    private static final String[] AUTHENTICATED_USER_URLS = {
+        "/boards/*/edit", 
+        "/boards/*/delete", 
+        "/likes/*", 
+        "/users/myPage/*", 
+        "/users/edit", 
+        "/users/delete"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,8 +39,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(anonymousUserUrl).anonymous()
-                    .requestMatchers(authenticatedUserUrl).authenticated()
+                    .requestMatchers(ANONYMOUS_USER_URLS).anonymous()
+                    .requestMatchers(AUTHENTICATED_USER_URLS).authenticated()
                     .requestMatchers("/boards/greeting/write").hasAnyAuthority("BRONZE", "ADMIN")
                     .requestMatchers(HttpMethod.POST, "/boards/greeting").hasAnyAuthority("BRONZE", "ADMIN")
                     .requestMatchers("/boards/free/write").hasAnyAuthority("SILVER", "GOLD", "ADMIN")
@@ -62,5 +69,5 @@ public class SecurityConfig {
                 )
                 .build();
     }
-
 }
+

@@ -1,29 +1,36 @@
 {
 	"folders": {},
 	"connections": {
-<<<<<<< HEAD
-		"mysql8-191bd05357d-27f5447be27ccb7": {
+		"mysql8-191c0b55402-66d4d78e3f3a55ed": {
 			"provider": "mysql",
 			"driver": "mysql8",
 			"name": "MySQL",
 			"save-password": true,
 			"configuration": {
 				"host": "localhost",
-				"port": "3306",
+				"port": "1004",
 				"database": "MySQL",
-				"url": "jdbc:mysql://localhost:3306/MySQL",
-=======
-		"mysql8-191bcb95438-6e4913fee83cc5eb": {
+				"url": "jdbc:mysql://localhost:1004/MySQL",
+				"configurationType": "MANUAL",
+				"home": "mysql_client",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"provider-properties": {
+					"@dbeaver-serverTimezone@": "Asia/Seoul"
+				},
+				"auth-model": "native"
+			}
+		},
+		"mysql8-191c1f6050d-1791888ead2ae749": {
 			"provider": "mysql",
 			"driver": "mysql8",
-			"name": "vacancy",
+			"name": "MySQL 2",
 			"save-password": true,
 			"configuration": {
 				"host": "localhost",
-				"port": "3306",
-				"database": "vacancy",
-				"url": "jdbc:mysql://localhost:3306/vacancy",
->>>>>>> branch 'master' of https://github.com/yeonwooyeon/backspace.git
+				"port": "1005",
+				"database": "MySQL",
+				"url": "jdbc:mysql://localhost:1005/MySQL",
 				"configurationType": "MANUAL",
 				"home": "mysql_client",
 				"type": "dev",
