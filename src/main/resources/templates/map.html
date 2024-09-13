@@ -33,12 +33,10 @@
             <button id="locateMeBtn">내 위치</button>
             <div id="menu_wrap" class="bg_white">
                 <div class="option">
-                    <form onsubmit="searchPlaces(); return false;">
+                    <form onsubmit="searchAddress(); return false;">
                         <div id="searchBox">
-                            <input type="text" id="address" placeholder="동 / 도로명">
+                            <input type="text" id="address" placeholder="지명,도로명,지번만 됌">
                             <button id="addressSearchBtn" type="button">검색</button>
-                            <input type="text" id="keyword" placeholder="키워드">
-                            <button id="searchBtn" type="submit">검색</button>
                         </div>
                     </form>
                 </div>
@@ -50,7 +48,7 @@
     </div>
 
     <script>
-    var map, marker, infowindow, ps, geocoder;
+    var map, marker, infowindow, geocoder;
     var markers = [];
 
     function initializeMap(lat, lng) {
@@ -66,7 +64,6 @@
             map: map
         });
         infowindow = new kakao.maps.InfoWindow({zIndex: 1});
-        ps = new kakao.maps.services.Places();
         geocoder = new kakao.maps.services.Geocoder();
         
         kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
@@ -77,64 +74,6 @@
                 map: map
             });
         });
-    }
-
-    function searchPlaces() {
-        const keyword = document.getElementById('keyword').value.trim();
-        if (!keyword) return alert('검색어를 입력해주세요!');
-
-        removeMarkers();
-        document.getElementById('placesList').innerHTML = '';
-        document.getElementById('pagination').innerHTML = '';
-
-        ps.keywordSearch(keyword, placesSearchCB);
-    }
-
-    function placesSearchCB(data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-            displayPlaces(data);
-            displayPagination(pagination);
-        } else {
-            alert(status === kakao.maps.services.Status.ZERO_RESULT ? '검색 결과가 없습니다.' : '검색 결과 중 오류가 발생했습니다.');
-        }
-    }
-
-    function displayPlaces(places) {
-        const listEl = document.getElementById('placesList');
-        const fragment = document.createDocumentFragment();
-        const bounds = new kakao.maps.LatLngBounds();
-
-        removeMarkers();
-        places.forEach((place, i) => {
-            const position = new kakao.maps.LatLng(place.y, place.x);
-            bounds.extend(position);
-
-            const itemEl = document.createElement('li');
-            itemEl.className = 'item';
-            itemEl.innerHTML = `
-                <span class="markerbg marker_${i + 1}"></span>
-                <div class="info">
-                    <h5>${place.place_name}</h5>
-                    <span class="jibun gray">${place.road_address_name}</span>
-                    <span class="tel">${place.phone}</span>
-                </div>`;
-            kakao.maps.event.addListener(itemEl, 'click', () => {
-                map.setCenter(position);
-                marker.setPosition(position);
-                infowindow.setContent(`<div style="padding:5px;">${place.place_name}</div>`);
-                infowindow.open(map, marker);
-            });
-
-            fragment.appendChild(itemEl);
-        });
-
-        listEl.appendChild(fragment);
-        map.setBounds(bounds);
-    }
-
-    function removeMarkers() {
-        markers.forEach(marker => marker.setMap(null));
-        markers = [];
     }
 
     function searchAddress() {
@@ -154,23 +93,9 @@
                     });
                 }
             } else {
-                alert('주소 검색 결과가 없습니다.');
+                alert('검색어를 확인해주세요.');
             }
         });
-    }
-
-    function displayPagination(pagination) {
-        const paginationEl = document.getElementById('pagination');
-        paginationEl.innerHTML = '';
-
-        for (let i = 1; i <= pagination.last; i++) {
-            const paginationBtn = document.createElement('a');
-            paginationBtn.href = "#";
-            paginationBtn.innerHTML = i;
-            paginationBtn.className = (i === pagination.current) ? 'on' : '';
-            paginationBtn.addEventListener('click', () => pagination.gotoPage(i));
-            paginationEl.appendChild(paginationBtn);
-        }
     }
 
     function getLocation(callback) {
@@ -196,15 +121,7 @@
         getLocation((lat, lng) => initializeMap(lat, lng));
 
         document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
-        document.getElementById('searchBtn').addEventListener('click', searchPlaces);
         document.getElementById('addressSearchBtn').addEventListener('click', searchAddress);
-
-        document.getElementById('keyword').addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                searchPlaces();
-            }
-        });
 
         document.getElementById('address').addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
