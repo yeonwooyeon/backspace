@@ -5,16 +5,14 @@
 <title>VACANCY</title>
 <link rel="stylesheet" href="../css/map.css">
 <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-<script type="text/javascript"
-	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing,roadview"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-	<header>
+    <header>
         <div class="logo">
-			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>공실정보</span>
-		</div>
+            <a href="/"> <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo"> </a> 
+            <span>공실정보</span>
+        </div>
         <nav>
             <a href="map">공실정보</a>
             <a href="property">관리물건</a>
@@ -29,251 +27,210 @@
         </div>
     </header>
 
+    <div class="map_wrap">
+        <div class="container">
+            <div id="map"></div>
+            <button id="locateMeBtn">내 위치</button>
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <form onsubmit="searchPlaces(); return false;">
+                        <div id="searchBox">
+                            <input type="text" id="address" placeholder="동 / 도로명">
+                            <button id="addressSearchBtn" type="button">검색</button>
+                            <input type="text" id="keyword" placeholder="키워드">
+                            <button id="searchBtn" type="submit">검색</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
+            </div>
+        </div>
+    </div>
 
-	<div class="map_wrap">
-		<div class="container">
-			<div id="map"></div>
+    <script>
+    var map, marker, infowindow, ps, geocoder;
+    var markers = [];
 
-			<button id="locateMeBtn">내 위치</button>
-			<button id="roadviewBtn">로드뷰</button>
-			<div id="menu_wrap" class="bg_white">
-				<div class="option">
-					<form onsubmit="searchPlaces(); return false;">
-						<div id="searchBox">
-							<input type="text" id="address" placeholder="동 / 도로명">
-							<button id="addressSearchBtn">검색</button>
-							<input type="text" id="keyword2" placeholder="안돼">
-							<button id="searchBtn">검색</button>
-						</div>
-						<label for="keyword">키워드:</label> <input type="text" id="keyword"
-							value="이태원 맛집" size="15">
-						<button type="submit">검색</button>
+    function initializeMap(lat, lng) {
+        map = new kakao.maps.Map(document.getElementById('map'), {
+            center: new kakao.maps.LatLng(lat, lng),
+            level: 3
+        });
+        map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+        map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
-					</form>
-				</div>
-				<hr>
-				<ul id="placesList"></ul>
-				<div id="pagination"></div>
-			</div>
-		</div>
-	</div>
+        marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(lat, lng),
+            map: map
+        });
+        infowindow = new kakao.maps.InfoWindow({zIndex: 1});
+        ps = new kakao.maps.services.Places();
+        geocoder = new kakao.maps.services.Geocoder();
+        
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+            const latlng = mouseEvent.latLng;
+            marker.setMap(null);
+            marker = new kakao.maps.Marker({
+                position: latlng,
+                map: map
+            });
+        });
+    }
 
-	<div id="roadviewContainer" style="display:none; width:100%; height:400px;"></div>
+    function searchPlaces() {
+        const keyword = document.getElementById('keyword').value.trim();
+        if (!keyword) return alert('검색어를 입력해주세요!');
 
-	<script>
-	var map, marker, infowindow, ps, geocoder;
-	var markers = [];
-	var roadview, roadviewClient;
+        removeMarkers();
+        document.getElementById('placesList').innerHTML = '';
+        document.getElementById('pagination').innerHTML = '';
 
-	function initializeMap(lat, lng) {
-	    map = new kakao.maps.Map(document.getElementById('map'), {
-	        center: new kakao.maps.LatLng(lat, lng),
-	        level: 3
-	    });
-	    map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-	    map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+        ps.keywordSearch(keyword, placesSearchCB);
+    }
 
-	    marker = new kakao.maps.Marker({
-	        position: new kakao.maps.LatLng(lat, lng),
-	        map: map
-	    });
-	    infowindow = new kakao.maps.InfoWindow({zIndex: 1});
-	    ps = new kakao.maps.services.Places();
-	    geocoder = new kakao.maps.services.Geocoder();
-	    
-	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-	        const latlng = mouseEvent.latLng;
-	        marker.setMap(null);
-	        marker = new kakao.maps.Marker({
-	            position: latlng,
-	            map: map
-	        });
-	    });
+    function placesSearchCB(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+            displayPlaces(data);
+            displayPagination(pagination);
+        } else {
+            alert(status === kakao.maps.services.Status.ZERO_RESULT ? '검색 결과가 없습니다.' : '검색 결과 중 오류가 발생했습니다.');
+        }
+    }
 
-<<<<<<< HEAD
-	    // Initialize Roadview
-	    roadviewClient = new kakao.maps.RoadviewClient();
-	    roadview = new kakao.maps.Roadview(document.getElementById('roadviewContainer'));
-	}
-=======
-function searchPlaces() {
-	
-    const keyword = document.getElementById('keyword').value.trim();
-    if (!keyword) return alert('검색어를 입력해주세요!');
->>>>>>> branch 'master' of https://github.com/yeonwooyeon/backspace.git
+    function displayPlaces(places) {
+        const listEl = document.getElementById('placesList');
+        const fragment = document.createDocumentFragment();
+        const bounds = new kakao.maps.LatLngBounds();
 
-	function displayRoadview(lat, lng) {
-	    var position = new kakao.maps.LatLng(lat, lng);
-	    roadviewClient.getNearestPanoId(position, function(panoId) {
-	        if (panoId) {
-	            roadview.setPanoId(panoId);
-	            document.getElementById('roadviewContainer').style.display = 'block';
-	        } else {
-	            alert('로드뷰를 찾을 수 없습니다.');
-	        }
-	    });
-	}
+        removeMarkers();
+        places.forEach((place, i) => {
+            const position = new kakao.maps.LatLng(place.y, place.x);
+            bounds.extend(position);
 
-	function searchPlaces() {
-	    const keyword = document.getElementById('keyword').value.trim();
-	    if (!keyword) return alert('검색어를 입력해주세요!');
+            const itemEl = document.createElement('li');
+            itemEl.className = 'item';
+            itemEl.innerHTML = `
+                <span class="markerbg marker_${i + 1}"></span>
+                <div class="info">
+                    <h5>${place.place_name}</h5>
+                    <span class="jibun gray">${place.road_address_name}</span>
+                    <span class="tel">${place.phone}</span>
+                </div>`;
+            kakao.maps.event.addListener(itemEl, 'click', () => {
+                map.setCenter(position);
+                marker.setPosition(position);
+                infowindow.setContent(`<div style="padding:5px;">${place.place_name}</div>`);
+                infowindow.open(map, marker);
+            });
 
-	    removeMarkers();
-	    document.getElementById('placesList').innerHTML = '';
-	    document.getElementById('pagination').innerHTML = '';
+            fragment.appendChild(itemEl);
+        });
 
-	    ps.keywordSearch(keyword, placesSearchCB);
-	}
+        listEl.appendChild(fragment);
+        map.setBounds(bounds);
+    }
 
-	function placesSearchCB(data, status, pagination) {
-	    if (status === kakao.maps.services.Status.OK) {
-	        displayPlaces(data);
-	        displayPagination(pagination);
-	    } else {
-	        alert(status === kakao.maps.services.Status.ZERO_RESULT ? '검색 결과가 없습니다.' : '검색 결과 중 오류가 발생했습니다.');
-	    }
-	}
+    function removeMarkers() {
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+    }
 
-	function displayPlaces(places) {
-	    const listEl = document.getElementById('placesList');
-	    const fragment = document.createDocumentFragment();
-	    const bounds = new kakao.maps.LatLngBounds();
+    function searchAddress() {
+        const address = document.getElementById('address').value.trim();
+        if (!address) return alert('주소를 입력해주세요!');
 
-	    removeMarkers();
-	    places.forEach((place, i) => {
-	        const position = new kakao.maps.LatLng(place.y, place.x);
-	        bounds.extend(position);
+        geocoder.addressSearch(address, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                map.setCenter(coords);
+                if (marker) {
+                    marker.setPosition(coords);
+                } else {
+                    marker = new kakao.maps.Marker({
+                        position: coords,
+                        map: map
+                    });
+                }
+            } else {
+                alert('주소 검색 결과가 없습니다.');
+            }
+        });
+    }
 
-	        const itemEl = document.createElement('li');
-	        itemEl.className = 'item';
-	        itemEl.innerHTML = `
-	            <span class="markerbg marker_${i + 1}"></span>
-	            <div class="info">
-	                <h5>${place.place_name}</h5>
-	                <span class="jibun gray">${place.road_address_name}</span>
-	                <span class="tel">${place.phone}</span>
-	            </div>`;
-	        kakao.maps.event.addListener(itemEl, 'click', () => {
-	            map.setCenter(position);
-	            marker.setPosition(position);
-	            infowindow.setContent(`<div style="padding:5px;">${place.place_name}</div>`);
-	            infowindow.open(map, marker);
-	        });
+    function displayPagination(pagination) {
+        const paginationEl = document.getElementById('pagination');
+        paginationEl.innerHTML = '';
 
-	        fragment.appendChild(itemEl);
-	    });
+        for (let i = 1; i <= pagination.last; i++) {
+            const paginationBtn = document.createElement('a');
+            paginationBtn.href = "#";
+            paginationBtn.innerHTML = i;
+            paginationBtn.className = (i === pagination.current) ? 'on' : '';
+            paginationBtn.addEventListener('click', () => pagination.gotoPage(i));
+            paginationEl.appendChild(paginationBtn);
+        }
+    }
 
-	    listEl.appendChild(fragment);
-	    map.setBounds(bounds);
-	}
+    function getLocation(callback) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => callback(position.coords.latitude, position.coords.longitude),
+                error => {
+                    const errorMsgs = {
+                        [error.PERMISSION_DENIED]: '위치 정보 요청이 거부되었습니다.',
+                        [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
+                        [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
+                        [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
+                    };
+                    alert(errorMsgs[error.code] || '알 수 없는 오류가 발생했습니다.');
+                }
+            );
+        } else {
+            alert('현재 위치를 지원하지 않는 브라우저입니다.');
+        }
+    }
 
-	function removeMarkers() {
-	    markers.forEach(marker => marker.setMap(null));
-	    markers = [];
-	}
+    document.addEventListener('DOMContentLoaded', () => {
+        getLocation((lat, lng) => initializeMap(lat, lng));
 
-	function searchAddress() {
-	    const address = document.getElementById('address').value.trim();
-	    if (!address) return alert('주소를 입력해주세요!');
+        document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
+        document.getElementById('searchBtn').addEventListener('click', searchPlaces);
+        document.getElementById('addressSearchBtn').addEventListener('click', searchAddress);
 
-	    geocoder.addressSearch(address, function(result, status) {
-	        if (status === kakao.maps.services.Status.OK) {
-	            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	            map.setCenter(coords);
-	            if (marker) {
-	                marker.setPosition(coords);
-	            } else {
-	                marker = new kakao.maps.Marker({
-	                    position: coords,
-	                    map: map
-	                });
-	            }
-	        } else {
-	            alert('주소 검색 결과가 없습니다.');
-	        }
-	    });
-	}
+        document.getElementById('keyword').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                searchPlaces();
+            }
+        });
 
-	function displayPagination(pagination) {
-	    const paginationEl = document.getElementById('pagination');
-	    paginationEl.innerHTML = '';
+        document.getElementById('address').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                searchAddress();
+            }
+        });
 
-	    for (let i = 1; i <= pagination.last; i++) {
-	        const paginationBtn = document.createElement('a');
-	        paginationBtn.href = "#";
-	        paginationBtn.innerHTML = i;
-	        paginationBtn.className = (i === pagination.current) ? 'on' : '';
-	        paginationBtn.addEventListener('click', () => pagination.gotoPage(i));
-	        paginationEl.appendChild(paginationBtn);
-	    }
-	}
-
-	function getLocation(callback) {
-	    if (navigator.geolocation) {
-	        navigator.geolocation.getCurrentPosition(
-	            position => callback(position.coords.latitude, position.coords.longitude),
-	            error => {
-	                const errorMsgs = {
-	                    [error.PERMISSION_DENIED]: '위치 정보 요청이 거부되었습니다.',
-	                    [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
-	                    [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
-	                    [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
-	                };
-	                alert(errorMsgs[error.code] || '알 수 없는 오류가 발생했습니다.');
-	            }
-	        );
-	    } else {
-	        alert('현재 위치를 지원하지 않는 브라우저입니다.');
-	    }
-	}
-
-	document.addEventListener('DOMContentLoaded', () => {
-	    getLocation((lat, lng) => initializeMap(lat, lng));
-
-	    document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
-	    document.getElementById('searchBtn').addEventListener('click', searchPlaces);
-	    document.getElementById('addressSearchBtn').addEventListener('click', searchAddress);
-	    document.getElementById('roadviewBtn').addEventListener('click', () => {
-	        if (marker) {
-	            const position = marker.getPosition();
-	            displayRoadview(position.getLat(), position.getLng());
-	        } else {
-	            alert('먼저 위치를 선택해 주세요.');
-	        }
-	    });
-
-	    document.getElementById('keyword').addEventListener('keydown', (event) => {
-	        if (event.key === 'Enter') {
-	            event.preventDefault();
-	            searchPlaces();
-	        }
-	    });
-
-	    document.getElementById('address').addEventListener('keydown', (event) => {
-	        if (event.key === 'Enter') {
-	            event.preventDefault();
-	            searchAddress();
-	        }
-	    });
-
-	    document.getElementById('locateMeBtn').addEventListener('click', () => {
-	        getLocation((lat, lng) => {
-	            const coords = new kakao.maps.LatLng(lat, lng);
-	            map.setCenter(coords);
-	            if (marker) {
-	                marker.setPosition(coords);
-	            } else {
-	                marker = new kakao.maps.Marker({
-	                    position: coords,
-	                    map: map
-	                });
-	            }
-	        });
-	    });
-	});
-</script>
-	<footer>
-		<div>© 2024 Vacancy. All rights reserved.</div>
-	</footer>
+        document.getElementById('locateMeBtn').addEventListener('click', () => {
+            getLocation((lat, lng) => {
+                const coords = new kakao.maps.LatLng(lat, lng);
+                map.setCenter(coords);
+                if (marker) {
+                    marker.setPosition(coords);
+                } else {
+                    marker = new kakao.maps.Marker({
+                        position: coords,
+                        map: map
+                    });
+                }
+            });
+        });
+    });
+    </script>
+    <footer>
+        <div>© 2024 Vacancy. All rights reserved.</div>
+    </footer>
 </body>
 </html>
