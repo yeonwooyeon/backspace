@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    white-space: nowrap;
 }
 
 body {
@@ -17,15 +18,12 @@ header {
     padding: 10px 20px;
     background-color: white;
     border-bottom: 2px solid #FFB74D;
+    font-weight: bold;
 }
 
-header .logo {
+.logo {
     display: flex;
     align-items: center;
-}
-
-header span {
-    font-weight: bold;
 }
 
 header .logo img {
@@ -41,7 +39,6 @@ header nav a {
     font-weight: bold;
 }
 
-header nav, 
 header .user-menu {
     display: flex;
     flex-wrap: nowrap;
