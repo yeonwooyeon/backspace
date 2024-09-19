@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.basicboard.repository.UserRepository">
+
+    <!-- resultMap을 명시적으로 정의 -->
+    <resultMap id="PropertyResultMap" type="com.example.demo.Property">
+        <result column="info_no" property="info_no"/>
+        <result column="mem_no" property="mem_No"/>
+        <result column="info_name" property="info_name"/>
+        <result column="info_add" property="info_add"/>
+        <result column="info_size" property="info_size"/>
+        <result column="info_allfl" property="info_allfl"/>
+        <result column="info_fl" property="info_fl"/>
+        <result column="info_count" property="info_count"/>
+        <result column="info_upload" property="info_upload"/>
+        <result column="info_update" property="info_update"/>
+        <result column="info_delflag" property="info_delflag"/>
+        <result column="info_option" property="info_option"/>
+        <result column="info_type" property="info_type"/>
+        <result column="info_sell" property="info_sell"/>
+        <result column="info_year" property="info_year"/>
+        <result column="info_month" property="info_month"/>
+        <result column="info_deposit" property="info_deposit"/>
+        <result column="info_hits" property="info_hits"/>
+        <result column="info_comp" property="info_comp"/>
+        <result column="info_ok" property="info_ok"/>
+        <result column="info_move" property="info_move"/>
+    </resultMap>
+
+    <!-- 수정된 select 쿼리 -->
+    <select id="getAllPropertyList" resultMap="PropertyResultMap">
+        SELECT * FROM Pp_info
+    </select>
+
+    <!-- insert는 그대로 유지 -->
+    <insert id="insertProperty" parameterType="com.example.demo.Property">
+        INSERT INTO Pp_info (info_name, info_add, info_size, info_allfl, info_fl, info_count, 
+                             info_upload, info_update, info_delflag, info_option, 
+                             info_type, info_sell, info_year, info_month, 
+                             info_deposit, info_comp, info_move) 
+        VALUES (#{info_name}, #{info_add}, #{info_size}, #{info_allfl}, #{info_fl}, 
+                #{info_count}, #{info_upload}, #{info_update}, #{info_delflag}, 
+                #{info_option}, #{info_type}, #{info_sell}, #{info_year}, 
+                #{info_month}, #{info_deposit}, #{info_comp}, #{info_move})
+    </insert>
+
+
+<!-- 상언 회원가입쿼리 -->
+<insert id="save" parameterType="com.study.basicboard.domain.entity.User">
+    INSERT INTO `user`
+    (login_id, password, nickname)
+    VALUES (#{loginId}, #{password}, #{nickname})
+</insert>
+
+<select id="existsByLoginId" resultType="boolean" parameterType="java.lang.String">
+    SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+    FROM `user`
+    WHERE login_id = #{loginId}
+</select>
+
+<select id="existsByNickname" resultType="boolean" parameterType="java.lang.String">
+    SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+    FROM `user`
+    WHERE nickname = #{nickname}
+</select>
+
+
+</mapper>
