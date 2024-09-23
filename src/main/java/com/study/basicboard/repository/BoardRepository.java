@@ -30,6 +30,7 @@ public interface BoardRepository {
 	void deleteById(Long boardId);
 	void save(Board entity);
 	Long count();
+	//fgf
 	
 	 // 페이징된 요소를 가져오기 위한 메서드
 	List<Board> findByCategoryWithPaging(BoardCategory category, int pageSize, long offset);
