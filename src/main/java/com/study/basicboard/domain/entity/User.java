@@ -35,7 +35,7 @@ public class User {
     private String nickname;    // 닉네임
     private LocalDateTime createdAt;    // 가입 시간
     private Integer receivedLikeCnt; // 유저가 받은 좋아요 개수 (본인 제외)
-
+    private String email;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;      // 권한
 
@@ -76,4 +76,22 @@ public class User {
         else if (userRole.equals(UserRole.GOLD)) userRole = UserRole.BLACKLIST;
         else if (userRole.equals(UserRole.BLACKLIST)) userRole = UserRole.BRONZE;
     }
+
+    // 비밀번호 설정 메서드
+    public void setPassword(String encodedPassword) {
+        this.password = encodedPassword; // 암호화된 비밀번호를 설정
+    }
+
+	
+	
+
+    
+    
+
+    
+
+	
+
+	
+	
 }

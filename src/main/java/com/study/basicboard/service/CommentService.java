@@ -25,7 +25,7 @@ public class CommentService {
 
     public void writeComment(Long boardId, CommentCreateRequest req, String loginId) {
         Board board = boardRepository.findById(boardId).get();
-        User user = userRepository.findByLoginId(loginId).get();
+        User user = userRepository.findByLoginId(loginId);
         board.commentChange(board.getCommentCnt() + 1);
         commentRepository.save(req.toEntity(board, user));
     }
@@ -37,7 +37,7 @@ public class CommentService {
     @Transactional
     public Long editComment(Long commentId, String newBody, String loginId) {
         Optional<Comment> optComment = commentRepository.findById(commentId);
-        Optional<User> optUser = userRepository.findByLoginId(loginId);
+        Optional<User> optUser = Optional.ofNullable(userRepository.findByLoginId(loginId));
         if (optComment.isEmpty() || optUser.isEmpty() || !optComment.get().getUser().equals(optUser.get())) {
             return null;
         }
@@ -50,7 +50,7 @@ public class CommentService {
 
     public Long deleteComment(Long commentId, String loginId) {
         Optional<Comment> optComment = commentRepository.findById(commentId);
-        Optional<User> optUser = userRepository.findByLoginId(loginId);
+        Optional<User> optUser = Optional.ofNullable(userRepository.findByLoginId(loginId));
         if (optComment.isEmpty() || optUser.isEmpty() ||
                 (!optComment.get().getUser().equals(optUser.get()) && !optUser.get().getUserRole().equals(UserRole.ADMIN))) {
             return null;
