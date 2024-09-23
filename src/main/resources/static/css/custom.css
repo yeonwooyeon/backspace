@@ -1,60 +1,41 @@
-.nav-btn {
-    background-color: lightcyan;
+/* General Button Styles */
+button {
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-family: 'Arial', sans-serif;
     font-weight: bold;
-    border: none;
-    height: 40px;
-    width: 100px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
-.nav-btn:hover, .nav-btn:focus, .nav-btn:active:focus {
+.nav-btn, .search-btn, .icon-btn {
+    background-color: lightcyan;
+    height: 40px;
+    min-width: 100px;
+    border: none;
+}
+
+.nav-btn:hover, .search-btn:hover, .icon-btn:hover,
+.nav-btn:focus, .search-btn:focus, .icon-btn:focus,
+.nav-btn:active:focus, .search-btn:active:focus, .icon-btn:active:focus {
     background-color: cyan;
     animation: jelly 0.5s;
 }
 
-.search-btn {
-    background-color: lightcyan;
-    font-weight: bold;
-    border: none;
-    height: 40px;
-    width: 100px;
-}
-
-.search-btn:hover, .search-btn:focus, .search-btn:active:focus {
-    background-color: cyan;
-    animation: jelly 0.5s;
-}
-
-.icon-btn{
-    background-color: unset;
-    border: none;
-}
-
-.icon-btn:hover, .icon-btn:focus, .icon-btn:active:focus {
-    border: none;
-    animation: jelly 0.5s;
-}
-
-.user-btn {
+.user-btn, .edit-btn {
     background-color: lime;
-    font-weight: bold;
-    border: none;
     height: 40px;
-    width: 100px;
 }
 
-.user-btn:hover, .user-btn:focus, .user-btn:active:focus {
+.user-btn:hover, .user-btn:focus, .user-btn:active:focus, 
+.edit-btn:hover, .edit-btn:focus, .edit-btn:active:focus {
     background-color: limegreen;
     animation: jelly 0.5s;
 }
 
 .post-btn {
     background-color: lightgoldenrodyellow;
-    font-weight: bold;
-    border: none;
     height: 40px;
-    width: 100px;
 }
 
 .post-btn:hover, .post-btn:focus, .post-btn:active:focus {
@@ -62,25 +43,9 @@
     animation: jelly 0.5s;
 }
 
-.edit-btn {
-    background-color: lime;
-    font-weight: bold;
-    border: none;
-    height: 40px;
-    width: 100px;
-}
-
-.edit-btn:hover, .edit-btn:focus, .edit-btn:active:focus {
-    background-color: limegreen;
-    animation: jelly 0.5s;
-}
-
 .del-btn {
     background-color: orangered;
-    font-weight: bold;
-    border: none;
     height: 40px;
-    width: 100px;
 }
 
 .del-btn:hover, .del-btn:focus, .del-btn:active:focus {
@@ -88,63 +53,64 @@
     animation: jelly 0.5s;
 }
 
-.select-btn {
+.select-btn, .selected-btn {
     background-color: deepskyblue;
-    font-weight: bold;
     margin: 0px 30px;
-    border: none;
     height: 40px;
-    width: 130px;
 }
 
-.select-btn:hover, .select-btn:focus, .select-btn:active:focus {
+.select-btn:hover, .select-btn:focus, .select-btn:active:focus,
+.selected-btn:hover, .selected-btn:focus, .selected-btn:active:focus {
     background-color: dodgerblue;
     animation: jelly 0.5s;
 }
 
 .selected-btn {
     background-color: cornflowerblue;
-    font-weight: bold;
-    margin: 0px 30px;
-    border: none;
-    height: 40px;
-    width: 130px;
-}
-
-.selected-btn:hover, .selected-btn:focus, .selected-btn:active:focus {
-    background-color: dodgerblue;
-    animation: jelly 0.5s;
 }
 
 @keyframes jelly {
     25% {
         transform: scale(0.9, 1.1);
     }
-
     50% {
         transform: scale(1.1, 0.9);
     }
-
     75% {
         transform: scale(0.95, 1.05);
     }
 }
 
+/* User Form Styles */
 .user-form {
-    width: max-content;
-    height: max-content;
-    background-color: lightgoldenrodyellow;
-    border: solid 1px yellow;
-    border-radius: 30px;
-    padding: 50px 50px 30px 50px;
+    background-color: #fdf5e6;
+    border: solid 1px #ffda6b;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
 }
 
-.user-form>div>label {
+.user-form > div > label {
     font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
 }
 
-.user-form>div>input {
-    width: 300px;
+.user-form > div > input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.user-form > div > input:focus {
+    border-color: #ffb74d;
+    outline: none;
 }
 
 .error-input {
@@ -153,17 +119,24 @@
 
 .error-div {
     color: red;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 
 .nav-link.active {
     font-weight: bold;
 }
 
+/* Image and Table Styles */
 .small-img {
     width: 30px;
     height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .notice-tr {
-    background-color: lightgoldenrodyellow;
+    background-color: #fdf5e6;
+    border-bottom: 1px solid #ffda6b;
 }
