@@ -153,14 +153,6 @@
             markers = [];
 
             places.forEach((place) => {
-                const coords = new kakao.maps.LatLng(place.info_latitude, place.info_longitude);
-
-                const marker = new kakao.maps.Marker({
-                    map: map,
-                    position: coords
-                });
-                markers.push(marker);
-
                 const itemEl = document.createElement('li');
                 itemEl.innerHTML = `
                     <h5>${place.info_name}</h5>
@@ -168,16 +160,25 @@
                     <p>건물 유형: ${place.info_option}</p>
                 `;
 
-                kakao.maps.event.addListener(marker, 'click', function() {
-                    infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
-                    infowindow.open(map, marker);
-                    map.setCenter(coords);
-                });
-
+                // 클릭 시 주소로 위치 이동
                 itemEl.addEventListener('click', function() {
-                    infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
-                    infowindow.open(map, marker);
-                    map.setCenter(coords);
+                    const address = place.info_add;
+
+                    geocoder.addressSearch(address, (result, status) => {
+                        if (status === kakao.maps.services.Status.OK) {
+                            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                            map.setLevel(3);
+                            map.setCenter(coords);
+                            const marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+                            infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+                            infowindow.open(map, marker);
+                        } else {
+                            alert('주소 검색에 실패했습니다.');
+                        }
+                    });
                 });
 
                 fragment.appendChild(itemEl);
@@ -185,6 +186,7 @@
 
             listEl.appendChild(fragment);
         }
+
 
         function performSearch() {
             searchAddress();      // 주소 검색
