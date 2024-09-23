@@ -35,6 +35,8 @@ public class Property {
 	private Date info_comp; //사용승인일
 	private Timestamp info_ok; //확인날짜 
 	private Date info_move; //입주가능일
+	private double info_latitude; //위도
+	private double info_longitude; //경도
 	
 	public Integer getInfo_no() {
 		return info_no;
@@ -167,6 +169,18 @@ public class Property {
 	}
 	public void setInfo_move(Date info_move) {
 		this.info_move = info_move;
+	}
+	public double getInfo_latitude() {
+		return info_latitude;
+	}
+	public void setInfo_latitude(double info_latitude) {
+		this.info_latitude = info_latitude;
+	}
+	public double getInfo_longitude() {
+		return info_longitude;
+	}
+	public void setInfo_longitude(double info_longitude) {
+		this.info_longitude = info_longitude;
 	}
 	
 	

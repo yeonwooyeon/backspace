@@ -21,6 +21,17 @@ public class PropertyServiceImpl implements PropertyService {
     public void addProperty(Property property) {
         propertyRepository.insertProperty(property);
     }
-    
 
+    public List<Property> getAllAddresses() {
+        return propertyRepository.getAllAddresses();
+    }
+
+    public List<Property> searchAddresses(String keyword) {
+        return propertyRepository.searchAddresses(keyword);
+    }
+    
+    public void deleteProperty(Integer info_no) {
+        propertyRepository.deleteProperty(info_no);
+    }
+    
 }

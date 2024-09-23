@@ -7,4 +7,7 @@ import com.example.demo.Property;
 public interface PropertyService {
 	List<Property> getAllPropertylist();
 	void addProperty(Property property);
+	List<Property> getAllAddresses();
+	List<Property> searchAddresses(String keyword);
+	void deleteProperty(Integer info_no);
 }

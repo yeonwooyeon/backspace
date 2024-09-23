@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.Property;
+import com.example.demo.repository.PropertyRepository;
 import com.example.demo.service.PropertyService;
 
 @Controller
@@ -39,6 +42,12 @@ public class PropertyController {
     @PostMapping("/addProperty")
     public RedirectView addProperty(@ModelAttribute Property property) {
         propertyService.addProperty(property);
+        return new RedirectView("/property");
+    }
+    
+    @PostMapping("/deleteProperty")
+    public RedirectView deleteProperty(@RequestParam Integer info_no) {
+        propertyService.deleteProperty(info_no);
         return new RedirectView("/property");
     }
 }

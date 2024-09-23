@@ -28,5 +28,20 @@ public class PropertyRepositoryImpl implements PropertyRepository {
     public void insertProperty(Property property) {
         listOfProperty.add(property);
     }
+    
+	@Override
+	public List<Property> getAllAddresses() {
+		return listOfProperty;
+	}
+	
+	@Override
+	public List<Property> searchAddresses(String keyword) {
+		return listOfProperty;
+	}
+
+	public void deleteProperty(Integer info_no) {
+		listOfProperty.removeIf(property -> property.getInfo_no().equals(info_no));
+	}
+    
 
 	}

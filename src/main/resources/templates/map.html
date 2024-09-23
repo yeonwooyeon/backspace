@@ -1,147 +1,214 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>VACANCY</title>
-<link rel="stylesheet" href="../css/map.css">
-<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-<script type="text/javascript"
-	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+    <meta charset="UTF-8">
+    <title>VACANCY</title>
+    <link rel="stylesheet" href="../css/map.css">
+    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-	<header>
-		<div class="logo">
-			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>공실정보</span>
-		</div>
-		<nav>
-			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
-			<a href="#">분양사무실</a>
-		</nav>
-		<div class="user-menu">
-			<a href="#">고객센터</a> <a href="#">마이페이지</a> <a href="#">로그인</a> <a
-				href="#">회원가입</a>
-		</div>
-	</header>
+    <header>
+        <div class="logo">
+            <a href="/"> <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo"></a> 
+            <span>공실정보</span>
+        </div>
+        <nav>
+            <a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
+            <a href="#">분양사무실</a>
+        </nav>
+        <div class="user-menu">
+            <a href="#">고객센터</a> <a href="#">마이페이지</a> <a href="#">로그인</a> <a href="#">회원가입</a>
+        </div>
+    </header>
 
-	<div class="map_wrap">
-		<div class="container">
-			<div id="map"></div>
-			<button id="locateMeBtn">내 위치</button>
-			<div id="menu_wrap" class="bg_white">
-				<div class="option">
-					<form onsubmit="searchAddress(); return false;">
-						<div id="searchBox">
-							<input type="text" id="address" placeholder="지명,도로명,지번만 됨">
-							<button id="addressSearchBtn" type="button">검색</button>
-						</div>
-					</form>
-				</div>
-				<hr>
-				<ul id="placesList"></ul>
-				<div id="pagination"></div>
-				<div id="roadview" style="width: 100%; height: 300px;"></div>
+    <div class="map_wrap">
+        <div class="container">
+            <div id="map"></div>
+            <button id="locateMeBtn">내 위치</button>
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <form onsubmit="performSearch(); return false;">
+                        <div id="searchBox">
+                            <input type="text" id="address" placeholder="지명,도로명,지번만 됨">
+                            <button id="addressSearchBtn" type="button">검색</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
+                <div id="roadview" style="width: 100%; height: 300px;"></div>
+            </div>
+        </div>
+    </div>
 
-			</div>
-		</div>
-	</div>
+    <script>
+        var map, marker, infowindow, geocoder, ps;   
+        var roadview = new kakao.maps.Roadview(document.getElementById('roadview'));
+        var roadviewClient = new kakao.maps.RoadviewClient();
+        var markers = [];
 
-	<script>
-    var map, marker, infowindow, geocoder;   
-    var roadview = new kakao.maps.Roadview(document.getElementById('roadview'));
-    var roadviewClient = new kakao.maps.RoadviewClient();
-        
-    function initializeMap(lat, lng) {
-        map = new kakao.maps.Map(document.getElementById('map'), {
-            center: new kakao.maps.LatLng(lat, lng),
-            level: 3
-        });
-        map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-        map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+        function initializeMap(lat, lng) {
+            map = new kakao.maps.Map(document.getElementById('map'), {
+                center: new kakao.maps.LatLng(lat, lng),
+                level: 3
+            });
+            map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+            map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
-        marker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(lat, lng), map: map });
-        infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-        geocoder = new kakao.maps.services.Geocoder();
-        
-        kakao.maps.event.addListener(map, 'click', (e) => {
-            map.setLevel(3);
-            marker.setPosition(e.latLng);
-            displayRoadview(e.latLng.getLat(), e.latLng.getLng());
-        });
-    }
-	
-    function searchAddress() {
-        const address = document.getElementById('address').value.trim();
-        if (!address) return alert('주소를 입력해주세요!');
-
-        geocoder.addressSearch(address, (result, status) => {
-            if (status === kakao.maps.services.Status.OK) {
-                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            marker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(lat, lng), map: map });
+            infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+            geocoder = new kakao.maps.services.Geocoder();
+            
+            kakao.maps.event.addListener(map, 'click', (e) => {
                 map.setLevel(3);
-                map.setCenter(coords);
-                marker.setPosition(coords);
-                displayRoadview(result[0].y, result[0].x);
-            } else {
-                alert('검색어를 확인해주세요.');
-            }
-        });
-    }
-	 	
-    function displayRoadview(lat, lng) {
-        var position = new kakao.maps.LatLng(lat, lng);
-        roadviewClient.getNearestPanoId(position, 50, (panoId) => {
-            if (panoId) {
-                roadview.setPanoId(panoId, position);
-            } else {
-                alert('로드뷰 지원을 하지 않는 장소입니다.');
-            }
-        });
-    }
-
-    function getLocation(callback) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => callback(position.coords.latitude, position.coords.longitude),
-                error => alert({
-                    [error.PERMISSION_DENIED]: '위치 정보 요청이 거부되었습니다.',
-                    [error.POSITION_UNAVAILABLE]: '위치 정보를 사용할 수 없습니다.',
-                    [error.TIMEOUT]: '위치 정보 요청이 시간 초과되었습니다.',
-                    [error.UNKNOWN_ERROR]: '알 수 없는 오류가 발생했습니다.'
-                }[error.code] || '알 수 없는 오류가 발생했습니다.')
-            );
-        } else {
-            alert('현재 위치를 지원하지 않는 브라우저입니다.');
+                marker.setPosition(e.latLng);
+                displayRoadview(e.latLng.getLat(), e.latLng.getLng());
+            });
         }
-    }    	 
 
-    document.addEventListener('DOMContentLoaded', () => {
-        getLocation((lat, lng) => {
-            initializeMap(lat, lng);
-            displayRoadview(lat, lng);
-        });
+        function searchAddress() {
+            const address = document.getElementById('address').value.trim();
+            if (!address) return alert('주소를 입력해주세요!');
 
-        document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
-        document.getElementById('addressSearchBtn').addEventListener('click', searchAddress);
-        document.getElementById('address').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                searchAddress();
+            geocoder.addressSearch(address, (result, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    map.setLevel(3);
+                    map.setCenter(coords);
+                    marker.setPosition(coords);
+                    displayRoadview(result[0].y, result[0].x);
+                } else {
+                    alert('검색어를 확인해주세요.');
+                }
+            });
+        }
+
+        function displayRoadview(lat, lng) {
+            var position = new kakao.maps.LatLng(lat, lng);
+            roadviewClient.getNearestPanoId(position, 50, (panoId) => {
+                if (panoId) {
+                    roadview.setPanoId(panoId, position);
+                } else {
+                    alert('로드뷰 지원을 하지 않는 장소입니다.');
+                }
+            });
+        }
+
+        function getLocation(callback) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => callback(position.coords.latitude, position.coords.longitude),
+                    error => alert('위치 정보를 사용할 수 없습니다.')
+                );
+            } else {
+                alert('현재 위치를 지원하지 않는 브라우저입니다.');
             }
-        });
-        document.getElementById('locateMeBtn').addEventListener('click', () => {
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
             getLocation((lat, lng) => {
-                const coords = new kakao.maps.LatLng(lat, lng);
-                map.setLevel(3);
-                map.setCenter(coords);
-                marker.setPosition(coords);
+                initializeMap(lat, lng);
                 displayRoadview(lat, lng);
             });
+
+            document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
+            document.getElementById('addressSearchBtn').addEventListener('click', performSearch);
+            document.getElementById('address').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch();
+                }
+            });
+            document.getElementById('locateMeBtn').addEventListener('click', () => {
+                getLocation((lat, lng) => {
+                    const coords = new kakao.maps.LatLng(lat, lng);
+                    map.setLevel(3);
+                    map.setCenter(coords);
+                    marker.setPosition(coords);
+                    displayRoadview(lat, lng);
+                });
+            });
         });
-    });
+
+        function searchDatabase() {
+            const keyword = document.getElementById('address').value.trim();
+            if (!keyword) return alert('검색어를 입력하세요.');
+
+            fetch(`/search?keyword=${keyword}`)
+                .then(response => response.json())
+                .then(data => {
+                    displaySearchResults(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function displaySearchResults(places) {
+            const listEl = document.getElementById('placesList');
+            listEl.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            places.forEach((place) => {
+                const coords = new kakao.maps.LatLng(place.info_latitude, place.info_longitude);
+
+                const marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+                markers.push(marker);
+
+                const itemEl = document.createElement('li');
+                itemEl.innerHTML = `
+                    <h5>${place.info_name}</h5>
+                    <p>${place.info_add}</p>
+                    <p>건물 유형: ${place.info_option}</p>
+                `;
+
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+                    infowindow.open(map, marker);
+                    map.setCenter(coords);
+                });
+
+                itemEl.addEventListener('click', function() {
+                    infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+                    infowindow.open(map, marker);
+                    map.setCenter(coords);
+                });
+
+                fragment.appendChild(itemEl);
+            });
+
+            listEl.appendChild(fragment);
+        }
+
+        function performSearch() {
+            searchAddress();      // 주소 검색
+            searchDatabase();     // 데이터베이스 검색
+        }
+
+        fetch('/addresses')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(location => {
+                    var coords = new kakao.maps.LatLng(location.latitude, location.longitude);
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+
+                    kakao.maps.event.addListener(marker, 'click', function() {
+                        alert(location.name + ' - ' + location.address);
+                    });
+                });
+            });
     </script>
-	<footer>
-		<div>© 2024 Vacancy. All rights reserved.</div>
-	</footer>
+    <footer>
+        <div>© 2024 Vacancy. All rights reserved.</div>
+    </footer>
 </body>
 </html>

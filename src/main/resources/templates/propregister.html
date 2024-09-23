@@ -5,39 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공동중개 물건 등록하기</title>
 <link rel="stylesheet" href="../css/propregister.css">
+<script type="text/javascript"
+	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<header>
-		<div class="logo">
-			<a href="/../"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>VACANCY</span>
-		</div>
-		<nav>
-			<a href="/map">공실정보</a> 
-			<a href="/property">관리물건</a> 
-			<a href="#">매매정보</a>
-			<a href="#">분양사무실</a>
-		</nav>
-		<div class="user-menu">
-			<a href="#">고객센터</a> 
-			<a href="#">마이페이지</a> 
-			<a href="#">로그인</a> 
-			<a href="#">회원가입</a>
+		<div class="header">
+			<div class="logo-container">
+				<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
+					class="logo" id="logo">
+				</a> <span class="logo-text">관리물건등록하기</span>
+			</div>
 		</div>
 	</header>
-	<div class="container">
-		<form action="/property/addProperty" method="post"
-			enctype="multipart/form-data">
-			<div class="form-group">
-				<label for="info_name">건물 이름</label> <input type="text"
-					id="info_name" name="info_name" placeholder="건물 이름을 입력하세요" required>
-			</div>
-			<div class="form-group">
-				<label for="info_add">주소</label> <input type="text" id="info_add"
-					name="info_add" placeholder="주소" required>
-			</div>
-
+	 <div class="container">
+        <form action="/property/addProperty" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="info_name">건물 이름</label>
+                <input type="text" id="info_name" name="info_name" placeholder="건물 이름을 입력하세요" required>
+            </div>
+            <div>
+                <label for="info_add">주소</label>
+                <input type="text" id="info_add" name="info_add" placeholder="주소" required>
+                <input type="button" onclick="openPostcode()" value="주소 검색"><br>
+                <input type="hidden" id="info_latitude" name="info_latitude">
+                <input type="hidden" id="info_longitude" name="info_longitude">
+                <div id="map"></div>
+            </div>
+       		
 			<div class="form-group">
 				<label for="buildingType">해당층/전체층</label> <input type="number"
 					id="info_fl" name="info_fl" placeholder="해당층수"> <input
@@ -63,53 +59,14 @@
 			<!-- 전세 입력란 -->
 			<div id="jeonseFields" class="form-group" style="display: none;">
 				<label for="jeonsePrice">전세</label> <input type="number"
-					id="info_sell" name="info_sell" placeholder="만원">
+					id="info_year" name="info_year" placeholder="만원">
 			</div>
 
 			<!-- 매매 입력란 -->
 			<div id="saleFields" class="form-group" style="display: none;">
 				<label for="salePrice">매매</label> <input type="number"
-					id="info_sale" name="info_sale" placeholder="만원">
+					id="info_sell" name="info_sell" placeholder="만원">
 			</div>
-
-			<script>
-				// 거래형태에 따라 입력란을 보여주거나 숨기는 함수
-				function toggleTransactionFields() {
-					const monthly = document.getElementById('monthly');
-					const jeonse = document.getElementById('jeonse');
-					const sale = document.getElementById('sale');
-
-					const monthlyFields = document
-							.getElementById('monthlyFields');
-					const jeonseFields = document
-							.getElementById('jeonseFields');
-					const saleFields = document.getElementById('saleFields');
-
-					// 월세 선택 시 월세 입력란만 표시
-					if (monthly.checked) {
-						monthlyFields.style.display = 'block';
-						jeonseFields.style.display = 'none';
-						saleFields.style.display = 'none';
-					}
-					// 전세 선택 시 전세 입력란만 표시
-					else if (jeonse.checked) {
-						monthlyFields.style.display = 'none';
-						jeonseFields.style.display = 'block';
-						saleFields.style.display = 'none';
-					}
-					// 매매 선택 시 매매 입력란만 표시
-					else if (sale.checked) {
-						monthlyFields.style.display = 'none';
-						jeonseFields.style.display = 'none';
-						saleFields.style.display = 'block';
-					}
-				}
-
-				// 초기 로드 시 선택된 옵션에 따라 필드를 표시
-				window.onload = function() {
-					toggleTransactionFields();
-				};
-			</script>
 
 			<div class="form-group">
 				<label for="propertyType">매물종류</label> <select id="propertyType"
@@ -194,11 +151,105 @@
 					name="option_etc" value="반려동물"> 반려동물 <input type="radio"
 					id="optionEtc8" name="option_etc" value="전세대출"> 전세대출
 			</div>
+		 <div id="postcodeModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closePostcode()">&times;</span>
+                    <h2>주소 검색</h2>
+                    <div id="postcodeContainer"></div>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<button type="submit">등록하기</button>
-			</div>
-		</form>
+            <div class="form-group">
+                <button type="submit">등록하기</button>
+            </div>
+        </form>
+		 <script>
+        var map;
+        var marker;
+
+        function initMap(lat, lng) {
+            var mapContainer = document.getElementById('map');
+            var mapOptions = {
+                center: new kakao.maps.LatLng(lat, lng),
+                level: 3
+            };
+
+            map = new kakao.maps.Map(mapContainer, mapOptions);
+            marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(lat, lng),
+                map: map
+            });
+        }
+        
+        function openPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var addr = data.address; // 최종 주소 변수
+                    document.getElementById('info_add').value = addr; // 주소 입력창에 값 넣기
+
+                    // 위도 경도 가져오기
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    geocoder.addressSearch(addr, function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var lat = result[0].y;
+                            var lng = result[0].x;
+
+                            // 지도 초기화
+                            initMap(lat, lng);
+
+                            // 위도와 경도 자동 등록
+                            document.getElementById('info_latitude').value = lat;
+                            document.getElementById('info_longitude').value = lng;
+                        } else {
+                            alert('주소를 찾을 수 없습니다.');
+                        }
+                    });
+                }
+            }).open();
+        }
+
+        function closePostcode() {
+            document.getElementById('postcodeModal').style.display = 'none';
+        }
+        
+     // 거래형태에 따라 입력란을 보여주거나 숨기는 함수
+		function toggleTransactionFields() {
+			const monthly = document.getElementById('monthly');
+			const jeonse = document.getElementById('jeonse');
+			const sale = document.getElementById('sale');
+
+			const monthlyFields = document
+					.getElementById('monthlyFields');
+			const jeonseFields = document
+					.getElementById('jeonseFields');
+			const saleFields = document.getElementById('saleFields');
+
+			// 월세 선택 시 월세 입력란만 표시
+			if (monthly.checked) {
+				monthlyFields.style.display = 'block';
+				jeonseFields.style.display = 'none';
+				saleFields.style.display = 'none';
+			}
+			// 전세 선택 시 전세 입력란만 표시
+			else if (jeonse.checked) {
+				monthlyFields.style.display = 'none';
+				jeonseFields.style.display = 'block';
+				saleFields.style.display = 'none';
+			}
+			// 매매 선택 시 매매 입력란만 표시
+			else if (sale.checked) {
+				monthlyFields.style.display = 'none';
+				jeonseFields.style.display = 'none';
+				saleFields.style.display = 'block';
+			}
+		}
+
+		// 초기 로드 시 선택된 옵션에 따라 필드를 표시
+		window.onload = function() {
+			toggleTransactionFields();
+		};
+    </script>
+    
 	</div>
 </body>
 </html>
