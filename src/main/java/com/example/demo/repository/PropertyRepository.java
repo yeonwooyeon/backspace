@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
 
-import com.example.demo.Property;
+import com.example.demo.entity.Property;
 
 @Mapper
 public interface PropertyRepository {

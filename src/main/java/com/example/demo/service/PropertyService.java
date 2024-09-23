@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.Property;
+import com.example.demo.entity.Property;
 
 public interface PropertyService {
 	List<Property> getAllPropertylist();

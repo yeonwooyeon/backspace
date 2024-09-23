@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Property;
+import com.example.demo.entity.Property;
 
 @Repository
 public class PropertyRepositoryImpl implements PropertyRepository {
