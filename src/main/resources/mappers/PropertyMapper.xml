@@ -3,52 +3,55 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.PropertyRepository">
 
-    <!-- resultMap을 명시적으로 정의 -->
-    <resultMap id="PropertyResultMap" type="com.example.demo.Property">
-        <result column="info_no" property="info_no"/>
-        <result column="mem_no" property="mem_No"/>
-        <result column="info_name" property="info_name"/>
-        <result column="info_add" property="info_add"/>
-        <result column="info_size" property="info_size"/>
-        <result column="info_allfl" property="info_allfl"/>
-        <result column="info_fl" property="info_fl"/>
-        <result column="info_count" property="info_count"/>
-        <result column="info_upload" property="info_upload"/>
-        <result column="info_update" property="info_update"/>
-        <result column="info_delflag" property="info_delflag"/>
-        <result column="info_option" property="info_option"/>
-        <result column="info_type" property="info_type"/>
-        <result column="info_sell" property="info_sell"/>
-        <result column="info_year" property="info_year"/>
-        <result column="info_month" property="info_month"/>
-        <result column="info_deposit" property="info_deposit"/>
-        <result column="info_hits" property="info_hits"/>
-        <result column="info_comp" property="info_comp"/>
-        <result column="info_ok" property="info_ok"/>
-        <result column="info_move" property="info_move"/>
-        <result column="info_latitude" property="info_latitude"/>
-        <result column="info_longitude" property="info_longitude"/>        
-    </resultMap>
-
-    <!--  관리물건 select 쿼리 -->
-    <select id="getAllPropertyList" resultMap="PropertyResultMap">
-        SELECT * FROM Pp_info
-    </select>
-    
-    <!--  공실정보 주소 리스트 select 쿼리 -->
-    <select id="getAllAddresses" resultMap="PropertyResultMap">
-        SELECT info_name, info_add, info_option, info_latitude, info_longitude FROM Pp_info
-    </select>
-    
-     <!--  공실정보 주소 검색 select 쿼리 -->
-    <select id="searchAddresses" resultMap="PropertyResultMap" parameterType="string">
-        SELECT info_name, info_add, info_option, info_latitude, info_longitude FROM Pp_info
-        WHERE info_add LIKE CONCAT('%', #{keyword}, '%')
-        OR info_name LIKE CONCAT('%', #{keyword}, '%')
-    </select>
+<resultMap id="PropertyResultMap" type="com.example.demo.entity.Property">
+<result column="info_no" property="info_no"/> <!-- 건물번호 -->
+<result column="id" property="id"/> <!-- 회원넘버 -->
+<result column="info_name" property="info_name"/> <!-- 건물명 -->
+<result column="info_add" property="info_add"/> <!-- 건물주소 -->
+<result column="info_option" property="info_option"/> <!-- 건물유형 -->
+<result column="info_fl" property="info_fl"/> <!-- 건물해당층수 -->
+<result column="info_allfl" property="info_allfl"/> <!-- 건물전체층수 -->
+<result column="room_number" property="room_number"/> <!-- 방호실 -->
+<result column="option_money" property="option_money"/> <!-- 권리금 -->
+<result column="info_year" property="info_year"/> <!-- 전세금 -->
+<result column="info_deposit" property="info_deposit"/> <!-- 보증금 -->
+<result column="info_month" property="info_month"/> <!-- 월세금 -->
+<result column="option_cost" property="option_cost"/> <!-- 관리비 -->
+<result column="info_sell" property="info_sell"/> <!-- 매매금 -->
+<result column="info_size" property="info_size"/> <!-- 건물면적 -->
+<result column="info_count" property="info_count"/> <!-- 방갯수 -->
+<result column="info_comp" property="info_comp"/> <!-- 준공일 -->
+<result column="info_move" property="info_move"/> <!-- 입주가능일 -->
+<result column="option_op" property="option_op"/> <!-- 상세옵션 -->
+<result column="info_upload" property="info_upload"/> <!-- 등록날짜 -->
+<result column="info_up" property="info_up"/> <!-- 업데이트 날짜 -->
+<result column="info_delflag" property="info_delflag"/> <!-- 삭제플래그 -->
+<result column="info_piry" property="info_piry"/> <!-- 판매가능기간 -->
+<result column="info_type" property="info_type"/> <!-- 매물유형 -->
+<result column="info_hits" property="info_hits"/> <!-- 조회수 -->
+<result column="info_ok" property="info_ok"/> <!-- 확인날짜 -->
+<result column="info_latitude" property="info_latitude"/> <!-- 위도 -->
+<result column="info_longitude" property="info_longitude"/> <!-- 경도 -->
+<result column="option_etc" property="option_etc"/> <!-- 기타옵션 -->
+<result column="option_notes" property="option_notes"/> <!-- 비고 -->
+<result column="info_operators" property="info_operators"/> <!-- 등기부등본URL -->
+</resultMap>
+<!--   관리물건 select 쿼리  -->
+<select id="getAllPropertyList" resultMap="PropertyResultMap"> 
+	SELECT * FROM Pp_info 
+</select>
+<!--   공실정보 주소 리스트 select 쿼리  -->
+<select id="getAllAddresses" resultMap="PropertyResultMap"> 
+SELECT info_name, info_add, info_latitude, info_longitude FROM Pp_info 
+</select>
+<!--   공실정보 주소 검색 select 쿼리  -->
+<select id="searchAddresses" resultMap="PropertyResultMap" parameterType="string"> 
+SELECT info_name, info_add, info_latitude, info_longitude FROM Pp_info 
+WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #{keyword}, '%') 
+</select>
 
     <!-- 관리물건 insert 쿼리 -->
-    <insert id="insertProperty" parameterType="com.example.demo.Property">
+    <insert id="insertProperty" parameterType="com.example.demo.entity.Property">
         INSERT INTO Pp_info (info_name, info_add, info_size, info_allfl, info_fl, info_count, 
                              info_upload, info_update, info_delflag, info_option, 
                              info_type, info_sell, info_year, info_month, 
@@ -62,7 +65,7 @@
     </insert>
     
     <!-- 관리물건 delete 쿼리 -->
-    <delete id="deleteProperty" parameterType="com.example.demo.Property">
+    <delete id="deleteProperty" parameterType="com.example.demo.entity.Property">
        delete from Pp_info where info_no = #{info_no}
     </delete>
 

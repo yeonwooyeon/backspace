@@ -5,16 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.Property;
+
+import com.example.demo.entity.Property;
 import com.example.demo.service.PropertyService;
 
 @RestController
-public class Map2Controller {
+public class SearchController {
 
     @Autowired
     private PropertyService propertyService;
 
-    public Map2Controller(PropertyService propertyService) {
+    public SearchController(PropertyService propertyService) {
         this.propertyService = propertyService;
     }
 
