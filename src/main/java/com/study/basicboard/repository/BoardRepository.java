@@ -1,23 +1,40 @@
 package com.study.basicboard.repository;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.PageRequest;
+
 import com.study.basicboard.domain.entity.Board;
 import com.study.basicboard.domain.enum_class.BoardCategory;
 import com.study.basicboard.domain.enum_class.UserRole;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Mapper
+public interface BoardRepository {
 
-@Repository
-public interface BoardRepository extends JpaRepository<Board, Long> {
+    List<Board> findAllByCategoryAndUserUserRoleNot(BoardCategory category, UserRole userRole, PageRequest pageRequest);
+    List<Board> findAllByCategoryAndTitleContainsAndUserUserRoleNot(
+            @Param("category") BoardCategory category,
+            @Param("keyword") String keyword,
+            @Param("userRole") UserRole userRole,
+            @Param("pageRequest") PageRequest pageRequest);
 
-    Page<Board> findAllByCategoryAndUserUserRoleNot(BoardCategory category, UserRole userRole, PageRequest pageRequest);
-    Page<Board> findAllByCategoryAndTitleContainsAndUserUserRoleNot(BoardCategory category, String title, UserRole userRole, PageRequest pageRequest);
-    Page<Board> findAllByCategoryAndUserNicknameContainsAndUserUserRoleNot(BoardCategory category, String nickname, UserRole userRole, PageRequest pageRequest);
+    List<Board> findAllByCategoryAndUserNicknameContainsAndUserUserRoleNot(BoardCategory category, String nickname, UserRole userRole, PageRequest pageRequest);
     List<Board> findAllByUserLoginId(String loginId);
     List<Board> findAllByCategoryAndUserUserRole(BoardCategory category, UserRole userRole);
     Long countAllByUserUserRole(UserRole userRole);
     Long countAllByCategoryAndUserUserRoleNot(BoardCategory category, UserRole userRole);
+	Optional<Board> findById(Long boardId);
+	void deleteById(Long boardId);
+	void save(Board entity);
+	Long count();
+	
+	 // 페이징된 요소를 가져오기 위한 메서드
+	List<Board> findByCategoryWithPaging(BoardCategory category, int pageSize, long offset);
+	 // 전체 데이터 개수를 가져오기 위한 메서드
+int countByCategory(@Param("category") BoardCategory category);
+
 }
+

@@ -15,16 +15,23 @@
 			</a> <span>VACANCY</span>
 		</div>
 		<nav>
-			<a href="map">공실정보</a>
-			<a href="property">관리물건</a>
-			<a href="#">매매정보</a>
+			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
 			<a href="#">분양사무실</a>
 		</nav>
-		<div class="user-menu">
-			<a href="#">고객센터</a>
-			<a href="#">마이페이지</a>
-			<a href="#">로그인</a>
-			<a href="#">회원가입</a>
+	<div class="user-menu">
+			<a href="/boards/free">고객센터</a>
+
+
+			<!-- 로그인 상태에 따라 버튼 표시 -->
+			<th:block th:if="${loggedIn}">
+				<a href="users/myPage/boards">마이페이지</a>
+				<a href="users/logout">로그아웃</a>
+
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a href="users/login">로그인</a>
+				<a href="users/join">회원가입</a>
+			</th:block>
 		</div>
 	</header>
 	<section class="info-banner">

@@ -1,84 +1,197 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/header.html :: head" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VACANCY</title>
+<link rel="stylesheet" href="../css/index.css">
+<link rel="icon" href="../images/logo.ico" type="image/x-icon">
+
+
+
+
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+        .col-3, .col-6, .col-1, .col-12 {
+            box-sizing: border-box;
+            flex: 0 0 auto;
+            padding: 10px;
+        }
+        .col-3 { width: 25%; }
+        .col-6 { width: 50%; }
+        .col-1 { width: 8.33%; }
+        .col-12 { width: 100%; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+        }
+        .form-control, .form-group, button {
+            padding: 10px;
+            margin: 5px;
+        }
+        .pagination {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+        .pagination li {
+            display: inline;
+            margin: 0 5px;
+        }
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            color: black;
+            border: 1px solid #ccc;
+        }
+        .pagination .active a {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div th:replace="fragments/header.html :: header (${category})"/>
-<div class="row" style=" margin-bottom: 30px">
-    <div class="offset-1 col-2">
-        <h5 style="height: 40px; display: flex; align-items: center; margin: 0px; justify-content: right">전체: [[${boards.getTotalElements()}]]개</h5>
-    </div>
-    <div class="col-6" align="center">
-        <form class="form-group" style="height: 40px;" th:object="${boardSearchRequest}" th:method="get"
-              th:action="|@{/boards/{category} (category=${category}, sortType=*{sortType}, searchType=*{searchType}, keyword=*{keyword})}|">
-            <select th:field="*{sortType}" style="height: 40px;">
-                <option th:value="date">최신순</option>
-                <option th:value="like">좋아요순</option>
-                <option th:value="comment">댓글순</option>
-            </select>
-            <select th:field="*{searchType}" style="height: 40px;">
-                <option th:value="title">제목</option>
-                <option th:value="nickname">작성자</option>
-            </select>
-            <input type="text" th:field="*{keyword}" placeholder="검색 키워드를 입력해주세요" style="height: 100%; width: 60%;">
-            <button class="btn search-btn" type="submit">검색</button>
-        </form>
-    </div>
-    <div class="col-1" align="right">
-        <button sec:authorize="!hasAuthority('ADMIN')" class="btn post-btn" type="button"
-                th:onclick="|location.href='@{/boards/{category}/write (category=${category})}'|">글 작성</button>
-        <button sec:authorize="hasAuthority('ADMIN')" class="btn post-btn" type="button"
-                th:onclick="|location.href='@{/boards/{category}/write (category=${category})}'|">공지 작성</button>
-    </div>
-</div>
-<div class="row">
-    <div class="offset-2 col-8">
-        <table class="table list-table table-hover text-center">
-            <thead style="background-color: #A5F1E9">
-            <tr>
-                <th style="width: 20%">작성자</th>
-                <th style="width: 45%">제목</th>
-                <th style="width: 10%">좋아요</th>
-                <th style="width: 10%">댓글</th>
-                <th style="width: 15%">작성일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="notice: ${notices}"
-                th:onclick="|location.href='@{/boards/{category}/{boardId} (category=${category}, boardId=${notice.id})}'|"
-                class="notice-tr">
-                <td style="width: 20%" th:text="${notice.user.nickname}"></td>
-                <td style="width: 45%" th:text="${notice.title}"></td>
-                                <td style="width: 10%" th:text="${notice.likeCnt}"></td>
-                <td style="width: 10%" th:text="${notice.commentCnt}"></td>
-                <td style="width: 15%" th:text="${#temporals.format(notice.createdAt, 'yy/MM/dd HH:mm')}"></td>
-            </tr>
-            <tr th:each="board: ${boards}"
-                th:onclick="|location.href='@{/boards/{category}/{boardId} (category=${category}, boardId=${board.id})}'|">
-                <td style="width: 20%" th:text="${board.user.nickname}"></td>
-                <td style="width: 45%" th:text="${board.title}"></td>
-                <td style="width: 10%" th:text="${board.likeCnt}"></td>
-                <td style="width: 10%" th:text="${board.commentCnt}"></td>
-                <td style="width: 15%" th:text="${#temporals.format(board.createdAt, 'yy/MM/dd HH:mm')}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <ul id="paging-ul" class="pagination justify-content-center"></ul>
-</div>
-<script th:inline="javascript">
-    window.onload = function () {
-        let nowPage = /*[[${boards.getNumber()}]]*/ + 1;    // 현재 페이지
-        let totalPage = /*[[${boards.getTotalPages()}]]*/;  // 전체 페이지 수
+	<header>
+		<div class="logo">
+			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
+				class="logo" id="logo">
+			</a> <span>VACANCY</span>
+		</div>
+		<nav>
+			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
+			<a href="#">분양사무실</a>
+		</nav>
+	<div class="user-menu">
+			<a href="users/board">고객센터</a>
 
-        let firstPage;
-        for (let i = nowPage; i >= 1; i--) {
-            if (i % 5 === 1) {
-                firstPage = i;
-                break;
-            }
+
+			<!-- 로그인 상태에 따라 버튼 표시 -->
+			<th:block th:if="${loggedIn}">
+				<a href="users/myPage/boards">마이페이지</a>
+				<a href="users/logout">로그아웃</a>
+
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a href="users/login">로그인</a>
+				<a href="users/join">회원가입</a>
+			</th:block>
+		</div>
+	</header>
+
+<div class="container mt-4">
+    <div class="row align-items-center">
+        <div class="col-3">
+            <h5>전체: [[${boards.getTotalElements()}]]개</h5>
+        </div>
+        <div class="col-6">
+            <form th:object="${boardSearchRequest}" th:method="get"
+                  th:action="|@{/boards/{category} (category=${category}, sortType=*{sortType}, searchType=*{searchType}, keyword=*{keyword})}|">
+                <select class="form-control" th:field="*{sortType}">
+                    <option th:value="date">최신순</option>
+                  
+                    <option th:value="comment">댓글순</option>
+                </select>
+                <select class="form-control" th:field="*{searchType}">
+                    <option th:value="title">제목</option>
+                    <option th:value="nickname">작성자</option>
+                </select>
+                <input type="text" class="form-control" th:field="*{keyword}" placeholder="검색 키워드" style="width: 60%;">
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        <div class="col-3 text-right">
+            <button sec:authorize="!hasAuthority('ADMIN')" type="button"
+                    th:onclick="|location.href='@{/boards/{category}/write (category=${category})}'|">글 작성</button>
+            <button sec:authorize="hasAuthority('ADMIN')" type="button"
+                    th:onclick="|location.href='@{/boards/{category}/write (category=${category})}'|">공지 작성</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table>
+                <thead>
+                <tr>
+                    <th>작성자</th>
+                    <th>제목</th>
+                     
+                    <th>댓글</th>
+                    <th>작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notice : ${notices}" th:onclick="|location.href='@{/boards/{category}/{boardId} (category=${category}, boardId=${notice.id})}'|"
+                    style="background-color: #ffd; cursor: pointer;">
+                    <td th:text="${notice.user.nickname}"></td>
+                    <td th:text="${notice.title}"></td>
+                    
+                    <td th:text="${notice.commentCnt}"></td>
+                    <td th:text="${#temporals.format(notice.createdAt, 'yy/MM/dd HH:mm')}"></td>
+                </tr>
+                <tr th:each="board : ${boards}" th:onclick="|location.href='@{/boards/{category}/{boardId} (category=${category}, boardId=${board.id})}'|">
+                    <td th:text="${board.user.nickname}"></td>
+                    <td th:text="${board.title}"></td>
+                    
+                    <td th:text="${board.commentCnt}"></td>
+                    <td th:text="${#temporals.format(board.createdAt, 'yy/MM/dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul id="paging-ul" class="pagination"></ul>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+window.onload = function () {
+	/* 작성자가 의도한 최종 값을 null을 고려해 초기화 */
+    let nowPage = /*[[${boards?.getNumber() ?: 0}]]*/ 0 + 1; // 현재 페이지; boards가 null이면 0을 사용
+    let totalPage = /*[[${boards?.getTotalPages() ?: 1}]]*/ 1;  // 전체 페이지 수; boards가 null이면 1을 사용
+    let firstPage;
+    for (let i = nowPage; i >= 1; i--) {
+        if (i % 5 === 1) {
+            firstPage = i;
+            break;
         }
+    }
 
         let lastPage;
         let nextButton;
@@ -91,39 +204,35 @@
         }
 
         let pageHtml = "";
-        pageHtml += "<li><a class='page-link' href='" + makeUrl(1) + "'>&laquo;</a></li>";
+        pageHtml += "<li><a href='" + makeUrl(1) + "'>«</a></li>";
         if (firstPage !== 1) {
-            pageHtml += "<li><a class='page-link' href='" + makeUrl(firstPage - 1) + "'>&lsaquo;</a></li>";
+            pageHtml += "<li><a href='" + makeUrl(firstPage - 1) + "'>‹</a></li>";
         }
 
         for (let i = firstPage; i <= lastPage; i++) {
             if (i === nowPage) {
-                pageHtml += "<li class='page-item active'><a class='page-link'>" + i + "</a></li>";
+                pageHtml += "<li class='active'><a>" + i + "</a></li>";
             } else {
-                pageHtml += "<li class='page-item'><a class='page-link' href='" + makeUrl(i) + "'>" + i + "</a></li>";
+                pageHtml += "<li><a href='" + makeUrl(i) + "'>" + i + "</a></li>";
             }
         }
 
         if (nextButton) {
-            pageHtml += "<li><a class='page-link' href='" + makeUrl(lastPage + 1) + "'>&rsaquo;</a></li>";
+            pageHtml += "<li><a href='" + makeUrl(lastPage + 1) + "'>›</a></li>";
         }
-        pageHtml += "<li><a class='page-link' href='" + makeUrl(totalPage) + "'>&raquo;</a></li>";
+        pageHtml += "<li><a href='" + makeUrl(totalPage) + "'>»</a></li>";
 
-        $("#paging-ul").html(pageHtml);
+        document.getElementById("paging-ul").innerHTML = pageHtml;
     }
 
     function makeUrl(page) {
-        let category = /*[[${category}]]*/;
+    	let category = /*[[${category}]]*/ null;
         let url = "/boards/" + category + "?page=" + page;
 
-        let sortType = /*[[${boardSearchRequest.sortType}]]*/;
-        let searchType = /*[[${boardSearchRequest.searchType}]]*/;
-        let keyword = /*[[${boardSearchRequest.keyword}]]*/;
-
-        if (sortType !== null) {
+        if (sortType) {
             url += "&sortType=" + sortType;
         }
-        if (searchType !== null) {
+        if (searchType && keyword) {
             url += "&searchType=" + searchType + "&keyword=" + keyword;
         }
 
@@ -131,4 +240,6 @@
     }
 </script>
 </body>
+
+
 </html>

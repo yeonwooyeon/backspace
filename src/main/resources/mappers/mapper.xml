@@ -46,10 +46,6 @@
     </insert>
 
 
-<!-- 상언 회원가입쿼리 -->
-<insert id="insertMember" parameterType="com.study.basicboard.domain.dto.UserDto">
-        INSERT INTO member VALUES (#{loginId},#{nickname},#{nowPassword},#{newPassword},#{newPasswordCheck})
-</insert>
 
 
 </mapper>

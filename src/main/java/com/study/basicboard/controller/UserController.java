@@ -1,12 +1,10 @@
 package com.study.basicboard.controller;
 
-import com.study.basicboard.domain.dto.UserDto;
-import com.study.basicboard.domain.dto.UserJoinRequest;
-import com.study.basicboard.domain.dto.UserLoginRequest;
-import com.study.basicboard.domain.entity.User;
-import com.study.basicboard.service.BoardService;
-import com.study.basicboard.service.UserService;
-import lombok.RequiredArgsConstructor;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,12 +12,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import com.study.basicboard.domain.dto.UserDto;
+import com.study.basicboard.domain.dto.UserJoinRequest;
+import com.study.basicboard.domain.dto.UserLoginRequest;
+import com.study.basicboard.domain.entity.User;
+import com.study.basicboard.service.BoardService;
+import com.study.basicboard.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,10 +65,24 @@ public class UserController {
         if (uri != null && !uri.contains("/login") && !uri.contains("/join")) {
             request.getSession().setAttribute("prevPage", uri);
         }
+        request.getSession().setAttribute("loggedIn", true);
 
         model.addAttribute("userLoginRequest", new UserLoginRequest());
         return "users/login";
     }
+    
+	/*
+	 * @PostMapping("/login") public String login(@Valid @ModelAttribute
+	 * UserLoginRequest req, HttpServletRequest request, BindingResult
+	 * bindingResult, Model model) { // 유효성 검사 및 인증 로직 추가 if
+	 * (bindingResult.hasErrors()) { return "users/login"; }
+	 * 
+	 * boolean success = userService.authenticate(req); if (success) { String
+	 * prevPage = (String) request.getSession().getAttribute("prevPage"); return
+	 * prevPage != null ? "redirect:" + prevPage : "redirect:/home"; } else {
+	 * model.addAttribute("message", "로그인 실패. 아이디 또는 비밀번호를 확인하세요."); return
+	 * "users/login"; } }
+	 */
 
     @GetMapping("/myPage/{category}")
     public String myPage(@PathVariable String category, Authentication auth, Model model) {
@@ -134,5 +156,38 @@ public class UserController {
         userService.changeRole(userId);
         return "redirect:/users/admin?page=" + page + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
     }
+    
+    @GetMapping("/find/id")
+    public String findIdPage() {
+        return "users/findId"; // 아이디 찾기 페이지 교체
+    }
+
+    @PostMapping("/find/id")
+    public String findId(@RequestParam String nickname, @RequestParam String email, Model model) {
+        String loginId = userService.findUserId(nickname, email);
+        if (loginId != null) {
+            model.addAttribute("message", "아이디: " + loginId);
+        } else {
+            model.addAttribute("error", "해당 사용자를 찾을 수 없습니다.");
+        }
+        return "users/findResult"; // 결과 페이지
+    }
+
+    @GetMapping("/find/password")
+    public String findPasswordPage() {
+        return "users/findPassword"; // 비밀번호 찾기 페이지
+    }
+
+    @PostMapping("/find/password")
+    public String findPassword(@RequestParam String loginId, @RequestParam String newPassword, Model model) {
+        boolean success = userService.resetPassword(loginId, newPassword);
+        if (success) {
+            model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
+        } else {
+            model.addAttribute("error", "해당 아이디를 찾지 못했습니다.");
+        }
+        return "users/findResult"; // 결과 페이지
+    }
+
 
 }

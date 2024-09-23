@@ -14,7 +14,7 @@ public class HomeController {
     private final UserService userService;
     private final BoardService boardService;
 
-	/* @GetMapping(value = {"", "/"}) */
+	@GetMapping(value = "board") 
     public String home(Model model) {
         model.addAttribute("userCntDto", userService.getUserCnt());
         model.addAttribute("boardCntDto", boardService.getBoardCnt());

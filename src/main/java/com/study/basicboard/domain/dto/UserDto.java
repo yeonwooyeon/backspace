@@ -1,6 +1,7 @@
 package com.study.basicboard.domain.dto;
 
 import com.study.basicboard.domain.entity.User;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,11 +14,15 @@ public class UserDto {
     private String nowPassword;
     private String newPassword;
     private String newPasswordCheck;
-
+    private String email;
+    
     public static UserDto of(User user) {
         return UserDto.builder()
                 .loginId(user.getLoginId())
                 .nickname(user.getNickname())
+                
                 .build();
     }
+
+	
 }

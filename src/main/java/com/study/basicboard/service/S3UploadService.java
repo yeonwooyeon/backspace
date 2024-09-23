@@ -1,22 +1,22 @@
 package com.study.basicboard.service;
 
-import com.study.basicboard.domain.entity.Board;
-import com.study.basicboard.domain.entity.UploadImage;
-import com.study.basicboard.repository.BoardRepository;
-import com.study.basicboard.repository.UploadImageRepository;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.transaction.annotation.Transactional;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
+import com.study.basicboard.domain.entity.Board;
+import com.study.basicboard.domain.entity.UploadImage;
+import com.study.basicboard.repository.BoardRepository;
+import com.study.basicboard.repository.UploadImageRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
