@@ -43,7 +43,7 @@ public class PropertyController {
     public RedirectView addProperty(@ModelAttribute Property property) {
         propertyService.addProperty(property);
         return new RedirectView("/property");
-    }
+    } 
     
     @PostMapping("/deleteProperty")
     public RedirectView deleteProperty(@RequestParam Integer info_no) {

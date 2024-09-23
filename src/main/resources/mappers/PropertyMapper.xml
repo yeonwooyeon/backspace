@@ -58,7 +58,7 @@
                 #{info_option}, #{info_type}, #{info_sell}, #{info_year}, 
                 #{info_month}, #{info_deposit}, #{info_comp}, #{info_move},
                 #{info_latitude}, #{info_longitude}
-                )
+                ) 
     </insert>
     
     <!-- 관리물건 delete 쿼리 -->

@@ -22,7 +22,7 @@ public class Map2Controller {
     public List<Property> getAllAddresses() {
         return propertyService.getAllAddresses();
     }
-
+ 
     @GetMapping("/search")
     public List<Property> searchAddresses(@RequestParam String keyword) {
         // 검색된 주소 또는 이름을 기반으로 매물 검색
