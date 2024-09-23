@@ -15,7 +15,7 @@ public class PropertyRepositoryImpl implements PropertyRepository {
 		Property Property1 = new Property();
 		Property1.setInfo_add("대전폴리텍 앞인디");
 		Property1.setInfo_sell(500);
- 
+
 		listOfProperty.add(Property1);
 	}
 

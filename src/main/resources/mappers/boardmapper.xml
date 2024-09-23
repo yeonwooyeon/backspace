@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.basicboard.repository.BoardRepository">
+
+    <!-- 카테고리와 특정 사용자 역할을 제외하고 모든 게시물 찾기, 페이지네이션 지원 -->
+    <select id="findAllByCategoryAndUserUserRoleNot" resultType="com.study.basicboard.domain.entity.Board">
+    SELECT b.* 
+    FROM board b
+    JOIN user u ON b.user_id = u.id
+    WHERE b.category = #{category} 
+      AND u.user_role != #{userRole}
+    LIMIT #{pageRequest.pageSize} OFFSET #{pageRequest.offset}
+</select>
+
+
+
+    <!-- 카테고리와 제목에 특정 문자열이 포함되고 특정 사용자 역할을 제외하고 모든 게시물 찾기, 페이지네이션 지원 -->
+    <select id="findAllByCategoryAndTitleContainsAndUserUserRoleNot" resultType="com.study.basicboard.domain.entity.Board">
+        SELECT * FROM board
+        WHERE category = #{category}
+          AND title LIKE CONCAT('%', #{title}, '%')
+          AND user_role != #{userRole}
+        LIMIT #{pageRequest.pageSize} OFFSET #{pageRequest.offset}
+    </select>
+
+    <!-- 카테고리와 사용자의 닉네임에 특정 문자열이 포함되고 특정 사용자 역할을 제외하고 모든 게시물 찾기, 페이지네이션 지원 -->
+    <select id="findAllByCategoryAndUserNicknameContainsAndUserUserRoleNot" resultType="com.study.basicboard.domain.entity.Board">
+        SELECT * FROM board
+        WHERE category = #{category}
+          AND user_nickname LIKE CONCAT('%', #{nickname}, '%')
+          AND user_role != #{userRole}
+        LIMIT #{pageRequest.pageSize} OFFSET #{pageRequest.offset}
+    </select>
+
+    <!-- 사용자 로그인 ID로 모든 게시물 찾기 -->
+    <select id="findAllByUserLoginId" resultType="com.study.basicboard.domain.entity.Board">
+        SELECT * FROM board
+        WHERE user_login_id = #{loginId}
+    </select>
+
+    
+
+    <!-- 카테고리와 사용자 역할을 기반으로 게시물 목록 가져오기 -->
+    <select id="findAllByCategoryAndUserUserRole" resultType="com.study.basicboard.domain.entity.Board">
+        SELECT b.* 
+        FROM board b
+        JOIN user u ON b.user_id = u.id
+        WHERE b.category = #{category} AND u.user_role = #{userRole}
+    </select>
+      <!-- 사용자 역할을 기준으로 게시물 수 카운트 -->
+    <select id="countAllByUserUserRole" resultType="long">
+        SELECT COUNT(*) FROM board b
+        JOIN user u ON b.user_id = u.id
+        WHERE u.user_role = #{userRole}
+    </select>
+
+     <!-- 카테고리와 특정 사용자 역할을 제외한 게시물 수 카운트 -->
+    <select id="countAllByCategoryAndUserUserRoleNot" resultType="long">
+        SELECT COUNT(*) FROM board b
+        JOIN user u ON b.user_id = u.id
+        WHERE b.category = #{category} AND u.user_role != #{userRole}
+    </select>
+
+    <!-- ID로 게시물 찾기 -->
+    <select id="findById" resultType="com.study.basicboard.domain.entity.Board">
+        SELECT * FROM board
+        WHERE id = #{boardId}
+    </select>
+
+    <!-- ID로 게시물 삭제 -->
+    <delete id="deleteById">
+        DELETE FROM board
+        WHERE id = #{boardId}
+    </delete>
+
+    <!-- 새 게시물 저장, 자동 증가 기본 키 사용 -->
+    <insert id="save" parameterType="com.study.basicboard.domain.entity.Board" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO board (user_id, category, title, body, created_at, last_modified_at)
+        VALUES (#{user.id}, #{category}, #{title}, #{body}, #{createdAt}, #{lastModifiedAt})
+    </insert>
+
+    <!-- 전체 게시물 수 카운트 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM board
+    </select>
+    
+      <!-- 페이징 쿼리 -->
+    <select id="findByCategoryWithPaging" resultType="com.study.basicboard.domain.entity.Board">
+        SELECT b.*
+        FROM board b
+        WHERE b.category = #{category}
+        ORDER BY b.created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <!-- 총 데이터 개수 쿼리 -->
+    <select id="countByCategory" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE category = #{category}
+    </select>
+    
+
+</mapper>
+

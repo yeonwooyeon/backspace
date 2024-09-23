@@ -13,7 +13,7 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Autowired
 	private PropertyRepository propertyRepository;
- 
+
 	public List<Property> getAllPropertylist() {
 		return propertyRepository.getAllPropertyList();
 	}

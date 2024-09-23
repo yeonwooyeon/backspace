@@ -1,12 +1,14 @@
 package com.study.basicboard.config.auth;
 
-import com.study.basicboard.domain.entity.User;
-import lombok.Getter;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.study.basicboard.domain.entity.User;
+
+import lombok.Getter;
 
 // Spring Security가 로그인 요청을 가로채서 로그인 진행
 // 로그인에 성공하면 Spring Security의 고유한 세션에 UserDetails 타입의 Object로 저장

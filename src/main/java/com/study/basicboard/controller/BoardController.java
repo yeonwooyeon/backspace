@@ -1,12 +1,9 @@
 package com.study.basicboard.controller;
 
-import com.study.basicboard.domain.dto.BoardCreateRequest;
-import com.study.basicboard.domain.dto.BoardDto;
-import com.study.basicboard.domain.dto.BoardSearchRequest;
-import com.study.basicboard.domain.dto.CommentCreateRequest;
-import com.study.basicboard.domain.enum_class.BoardCategory;
-import com.study.basicboard.service.*;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,10 +11,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+import com.study.basicboard.domain.dto.BoardCreateRequest;
+import com.study.basicboard.domain.dto.BoardDto;
+import com.study.basicboard.domain.dto.BoardSearchRequest;
+import com.study.basicboard.domain.dto.CommentCreateRequest;
+import com.study.basicboard.domain.enum_class.BoardCategory;
+import com.study.basicboard.service.BoardService;
+import com.study.basicboard.service.CommentService;
+import com.study.basicboard.service.S3UploadService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/boards")
@@ -25,17 +35,19 @@ import java.net.MalformedURLException;
 public class BoardController {
 
     private final BoardService boardService;
-    private final LikeService likeService;
+    
     private final CommentService commentService;
     private final S3UploadService s3UploadService;
     // private final UploadImageService uploadImageService; => 로컬 디렉토리에 저장할 때 사용 => S3UploadService 대신 사용
 
     @GetMapping("/{category}")
-    public String boardListPage(@PathVariable String category, Model model,
-                                @RequestParam(required = false, defaultValue = "1") int page,
-                                @RequestParam(required = false) String sortType,
-                                @RequestParam(required = false) String searchType,
-                                @RequestParam(required = false) String keyword) {
+    public String boardListPage(
+        @PathVariable String category, Model model,
+        @RequestParam(required = false, defaultValue = "1") int page,
+        @RequestParam(required = false) String sortType,
+        @RequestParam(required = false) String searchType,
+        @RequestParam(required = false) String keyword) {
+
         BoardCategory boardCategory = BoardCategory.of(category);
         if (boardCategory == null) {
             model.addAttribute("message", "카테고리가 존재하지 않습니다.");
@@ -47,20 +59,29 @@ public class BoardController {
 
         PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.by("id").descending());
         if (sortType != null) {
-            if (sortType.equals("date")) {
+            if ("date".equals(sortType)) {
                 pageRequest = PageRequest.of(page - 1, 10, Sort.by("createdAt").descending());
-            } else if (sortType.equals("like")) {
+            } else if ("like".equals(sortType)) {
                 pageRequest = PageRequest.of(page - 1, 10, Sort.by("likeCnt").descending());
-            } else if (sortType.equals("comment")) {
+            } else if ("comment".equals(sortType)) {
                 pageRequest = PageRequest.of(page - 1, 10, Sort.by("commentCnt").descending());
             }
         }
 
+        var boards = boardService.getBoardList(boardCategory, pageRequest);
+        
+        // Boards가 null인지 확인하고 초기화
+        if (boards == null) {
+            model.addAttribute("boards", new ArrayList<>()); // 또는 Collections.emptyList()
+        } else {
+            model.addAttribute("boards", boards);
+        }
+
         model.addAttribute("category", category);
-        model.addAttribute("boards", boardService.getBoardList(boardCategory, pageRequest, searchType, keyword));
         model.addAttribute("boardSearchRequest", new BoardSearchRequest(sortType, searchType, keyword));
         return "boards/list";
     }
+
 
     @GetMapping("/{category}/write")
     public String boardWritePage(@PathVariable String category, Model model) {
@@ -101,7 +122,7 @@ public class BoardController {
                                   Authentication auth) {
         if (auth != null) {
             model.addAttribute("loginUserLoginId", auth.getName());
-            model.addAttribute("likeCheck", likeService.checkLike(auth.getName(), boardId));
+            
         }
 
         BoardDto boardDto = boardService.getBoard(boardId, category);

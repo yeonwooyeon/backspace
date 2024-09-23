@@ -10,36 +10,24 @@
 <body>
 	<div class="wrapper">
 		<header>
-			<div class="logo">
-				<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-					class="logo" id="logo">
-				</a> <span>VACANCY</span>
-			</div>
-			<nav>
-				<a href="map">공실정보</a> 
-				<a href="property">관리물건</a> 
-				<a href="#">매매정보</a>
-				<a href="#">분양사무실</a>
-			</nav>
-			<div class="user-menu">
-				<a href="#">고객센터</a> 
-				<a href="#">마이페이지</a> 
-				<a href="#">로그인</a> 
-				<a href="#">회원가입</a>
+			<div class="header">
+				<div class="logo-container">
+					<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
+						class="logo" id="logo">
+					</a> <span class="logo-text">관리물건</span>
+				</div>
 			</div>
 		</header>
-
 		<div class="button-container">
 			<a href="../property/propregister" class="register-button">물건
 				등록하기</a>
 		</div>
 
 		<div class="container">
-			<!-- 첫 번째 매물 -->
 			<div th:each="property : ${propertyList}" class="item">
 				<div class="details">
 					<div class="image-container">
-						<img src="../images/logo.png" alt="매물 이미지">
+						<img src="../images/logo.ico" alt="매물 이미지">
 					</div>
 					<div class="info-container">
 						<!-- 건물명 출력 -->
@@ -54,6 +42,7 @@
 						</div>
 						<!-- 주소 값 출력 -->
 						<span th:text="${property.info_add}"></span>
+						
 						<div class="buttons">
 							<a href="#" class="button">연락처 보기</a> <a href="#"
 								class="button secondary">신규등기열람</a>
@@ -64,14 +53,15 @@
 								<button type="submit" class="button delete-button">삭제</button>
 							</form>
 						</div>
+					</div>
 				</div>
 			</div>
-
-		</div> 
+		</div>
 
 		<footer>
 			<div>© 2024 Vacancy. All rights reserved.</div>
 		</footer>
 	</div>
+	<form id="moveForm" method="post" style="display: none;"></form>
 </body>
 </html>

@@ -1,27 +1,34 @@
 package com.study.basicboard.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.study.basicboard.domain.dto.BoardCntDto;
 import com.study.basicboard.domain.dto.BoardCreateRequest;
 import com.study.basicboard.domain.dto.BoardDto;
-import com.study.basicboard.domain.entity.*;
+import com.study.basicboard.domain.entity.Board;
+import com.study.basicboard.domain.entity.Comment;
+import com.study.basicboard.domain.entity.Like;
+import com.study.basicboard.domain.entity.UploadImage;
+import com.study.basicboard.domain.entity.User;
 import com.study.basicboard.domain.enum_class.BoardCategory;
 import com.study.basicboard.domain.enum_class.UserRole;
 import com.study.basicboard.repository.BoardRepository;
 import com.study.basicboard.repository.CommentRepository;
 import com.study.basicboard.repository.LikeRepository;
 import com.study.basicboard.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 
-import org.springframework.transaction.annotation.Transactional;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +41,16 @@ public class BoardService {
     private final S3UploadService s3UploadService;
     // private final UploadImageService uploadImageService; => 로컬 디렉토리에 저장할 때 사용 => S3UploadService 대신 사용
 
-    public Page<Board> getBoardList(BoardCategory category, PageRequest pageRequest, String searchType, String keyword) {
-        if (searchType != null && keyword != null) {
-            if (searchType.equals("title")) {
-                return boardRepository.findAllByCategoryAndTitleContainsAndUserUserRoleNot(category, keyword, UserRole.ADMIN, pageRequest);
-            } else {
-                return boardRepository.findAllByCategoryAndUserNicknameContainsAndUserUserRoleNot(category, keyword, UserRole.ADMIN, pageRequest);
-            }
-        }
-        return boardRepository.findAllByCategoryAndUserUserRoleNot(category, UserRole.ADMIN, pageRequest);
+    public Page<Board> getBoardList(BoardCategory category, Pageable pageable) {
+        // 데이터베이스에서 페이징 적용된 게시물 목록을 가져옵니다
+        List<Board> boards = boardRepository.findByCategoryWithPaging(
+                category, pageable.getPageSize(), pageable.getOffset());
+
+        // 총 게시물 수를 가져옵니다
+        int totalCount = boardRepository.countByCategory(category);
+
+        // PageImpl을 사용하여 Page 객체를 생성합니다
+        return new PageImpl<>(boards, pageable, totalCount);
     }
 
     public List<Board> getNotice(BoardCategory category) {
@@ -62,19 +70,28 @@ public class BoardService {
 
     @Transactional
     public Long writeBoard(BoardCreateRequest req, BoardCategory category, String loginId, Authentication auth) throws IOException {
-        User loginUser = userRepository.findByLoginId(loginId).get();
-
-        Board savedBoard = boardRepository.save(req.toEntity(category, loginUser));
-
-        UploadImage uploadImage = s3UploadService.saveImage(req.getUploadImage(), savedBoard);
-        if (uploadImage != null) {
-            savedBoard.setUploadImage(uploadImage);
+        User loginUser = userRepository.findByLoginId(loginId);
+        
+        if (loginUser == null) {
+            throw new IllegalStateException("사용자를 찾을 수 없습니다.");
         }
 
+        // `Board` 엔티티를 만들고 저장
+        Board board = req.toEntity(category, loginUser);
+        boardRepository.save(board);
+
+        // 이미지 업로드 및 연결
+        UploadImage uploadImage = s3UploadService.saveImage(req.getUploadImage(), board);
+        if (uploadImage != null) {
+            board.setUploadImage(uploadImage);
+        }
+
+        // 카테고리에 따른 사용자 랭크 업
         if (category.equals(BoardCategory.GREETING)) {
             loginUser.rankUp(UserRole.SILVER, auth);
         }
-        return savedBoard.getId();
+
+        return board.getId();
     }
 
     @Transactional
