@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,19 @@ public class PropertyController {
         return "property"; // property.html로 이동
     }
 
+    @GetMapping("/manage")
+    public String showProperties(Model model, Principal principal) {
+        // 로그인 상태 확인
+        if (principal == null) {
+            // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+            return "redirect:/users/login";
+        }
+        // 관리물건 페이지 로드
+        model.addAttribute("loggedIn", true);
+        // 여기에 다른 로직 추가
+        return "property"; // property.html
+    }
+    
     @GetMapping("/propregister")
     public String propregister() {
         return "propregister";
@@ -46,4 +60,5 @@ public class PropertyController {
         propertyService.deleteProperty(info_no);
         return new RedirectView("/property");
     }
+    
 }

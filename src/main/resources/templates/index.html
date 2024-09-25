@@ -15,7 +15,14 @@
 			</a> <span>VACANCY</span>
 		</div>
 		<nav>
-			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
+			<a href="map">공실정보</a> 
+			<th:block th:if="${loggedIn}">
+			<a href="property">관리물건</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+            <span onclick="showLoginPopup()">관리물건</span>
+            </th:block>
+			<a href="#">매매정보</a>
 			<a href="#">분양사무실</a>
 		</nav>
 	<div class="user-menu">
@@ -98,5 +105,31 @@
 	<footer>
 		<div>© 2024 Vacancy. All rights reserved.</div>
 	</footer>
+	
+	<div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginPopup()">&times;</span>
+            <p>로그인 후 관리물건에 접근하실 수 있습니다.</p>
+            <a href="users/login">로그인 페이지로 이동</a>
+        </div>
+    </div>
+    <script>
+        function showLoginPopup() {
+            document.getElementById("loginModal").style.display = "block";
+        }
+        
+        function closeLoginPopup() {
+            document.getElementById("loginModal").style.display = "none";
+        }
+
+        // 페이지 외부 클릭 시 팝업 닫기
+        window.onclick = function(event) {
+            var modal = document.getElementById("loginModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    
 </body>
 </html>
