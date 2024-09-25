@@ -53,11 +53,11 @@ public class Property {
 		this.info_no = info_no;
 	}
 
-	public Integer getMem_No() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setMem_No(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -292,5 +292,6 @@ public class Property {
 	public void setInfo_operators(String info_operators) {
 		this.info_operators = info_operators;
 	}
+
 
 }

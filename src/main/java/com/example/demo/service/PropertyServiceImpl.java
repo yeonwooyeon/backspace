@@ -33,5 +33,9 @@ public class PropertyServiceImpl implements PropertyService {
     public void deleteProperty(Integer info_no) {
         propertyRepository.deleteProperty(info_no);
     }
+	//사용자별 매물 목록 조회
+    public List<Property> getPropertiesByUserId(String id) {
+        return propertyRepository.findByUserId(id);
+    }
     
 }

@@ -42,6 +42,17 @@ public class PropertyRepositoryImpl implements PropertyRepository {
 	public void deleteProperty(Integer info_no) {
 		listOfProperty.removeIf(property -> property.getInfo_no().equals(info_no));
 	}
+
+	@Override
+	public List<Property> findByUserId(String id) {
+	    List<Property> userProperties = new ArrayList<>();
+	    for (Property property : listOfProperty) {
+	        if (property.getId() != null && property.getId().equals(id)) {
+	            userProperties.add(property);
+	        }
+	    }
+	    return userProperties;
+	}
     
 
 	}

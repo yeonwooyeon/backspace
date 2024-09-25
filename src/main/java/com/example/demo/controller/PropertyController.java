@@ -38,10 +38,17 @@ public class PropertyController {
             // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
             return "redirect:/users/login";
         }
-        // 관리물건 페이지 로드
+     // 로그인한 사용자 ID 가져오기
+        String Id = principal.getName(); // 사용자의 ID가 username으로 되어있다고 가정
+
+        // 해당 사용자의 매물 목록 가져오기
+        List<Property> userProperties = propertyService.getPropertiesByUserId(Id);
+        
+        // 모델에 추가
+        model.addAttribute("propertyList", userProperties);
         model.addAttribute("loggedIn", true);
-        // 여기에 다른 로직 추가
-        return "property"; // property.html
+        
+        return "property"; // property.html로 이동
     }
     
     @GetMapping("/propregister")
@@ -50,9 +57,12 @@ public class PropertyController {
     }
     
     @PostMapping("/addProperty")
-    public RedirectView addProperty(@ModelAttribute Property property) {
-        propertyService.addProperty(property);
-        return new RedirectView("/property");
+    public RedirectView addProperty(@ModelAttribute Property property, Principal principal) {
+    	String userId = principal.getName();// 현재 로그인한 사용자 ID 가져오기
+    	property.setId(Integer.parseInt(userId));// 사용자의 ID를 Property에 설정
+    	
+    	propertyService.addProperty(property);
+        return new RedirectView("/property/manage");
     }
     
     @PostMapping("/deleteProperty")

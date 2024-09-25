@@ -71,5 +71,11 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
     <delete id="deleteProperty" parameterType="com.example.demo.entity.Property">
        delete from Pp_info where info_no = #{info_no}
     </delete>
+    
+    <!-- 사용자 ID로 매물 목록 검색 select 쿼리 -->
+<select id="findByUserId" resultMap="PropertyResultMap" parameterType="string">
+    SELECT * FROM Pp_info 
+    WHERE id = #{id}
+</select>
 
 </mapper>

@@ -10,4 +10,5 @@ public interface PropertyService {
 	List<Property> getAllAddresses();
 	List<Property> searchAddresses(String keyword);
 	void deleteProperty(Integer info_no);
+	List<Property> getPropertiesByUserId(String id);
 }
