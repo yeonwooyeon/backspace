@@ -49,13 +49,13 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
 
     <!-- 관리물건 insert 쿼리 -->
     <insert id="insertProperty" parameterType="com.example.demo.entity.Property">
-        INSERT INTO Pp_info (info_name, info_add, info_size, info_allfl, info_fl, info_count, 
+        INSERT INTO Pp_info (info_name, id, info_add, info_size, info_allfl, info_fl, info_count, 
                              info_upload, info_update, info_delflag, info_option, 
                              info_type, info_sell, info_year, info_month, 
                              info_deposit, info_comp, info_move, info_latitude, info_longitude,
                              room_num, option_money, option_cost, option_op, option_etc, option_notes, info_operators
                              ) 
-        VALUES (#{info_name}, #{info_add}, #{info_size}, #{info_allfl}, #{info_fl}, 
+        VALUES (#{info_name}, #{id}, #{info_add}, #{info_size}, #{info_allfl}, #{info_fl}, 
                 #{info_count}, #{info_upload}, #{info_update}, #{info_delflag}, 
                 #{info_option}, #{info_type}, #{info_sell}, #{info_year}, 
                 #{info_month}, #{info_deposit}, #{info_comp}, #{info_move},

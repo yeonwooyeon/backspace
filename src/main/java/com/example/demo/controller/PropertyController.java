@@ -51,11 +51,14 @@ public class PropertyController {
     
     @PostMapping("/addProperty")
     public RedirectView addProperty(@ModelAttribute Property property, Principal principal) {
-    	String userId = principal.getName();// 현재 로그인한 사용자 ID 가져오기
-    	property.setId(Long.parseLong(userId));// 사용자의 ID를 Property에 설정
+    	String username = principal.getName();// 현재 로그인한 사용자 ID 가져오기
+    	 // 사용자 정보를 조회하여 실제 ID를 가져오기
+    	User user = propertyService.findByUsername(username); // 사용자 로그인 ID로 실제 ID 조회
+    	Long userId = user.getId();
+    	property.setId(userId);// 사용자의 ID를 Property에 설정
     	
     	propertyService.addProperty(property);
-        return new RedirectView("/property/manage");
+        return new RedirectView("/property");
     }
     
     @PostMapping("/deleteProperty")
