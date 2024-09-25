@@ -25,6 +25,7 @@
                 <label for="info_name">건물 이름</label>
                 <input type="text" id="info_name" name="info_name" placeholder="건물 이름을 입력하세요" required>
             </div>
+            
             <div>
                 <label for="info_add">주소</label>
                 <input type="text" id="info_add" name="info_add" placeholder="주소" required>
@@ -33,13 +34,38 @@
                 <input type="hidden" id="info_longitude" name="info_longitude">
                 <div id="map"></div>
             </div>
+            <br>
+            
+            <div class="form-group">
+				<label for="propertyType">매물종류</label> <select id="propertyType"
+					name="info_option">
+					<option value="주택">주택</option>
+					<option value="오피스텔">오피스텔</option>
+					<option value="사무실">사무실</option>
+					<option value="상가">상가</option>
+				</select>
+			</div>
        		
 			<div class="form-group">
-				<label for="buildingType">해당층/전체층</label> <input type="number"
-					id="info_fl" name="info_fl" placeholder="해당층수"> <input
-					type="number" id="info_allfl" name="info_allfl" placeholder="전체층수">
+				<label for="buildingType">해당층/전체층</label>
+				<input type="number"
+					id="info_fl" name="info_fl" placeholder="해당층수" required>
+				<input
+					type="number" id="info_allfl" name="info_allfl" placeholder="전체층수" required>
 			</div>
-
+			
+			<div class="form-group">
+				<label for="RoomNumber">방호실</label>
+				<input type="number"
+					id="room_num" name="room_num" placeholder="호" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="Profit">권리금</label>
+				<input type="number"
+					id="option_money" name="option_money" placeholder="만원">
+			</div>
+			
 			<div class="form-group">
 				<label for="transactionType">거래형태</label> <input type="radio"
 					id="monthly" name="info_type" value="월세" checked
@@ -69,16 +95,6 @@
 			</div>
 
 			<div class="form-group">
-				<label for="propertyType">매물종류</label> <select id="propertyType"
-					name="info_option">
-					<option value="주택">주택</option>
-					<option value="오피스텔">오피스텔</option>
-					<option value="사무실">사무실</option>
-					<option value="상가">상가</option>
-				</select>
-			</div>
-
-			<div class="form-group">
 				<label for="deposit">보증금</label> <input type="number"
 					id="info_deposit" name="info_deposit" placeholder="만원">
 			</div>
@@ -87,49 +103,30 @@
 				<label for="manageFee">관리비</label> <input type="number"
 					id="option_cost" name="option_cost" placeholder="만원">
 			</div>
+			
+			<div class="form-group">
+				<label for="info_size">건물면적</label> <input type="text"
+					id="info_size" name="info_size" placeholder="m²" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="info_count">방개수</label> <input type="number"
+					id="info_count" name="info_count" placeholder="개" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="CompletionDate">준공날짜</label> <input type="date"
+					id="info_comp" name="info_comp" required>
+			</div>
 
 			<div class="form-group">
 				<label for="moveInDate">입주 가능일</label> <input type="date"
-					id="info_move" name="info_move">
+					id="info_move" name="info_move" required>
 			</div>
 
 			<div class="form-group">
-				<label for="CompletionDate">준공날짜</label> <input type="date"
-					id="info_comp" name="info_comp">
-			</div>
-
-			<h3>사진</h3>
-			<div class="form-group">
-				<label for="photos">사진 첨부</label> <input type="file" id="photos"
-					name="photos" accept="image/*" multiple>
-			</div>
-
-			<h3>추가정보 (선택사항)</h3>
-			<div class="form-group">
-				<label for="feeStatus">중개수수료 여부</label> <input type="radio"
-					id="noFee" name="feeStatus" value="미지급"> 미지급 <input
-					type="radio" id="paidFee" name="feeStatus" value="지급" checked>
-				지급 <input type="number" id="feeAmount" name="feeAmount"
-					placeholder="금액 또는 수수료 퍼센트 입력"> <select name="feeType">
-					<option value="percentage">%</option>
-					<option value="amount">원</option>
-				</select>
-			</div>
-
-
-
-			<div class="form-group">
-				<label for="info_size">전용면적</label> <input type="text"
-					id="info_size" name="info_size" placeholder="m²">
-			</div>
-
-			<div class="form-group">
-				<label for="info_count">방개수</label> <input type="text"
-					id="info_count" name="info_count" placeholder="개">
-			</div>
-
-			<div class="form-group">
-				<label for="option_etc">상세 옵션</label> <input type="checkbox"
+				<label for="option_op">상세 옵션</label>
+				<input type="checkbox"
 					id="option1" name="option_op" value="세탁기"> 세탁기 <input
 					type="checkbox" id="option2" name="option_op" value="에어컨"> 에어컨
 				<input type="checkbox" id="option3" name="option_op" value="인덕션">
@@ -152,13 +149,12 @@
 					name="option_etc" value="반려동물"> 반려동물 <input type="checkbox"
 					id="optionEtc8" name="option_etc" value="전세대출"> 전세대출
 			</div>
-		 <div id="postcodeModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closePostcode()">&times;</span>
-                    <h2>주소 검색</h2>
-                    <div id="postcodeContainer"></div>
-                </div>
-            </div>
+
+			<h3>사진</h3>
+			<div class="form-group">
+				<label for="photos">사진 첨부</label> <input type="file" id="photos"
+					name="photos" accept="image/*" multiple>
+			</div>
 
             <div class="form-group">
                 <button type="submit">등록하기</button>
@@ -207,10 +203,6 @@
                     });
                 }
             }).open();
-        }
-
-        function closePostcode() {
-            document.getElementById('postcodeModal').style.display = 'none';
         }
         
      // 거래형태에 따라 입력란을 보여주거나 숨기는 함수

@@ -11,7 +11,7 @@
 <result column="info_option" property="info_option"/> <!-- 건물유형 -->
 <result column="info_fl" property="info_fl"/> <!-- 건물해당층수 -->
 <result column="info_allfl" property="info_allfl"/> <!-- 건물전체층수 -->
-<result column="room_number" property="room_number"/> <!-- 방호실 -->
+<result column="room_num" property="room_num"/> <!-- 방호실 -->
 <result column="option_money" property="option_money"/> <!-- 권리금 -->
 <result column="info_year" property="info_year"/> <!-- 전세금 -->
 <result column="info_deposit" property="info_deposit"/> <!-- 보증금 -->
@@ -55,12 +55,15 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
         INSERT INTO Pp_info (info_name, info_add, info_size, info_allfl, info_fl, info_count, 
                              info_upload, info_update, info_delflag, info_option, 
                              info_type, info_sell, info_year, info_month, 
-                             info_deposit, info_comp, info_move, info_latitude, info_longitude) 
+                             info_deposit, info_comp, info_move, info_latitude, info_longitude,
+                             room_num, option_money, option_cost, option_op, option_etc, option_notes, info_operators
+                             ) 
         VALUES (#{info_name}, #{info_add}, #{info_size}, #{info_allfl}, #{info_fl}, 
                 #{info_count}, #{info_upload}, #{info_update}, #{info_delflag}, 
                 #{info_option}, #{info_type}, #{info_sell}, #{info_year}, 
                 #{info_month}, #{info_deposit}, #{info_comp}, #{info_move},
-                #{info_latitude}, #{info_longitude}
+                #{info_latitude}, #{info_longitude}, #{room_num}, #{option_money},
+                #{option_cost}, #{option_op}, #{option_etc}, #{option_notes}, #{info_operators}
                 ) 
     </insert>
     

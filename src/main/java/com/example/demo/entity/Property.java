@@ -20,7 +20,7 @@ public class Property {
 	private String info_option; // 건물유형
 	private Integer info_fl; // 건물해당층수
 	private Integer info_allfl; // 건물전체층수
-	private Integer room_number; // 방호실
+	private Integer room_num; // 방호실
 	private Integer option_money; // 권리금
 	private Integer info_year; // 전세금
 	private Integer info_deposit; // 보증금
@@ -237,12 +237,12 @@ public class Property {
 		this.info_longitude = info_longitude;
 	}
 
-	public Integer getRoom_number() {
-		return room_number;
+	public Integer getRoom_num() {
+		return room_num;
 	}
 
-	public void setRoom_number(Integer room_number) {
-		this.room_number = room_number;
+	public void setRoom_num(Integer room_num) {
+		this.room_num = room_num;
 	}
 
 	public Integer getOption_money() {
