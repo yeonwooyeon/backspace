@@ -14,7 +14,7 @@ public class Property {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer info_no; // 건물번호
-	private Integer id; // 회원넘버
+	private Long id; // 회원넘버
 	private String info_name; // 건물명
 	private String info_add; // 건물주소
 	private String info_option; // 건물유형
@@ -53,11 +53,11 @@ public class Property {
 		this.info_no = info_no;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

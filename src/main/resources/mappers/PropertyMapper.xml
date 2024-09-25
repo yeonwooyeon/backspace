@@ -36,10 +36,7 @@
 <result column="option_notes" property="option_notes"/> <!-- 비고 -->
 <result column="info_operators" property="info_operators"/> <!-- 등기부등본URL -->
 </resultMap>
-<!--   관리물건 select 쿼리  -->
-<select id="getAllPropertyList" resultMap="PropertyResultMap"> 
-	SELECT * FROM Pp_info 
-</select>
+
 <!--   공실정보 주소 리스트 select 쿼리  -->
 <select id="getAllAddresses" resultMap="PropertyResultMap"> 
 SELECT info_name, info_add, info_latitude, info_longitude FROM Pp_info 
@@ -72,10 +69,14 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
        delete from Pp_info where info_no = #{info_no}
     </delete>
     
-    <!-- 사용자 ID로 매물 목록 검색 select 쿼리 -->
-<select id="findByUserId" resultMap="PropertyResultMap" parameterType="string">
+    <select id="findByUsername" parameterType="com.study.basicboard.domain.entity.User">
+    SELECT * FROM user WHERE login_id = #{login_id}
+</select>
+    
+<!-- 사용자 ID로 매물 목록 검색 select 쿼리 -->
+<select id="findByUserId" resultMap="PropertyResultMap" parameterType="long">
     SELECT * FROM Pp_info 
-    WHERE id = #{id}
+    WHERE id = #{id}  <!-- user ID에 해당하는 매물 조회 -->
 </select>
 
 </mapper>
