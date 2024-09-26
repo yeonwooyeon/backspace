@@ -48,6 +48,7 @@ public class Property {
 	private String option_etc; //기타옵션
 	private String option_notes; //비고
 	private String info_operators; //등기부등본URL
+	private String status;
 	
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Image> images; // Image 엔티티와의 관계
@@ -306,6 +307,14 @@ public class Property {
 
 	public void setImages(List<Image> images) {
 		this.images = images;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }
