@@ -58,17 +58,17 @@ public class PropertyServiceImpl implements PropertyService {
     private String savePhoto(MultipartFile photo) {
         try {
             String fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename();
-            Path path = Paths.get("uploads/" + fileName);
+            Path path = Paths.get("src/main/resources/static/images/uploads/" + fileName);
             
             // 디렉토리 체크 및 생성
-            File directory = new File("uploads");
+            File directory = new File("src/main/resources/static/images/uploads");
             if (!directory.exists()) {
                 directory.mkdirs();
             }
             
             // 파일 저장
             Files.copy(photo.getInputStream(), path);
-            return "/uploads/" + fileName; // 실제 URL 경로
+            return "/images/uploads/" + fileName; // 실제 URL 경로
         } catch (IOException e) {
             e.printStackTrace();
             return null; // 실패 시 null 반환

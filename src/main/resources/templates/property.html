@@ -12,10 +12,9 @@
 		<header>
 			<div class="header">
 				<div class="logo">
-				<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo"></a>
-				<span>관리물건</span>
-		</div>
+					<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
+						class="logo" id="logo"></a> <span>관리물건</span>
+				</div>
 			</div>
 		</header>
 		<div class="button-container">
@@ -25,10 +24,17 @@
 
 		<div class="container">
 			<div th:each="property : ${propertyList}" class="item">
-				<div class="details">
-					<div class="image-container">
-						<img src="../images/logo.ico" alt="매물 이미지">
-					</div>
+    <div class="details">
+        <div class="image-container">
+            <ul>
+                <th:block th:each="image : ${property.images}">
+                    <li>
+                        <img th:src="${image.si_insideurl != null ? image.si_insideurl : '../images/logo.ico'}" alt="Image" />
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
 					<div class="info-container">
 						<!-- 건물명 출력 -->
 						<p th:text="${property.info_name}" />
@@ -42,7 +48,7 @@
 						</div>
 						<!-- 주소 값 출력 -->
 						<span th:text="${property.info_add}"></span>
-						
+
 						<div class="buttons">
 							<a href="#" class="button">연락처 보기</a> <a href="#"
 								class="button secondary">신규등기열람</a>

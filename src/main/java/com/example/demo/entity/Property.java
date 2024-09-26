@@ -2,9 +2,13 @@ package com.example.demo.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
@@ -44,6 +48,9 @@ public class Property {
 	private String option_etc; //기타옵션
 	private String option_notes; //비고
 	private String info_operators; //등기부등본URL
+	
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Image> images; // Image 엔티티와의 관계
 
 	public Integer getInfo_no() {
 		return info_no;
@@ -292,6 +299,16 @@ public class Property {
 	public void setInfo_operators(String info_operators) {
 		this.info_operators = info_operators;
 	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+	
+	
 
 
 }

@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Image {
@@ -20,6 +22,10 @@ public class Image {
 	private String si_outsideurl; //외부사진url
     private String si_insidename; //내부사진이름
 	private String si_outsidename; //외부사진이름
+	
+	 @ManyToOne
+	    @JoinColumn(name = "property_id")
+	    private Property property; // Property와의 관계
 	
 	public Integer getImg_no() {
 		return img_no;
