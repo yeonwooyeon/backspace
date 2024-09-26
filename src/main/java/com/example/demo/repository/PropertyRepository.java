@@ -18,5 +18,4 @@ public interface PropertyRepository {
 	List<Property> findByUserId(Long id);
 	// 사용자 이름으로 사용자 정보를 조회하는 메서드
     User findByUsername(@Param("login_id") String login_id);
-	
 }

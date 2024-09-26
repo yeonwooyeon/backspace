@@ -25,7 +25,7 @@ public class Image {
 	
 	 @ManyToOne
 	    @JoinColumn(name = "property_id")
-	    private Property property; // Property와의 관계
+	 public Property property; // Property와의 관계
 	
 	public Integer getImg_no() {
 		return img_no;

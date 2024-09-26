@@ -3,10 +3,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.ImageRepository">
 
+<resultMap id="ImageResultMap" type="com.example.demo.entity.Image">
+        <result column="img_no" property="img_no"/>
+        <result column="info_no" property="info_no"/>
+        <result column="si_insideurl" property="si_insideurl"/>
+        <result column="si_outsideurl" property="si_outsideurl"/>
+        <result column="si_insidename" property="si_insidename"/>
+        <result column="si_outsidename" property="si_outsidename"/>
+        <result column="si_create" property="si_create"/>
+        <result column="si_update" property="si_update"/>
+    </resultMap>
+
     <!-- 이미지 삽입 쿼리 추가 -->
     <insert id="save" parameterType="map">
         INSERT INTO Pp_img (info_no, si_insideurl, si_outsideurl, si_insidename, si_outsidename) 
         VALUES (#{info_no}, #{si_insideurl}, #{si_outsideurl}, #{si_insidename}, #{si_outsidename})
     </insert>
+    
+    <!-- 이미지 출력 -->
+    <select id="getImagesByPropertyId" resultMap="ImageResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM Pp_img WHERE info_no = #{info_no}
+    </select>
 
 </mapper>

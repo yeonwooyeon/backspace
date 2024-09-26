@@ -35,6 +35,10 @@
 <result column="option_etc" property="option_etc"/> <!-- 기타옵션 -->
 <result column="option_notes" property="option_notes"/> <!-- 비고 -->
 <result column="info_operators" property="info_operators"/> <!-- 등기부등본URL -->
+<!-- 이미지 리스트 -->
+<collection property="images" ofType="com.example.demo.entity.Image" 
+                 select="com.example.demo.repository.ImageRepository.getImagesByPropertyId" 
+                 column="info_no"/>
 </resultMap>
 
 <!--   공실정보 주소 리스트 select 쿼리  -->

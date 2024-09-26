@@ -50,7 +50,7 @@ public class Property {
 	private String info_operators; //등기부등본URL
 	
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Image> images; // Image 엔티티와의 관계
+    public List<Image> images; // Image 엔티티와의 관계
 
 	public Integer getInfo_no() {
 		return info_no;
@@ -307,8 +307,5 @@ public class Property {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	
-	
-
 
 }

@@ -24,17 +24,15 @@
 
 		<div class="container">
 			<div th:each="property : ${propertyList}" class="item">
-    <div class="details">
-        <div class="image-container">
-            <ul>
-                <th:block th:each="image : ${property.images}">
-                    <li>
-                        <img th:src="${image.si_insideurl != null ? image.si_insideurl : '../images/logo.ico'}" alt="Image" />
-                    </li>
-                </th:block>
-            </ul>
-        </div>
-    </div>
+                <div class="details">
+                    <div class="image-container">
+                        <ul>
+                            <li th:each="image : ${property.images}">
+                                <img th:src="@{${image.si_insideurl}}" alt="Property Image" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 					<div class="info-container">
 						<!-- 건물명 출력 -->
 						<p th:text="${property.info_name}" />
@@ -67,7 +65,16 @@
 		<footer>
 			<div>© 2024 Vacancy. All rights reserved.</div>
 		</footer>
-	</div>
 	<form id="moveForm" method="post" style="display: none;"></form>
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.image-container img').forEach((img) => {
+        img.onload = () => {
+            img.classList.add('loaded');
+        };
+        img.src = img.src; // src를 재설정하여 로드하게 만듭니다.
+    });
+});
+</script>
 </html>

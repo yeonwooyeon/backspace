@@ -93,6 +93,10 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepository.findByUserId(id);
     }
     public User findByUsername(String username) {
-        return propertyRepository.findByUsername(username); // 수정된 부분
+        return propertyRepository.findByUsername(username);
+    }
+    // Property ID로 이미지 목록을 가져오는 메서드 추가
+    public List<Image> getImagesByPropertyId(Integer info_no) {
+        return imageRepository.getImagesByPropertyId(info_no);
     }
 }
