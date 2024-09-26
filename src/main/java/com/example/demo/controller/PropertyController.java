@@ -69,7 +69,6 @@ public class PropertyController {
     	property.setId(userId);// 사용자의 ID를 Property에 설정
     	
     	propertyService.addProperty(property, photos, operatorFile);
-    	
         return new RedirectView("/property");
     }
     
