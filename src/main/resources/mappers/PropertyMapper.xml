@@ -48,7 +48,7 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
 </select>
 
     <!-- 관리물건 insert 쿼리 -->
-    <insert id="insertProperty" parameterType="com.example.demo.entity.Property">
+    <insert id="insertProperty" parameterType="com.example.demo.entity.Property" useGeneratedKeys="true" keyProperty="info_no">
         INSERT INTO Pp_info (info_name, id, info_add, info_size, info_allfl, info_fl, info_count, 
                              info_upload, info_update, info_delflag, info_option, 
                              info_type, info_sell, info_year, info_month, 
@@ -78,5 +78,6 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
     SELECT * FROM Pp_info 
     WHERE id = #{id}  <!-- user ID에 해당하는 매물 조회 -->
 </select>
+
 
 </mapper>

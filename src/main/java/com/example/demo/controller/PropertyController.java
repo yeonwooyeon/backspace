@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.entity.Property;
@@ -50,14 +51,16 @@ public class PropertyController {
     }
     
     @PostMapping("/addProperty")
-    public RedirectView addProperty(@ModelAttribute Property property, Principal principal) {
+    public RedirectView addProperty(@ModelAttribute Property property, 
+    								@RequestParam("photos") MultipartFile[] photos,
+    								Principal principal) {
     	String username = principal.getName();// 현재 로그인한 사용자 ID 가져오기
     	 // 사용자 정보를 조회하여 실제 ID를 가져오기
     	User user = propertyService.findByUsername(username); // 사용자 로그인 ID로 실제 ID 조회
     	Long userId = user.getId();
     	property.setId(userId);// 사용자의 ID를 Property에 설정
     	
-    	propertyService.addProperty(property);
+    	propertyService.addProperty(property, photos);
         return new RedirectView("/property");
     }
     

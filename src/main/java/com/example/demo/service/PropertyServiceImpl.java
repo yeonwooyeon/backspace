@@ -1,11 +1,20 @@
 package com.example.demo.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.entity.Image;
 import com.example.demo.entity.Property;
+import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.PropertyRepository;
 import com.study.basicboard.domain.entity.User;
 
@@ -15,11 +24,60 @@ public class PropertyServiceImpl implements PropertyService {
 	@Autowired
 	private PropertyRepository propertyRepository;
 	
-    public void addProperty(Property property) {
+	 @Autowired
+	 private ImageRepository imageRepository;
+	
+    public void addProperty(Property property, MultipartFile[] photos) {
         propertyRepository.insertProperty(property);
+       
+        Integer info_no = property.getInfo_no();
+
+        // 이미지 저장
+        saveImages(info_no, photos);
+    }
+    
+
+    private void saveImages(Integer info_no, MultipartFile[] photos) {
+        for (MultipartFile photo : photos) {
+            if (!photo.isEmpty()) {
+                String insideUrl = savePhoto(photo); // 파일 저장 로직 호출
+                String insideName = photo.getOriginalFilename();
+                
+                // Image 객체 생성 및 저장
+                Image image = new Image();
+                image.setInfo_no(info_no.intValue()); // info_no 설정
+                image.setSi_insideurl(insideUrl); // 내부 사진 URL
+                image.setSi_insidename(insideName); // 내부 사진 이름
+                image.setSi_create(new Timestamp(System.currentTimeMillis())); // 생성 날짜
+                imageRepository.save(image); // 이미지 저장
+            }
+        }
     }
 
-    public List<Property> getAllAddresses() {
+
+    private String savePhoto(MultipartFile photo) {
+        try {
+            String fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename();
+            Path path = Paths.get("uploads/" + fileName);
+            
+            // 디렉토리 체크 및 생성
+            File directory = new File("uploads");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            
+            // 파일 저장
+            Files.copy(photo.getInputStream(), path);
+            return "/uploads/" + fileName; // 실제 URL 경로
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // 실패 시 null 반환
+        }
+    }
+
+
+
+	public List<Property> getAllAddresses() {
         return propertyRepository.getAllAddresses();
     }
 
@@ -37,6 +95,4 @@ public class PropertyServiceImpl implements PropertyService {
     public User findByUsername(String username) {
         return propertyRepository.findByUsername(username); // 수정된 부분
     }
-    
-    
 }
