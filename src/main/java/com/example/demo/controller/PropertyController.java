@@ -60,6 +60,7 @@ public class PropertyController {
     @PostMapping("/addProperty")
     public RedirectView addProperty(@ModelAttribute Property property, 
     								@RequestParam("photos") MultipartFile[] photos,
+    								@RequestParam("operatorFile") MultipartFile operatorFile,
     								Principal principal) {
     	String username = principal.getName();// 현재 로그인한 사용자 ID 가져오기
     	 // 사용자 정보를 조회하여 실제 ID를 가져오기
@@ -67,7 +68,8 @@ public class PropertyController {
     	Long userId = user.getId();
     	property.setId(userId);// 사용자의 ID를 Property에 설정
     	
-    	propertyService.addProperty(property, photos);
+    	propertyService.addProperty(property, photos, operatorFile);
+    	
         return new RedirectView("/property");
     }
     

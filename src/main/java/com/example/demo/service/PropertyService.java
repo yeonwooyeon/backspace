@@ -9,7 +9,7 @@ import com.example.demo.entity.Property;
 import com.study.basicboard.domain.entity.User;
 
 public interface PropertyService {
-	void addProperty(Property property, MultipartFile[] photos);
+	void addProperty(Property property, MultipartFile[] photos, MultipartFile operatorFile);
 	List<Property> getAllAddresses();
 	List<Property> searchAddresses(String keyword);
 	void deleteProperty(Integer info_no);

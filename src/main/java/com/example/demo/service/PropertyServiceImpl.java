@@ -27,9 +27,13 @@ public class PropertyServiceImpl implements PropertyService {
 	 @Autowired
 	 private ImageRepository imageRepository;
 	
-    public void addProperty(Property property, MultipartFile[] photos) {
-        propertyRepository.insertProperty(property);
-       
+    public void addProperty(Property property, MultipartFile[] photos, MultipartFile operatorFile) {
+        if (operatorFile != null && !operatorFile.isEmpty()) {
+            String operatorFileUrl = savePhoto(operatorFile); // FileService 사용
+            property.setInfo_operators(operatorFileUrl); // URL 설정
+        }
+    	
+    	propertyRepository.insertProperty(property);
         Integer info_no = property.getInfo_no();
 
         // 이미지 저장
