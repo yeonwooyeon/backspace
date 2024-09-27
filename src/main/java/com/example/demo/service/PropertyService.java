@@ -16,4 +16,6 @@ public interface PropertyService {
 	List<Property> getPropertiesByUserId(Long userId);
     User findByUsername(String username);
 	List<Image> getImagesByPropertyId(Integer info_no);
+	Property getPropertyById(Integer info_no);
+	void updateProperty(Property property);
 }

@@ -78,4 +78,22 @@ public class PropertyController {
         return new RedirectView("/property");
     }
     
+    @GetMapping("/editProperty")
+    public String editProperty(@RequestParam Integer info_no, Model model) {
+        Property property = propertyService.getPropertyById(info_no);
+        model.addAttribute("property", property);
+        return "propregister"; // 수정된 propregister.html로 이동
+    }
+    
+    @PostMapping("/updateProperty")
+    public RedirectView updateProperty(@ModelAttribute Property property, Principal principal) {
+        // 현재 로그인한 사용자 ID 설정
+        String username = principal.getName();
+        User user = propertyService.findByUsername(username);
+        property.setId(user.getId());
+        
+        propertyService.updateProperty(property);
+        return new RedirectView("/property");
+    }
+    
 }

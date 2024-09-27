@@ -83,5 +83,33 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
     WHERE id = #{id}  <!-- user ID에 해당하는 매물 조회 -->
 </select>
 
+<!-- 수정 요청 select 쿼리 -->
+<select id="getPropertyById" resultMap="PropertyResultMap" parameterType="Integer">
+	SELECT * FROM Pp_info WHERE info_no = #{info_no}
+</select>
 
+<update id="updateProperty" parameterType="Property">
+    UPDATE Pp_info 
+    SET 
+        info_name = #{info_name},
+        info_add = #{info_add},
+        info_option = #{info_option},
+        info_fl = #{info_fl},
+        info_allfl = #{info_allfl},
+        room_num = #{room_num},
+        option_money = #{option_money},
+        info_type = #{info_type},
+        info_month = #{info_month},
+        info_year = #{info_year},
+        info_sell = #{info_sell},
+        info_deposit = #{info_deposit},
+        option_cost = #{option_cost},
+        info_size = #{info_size},
+        info_count = #{info_count},
+        info_comp = #{info_comp},
+        info_move = #{info_move},
+        option_op = #{option_op},
+        option_etc = #{option_etc}
+    WHERE info_no = #{info_no}
+</update>
 </mapper>

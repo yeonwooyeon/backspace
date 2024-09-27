@@ -103,4 +103,17 @@ public class PropertyServiceImpl implements PropertyService {
     public List<Image> getImagesByPropertyId(Integer info_no) {
         return imageRepository.getImagesByPropertyId(info_no);
     }
+
+
+	@Override
+	public Property getPropertyById(Integer info_no) {
+		 return propertyRepository.getPropertyById(info_no);
+	}
+
+
+	@Override
+	public void updateProperty(Property property) {
+		propertyRepository.updateProperty(property);
+		
+	}
 }
