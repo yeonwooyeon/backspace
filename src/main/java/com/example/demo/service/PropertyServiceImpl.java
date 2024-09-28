@@ -116,4 +116,10 @@ public class PropertyServiceImpl implements PropertyService {
 		propertyRepository.updateProperty(property);
 		
 	}
+
+
+	
+	public Property getPropertyDetails(Integer info_no) {
+		return propertyRepository.getPropertyById(info_no);
+	}
 }

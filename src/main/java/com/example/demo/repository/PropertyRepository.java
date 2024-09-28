@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
 
 import com.example.demo.entity.Property;
 import com.study.basicboard.domain.entity.User;

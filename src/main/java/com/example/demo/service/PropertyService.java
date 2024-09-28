@@ -18,4 +18,5 @@ public interface PropertyService {
 	List<Image> getImagesByPropertyId(Integer info_no);
 	Property getPropertyById(Integer info_no);
 	void updateProperty(Property property);
+	Property getPropertyDetails(Integer info_no);
 }

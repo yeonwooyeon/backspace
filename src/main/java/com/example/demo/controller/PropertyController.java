@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,8 +60,8 @@ public class PropertyController {
     
     @PostMapping("/addProperty")
     public RedirectView addProperty(@ModelAttribute Property property, 
-    								@RequestParam("photos") MultipartFile[] photos,
-    								@RequestParam("operatorFile") MultipartFile operatorFile,
+    								@RequestParam MultipartFile[] photos,
+    								@RequestParam MultipartFile operatorFile,
     								Principal principal) {
     	String username = principal.getName();// 현재 로그인한 사용자 ID 가져오기
     	 // 사용자 정보를 조회하여 실제 ID를 가져오기
@@ -94,6 +95,15 @@ public class PropertyController {
         
         propertyService.updateProperty(property);
         return new RedirectView("/property");
+    }
+    
+    @GetMapping("/view")
+    public ResponseEntity<Property> viewProperty(@RequestParam Integer info_no) {
+        // 데이터베이스에서 infoNo에 해당하는 Property 조회
+    	Property selectedProperty = propertyService.getPropertyDetails(info_no);
+
+     // JSON 형태로 반환
+        return ResponseEntity.ok(selectedProperty);
     }
     
 }
