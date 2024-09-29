@@ -287,3 +287,25 @@ footer {
   font-size: 24px;
   cursor: pointer;
 }
+
+.disabled {
+    pointer-events: none; /* 클릭 이벤트 차단 */
+    opacity: 0.5; /* 비활성화된 느낌을 주기 위해 반투명하게 */
+}
+
+.pagination a {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: black;
+}
+
+.pagination .active {
+    font-weight: bold;
+    background-color: #007BFF;
+    color: white;
+}
+
+.pagination .disabled {
+    color: grey;
+    pointer-events: none;
+}

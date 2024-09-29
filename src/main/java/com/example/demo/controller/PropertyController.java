@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,8 @@ public class PropertyController {
 	private PropertyService propertyService;
 
     @GetMapping
-    public String showProperties(Model model, Principal principal) {
+    public String showProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, 
+    							Model model, Principal principal) {
         // 로그인 상태 확인
         if (principal == null) {
             return "redirect:/users/login";
@@ -37,9 +40,12 @@ public class PropertyController {
         String username = principal.getName();
         User user = propertyService.findByUsername(username);
         Long userId = user.getId();
+        
+        // 페이지 요청 생성
+        Pageable pageable = PageRequest.of(page, size);
 
-        // 사용자 ID에 따라 매물 목록 가져오기
-        List<Property> userProperties = propertyService.getPropertiesByUserId(userId);
+        // 사용자 ID에 따라 매물 목록을 페이지네이션하여 가져오기
+        List<Property> userProperties = propertyService.getPropertiesByUserId(userId, pageable);
         
         // 각 매물에 대한 이미지 목록을 추가
         for (Property property : userProperties) {
@@ -48,6 +54,8 @@ public class PropertyController {
         }
         
         model.addAttribute("propertyList", userProperties);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", propertyService.getTotalPages(userId, size));
         model.addAttribute("loggedIn", true);
         
         return "property"; // property.html로 이동

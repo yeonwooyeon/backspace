@@ -78,16 +78,17 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
 </select>
     
 <!-- 사용자 ID로 매물 목록 검색 select 쿼리 -->
-<select id="findByUserId" resultMap="PropertyResultMap" parameterType="long">
+<select id="findByUserId" resultMap="PropertyResultMap" parameterType="map">
     SELECT * FROM Pp_info 
-    WHERE id = #{id}  <!-- user ID에 해당하는 매물 조회 -->
+    WHERE id = #{id}
+    LIMIT #{startIndex}, #{pageSize}
 </select>
 
 <!-- 수정 요청 select 쿼리 -->
 <select id="getPropertyById" resultMap="PropertyResultMap" parameterType="Integer">
 	SELECT * FROM Pp_info WHERE info_no = #{info_no}
 </select>
-
+<!-- 수정 update 쿼리 -->
 <update id="updateProperty" parameterType="Property">
     UPDATE Pp_info 
     SET 
@@ -112,4 +113,12 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
         option_etc = #{option_etc}
     WHERE info_no = #{info_no}
 </update>
+<!-- 페이지 넘기기 위한 쿼리 -->
+<select id="findByUserIdWithPagination" parameterType="map" resultType="Property">
+    SELECT * FROM Pp_info WHERE id = #{id} LIMIT #{startIndex}, #{size}
+</select>
+<!-- ID별 총 매물 -->
+<select id="countPropertiesByUserId" parameterType="Long" resultType="int">
+    SELECT COUNT(*) FROM Pp_info WHERE id = #{id}
+</select>
 </mapper>

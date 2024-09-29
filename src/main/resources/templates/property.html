@@ -70,6 +70,23 @@
                 </div>
             </div>
         </div>
+<div class="pagination">
+    <a th:href="@{/property(page=${currentPage - 1}, size=${size})}" 
+       th:class="${currentPage == 0} ? 'disabled' : ''">이전</a>
+    
+    <!-- 페이지 번호 링크 -->
+    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{/property(page=${i - 1}, size=${size})}" 
+           th:class="${i - 1 == currentPage} ? 'active' : ''" 
+           th:text="${i}"></a>
+    </span>
+
+    
+    <a th:href="@{/property(page=${currentPage + 1}, size=${size})}" 
+       th:class="${currentPage + 1 >= totalPages || totalPages == 1} ? 'disabled' : ''">다음</a>
+</div>
+<p>현재 페이지: <span th:text="${currentPage + 1}"></span></p>
+<p>총 페이지 수: <span th:text="${totalPages}"></span></p>
 
         <footer>
             <div>© 2024 Vacancy. All rights reserved.</div>
