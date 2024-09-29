@@ -219,9 +219,26 @@
 
 			<h3>사진</h3>
 			<div class="form-group">
-				<label for="photos">사진 첨부</label> <input type="file" id="photos"
-					name="photos" accept="image/*" multiple>
-			</div>
+    <label for="photos">사진 첨부</label> 
+    <input type="file" id="photos"
+        name="photos" accept="image/*" multiple onchange="previewImages(event)">
+    <div id="imagePreview" class="image-preview"></div>
+    
+    <!-- 기존 사진 미리보기 -->
+    <div class="form-group">
+        <label for="propertyImages">사진 미리보기</label>
+        <div>
+            <div th:if="${property != null}">
+                <div th:each="photo : ${property.images}">
+                    <div>
+                        <img th:src="${photo.si_insideurl}" alt="Property Image" style="max-width: 100px; max-height: 100px;">
+                        <button type="button" onclick="deleteImageFromServer('${photo.si_insideurl}')">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 			<div class="form-group">
 				<label for="info_operators">등기 첨부</label> <input type="file"
@@ -333,6 +350,85 @@
 			window.onload = function() {
 				toggleTransactionFields();
 			};
+			
+			// 선택된 파일 목록을 저장할 배열 (파일 객체와 URL을 포함)
+			 let selectedFiles = []; 
+
+    function previewImages(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const files = Array.from(event.target.files); // 선택된 파일 목록을 배열로 변환
+
+        // 기존 파일 목록에 새 파일 추가
+        selectedFiles = selectedFiles.concat(files);
+
+        // 미리보기 이미지 업데이트
+        updateImagePreview();
+    }
+
+    function updateImagePreview() {
+        const imagePreview = document.getElementById('imagePreview');
+        imagePreview.innerHTML = ''; // 기존 미리보기 이미지 삭제
+
+        // 선택된 모든 파일에 대해 미리보기 생성
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const imgDiv = document.createElement('div');
+                const img = document.createElement('img');
+                img.src = e.target.result; // 읽어온 파일의 결과를 이미지 소스로 설정
+                
+                // 삭제 버튼 추가
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-button');
+                deleteButton.innerText = '삭제';
+                deleteButton.onclick = function() {
+                    deleteImage(index); // 이미지 삭제 함수 호출
+                };
+
+                imgDiv.appendChild(img); // 이미지 div에 이미지 추가
+                imgDiv.appendChild(deleteButton); // 이미지 div에 삭제 버튼 추가
+                imagePreview.appendChild(imgDiv); // 미리보기 영역에 추가
+            };
+
+            reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
+        });
+    }
+
+    // 이미지 삭제 함수
+    function deleteImage(index) {
+        // 배열에서 해당 파일 삭제
+        selectedFiles.splice(index, 1); 
+
+        // 미리보기 업데이트
+        updateImagePreview();
+    }
+
+    // 서버에서 이미지를 삭제하는 함수
+    function deleteImageFromServer(photoUrl) {
+        fetch('/deleteImage', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ url: photoUrl }) // 삭제할 이미지 URL 전송
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('이미지가 삭제되었습니다.');
+                // 해당 이미지를 서버에서 삭제한 후 미리보기에서 제거
+                // 여기에 해당 URL을 가진 이미지 삭제 로직 추가 필요
+                // 예: selectedFiles에서 URL과 일치하는 이미지를 삭제
+                // selectedFiles = selectedFiles.filter(file => file.url !== photoUrl);
+            } else {
+                alert('이미지 삭제에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('서버 오류가 발생했습니다.');
+        });
+    }
 		</script>
 
 	</div>
