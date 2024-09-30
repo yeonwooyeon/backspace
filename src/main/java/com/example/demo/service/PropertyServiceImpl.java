@@ -155,4 +155,17 @@ public class PropertyServiceImpl implements PropertyService {
 	    return (int) Math.ceil((double) totalProperties / size);
 	}
 
+
+	@Override
+	public void deleteImage(String imageUrl) {
+		Path filePath = Paths.get("src/main/resources/static" + imageUrl);
+	    try {
+	        Files.deleteIfExists(filePath); // 파일 삭제
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    // 데이터베이스에서 이미지 삭제
+	    imageRepository.deleteByUrl(imageUrl);
+	}
 }

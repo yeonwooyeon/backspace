@@ -35,6 +35,10 @@
         WHERE info_no = #{info_no}
     </update>
     
+<!-- 이미지 삭제 쿼리 -->
+<delete id="deleteByUrl" parameterType="java.lang.String">
+    DELETE FROM Pp_img WHERE si_insideurl = #{imageUrl}
+</delete>
 
 
 </mapper>

@@ -21,4 +21,5 @@ public interface PropertyService {
 	void updateProperty(Property property, MultipartFile[] photos, MultipartFile operatorFile);
 	Property getPropertyDetails(Integer info_no);
 	Object getTotalPages(Long userId, int size);
+	void deleteImage(String imageUrl);
 }
