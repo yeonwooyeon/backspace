@@ -35,9 +35,6 @@
         WHERE info_no = #{info_no}
     </update>
     
-    <delete id="deleteByNo" parameterType="Integer">
-        DELETE FROM Pp_img
-        WHERE img_no = #{img_no}
-    </delete>
+
 
 </mapper>
