@@ -95,13 +95,16 @@ public class PropertyController {
     }
     
     @PostMapping("/updateProperty")
-    public RedirectView updateProperty(@ModelAttribute Property property, Principal principal) {
+    public RedirectView updateProperty(@ModelAttribute Property property,
+							    		@RequestParam MultipartFile[] photos,
+										@RequestParam MultipartFile operatorFile,
+    									Principal principal) {
         // 현재 로그인한 사용자 ID 설정
         String username = principal.getName();
         User user = propertyService.findByUsername(username);
         property.setId(user.getId());
         
-        propertyService.updateProperty(property);
+        propertyService.updateProperty(property, photos, operatorFile);
         return new RedirectView("/property");
     }
     

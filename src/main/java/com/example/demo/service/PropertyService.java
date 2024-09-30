@@ -18,7 +18,7 @@ public interface PropertyService {
     User findByUsername(String username);
 	List<Image> getImagesByPropertyId(Integer info_no);
 	Property getPropertyById(Integer info_no);
-	void updateProperty(Property property);
+	void updateProperty(Property property, MultipartFile[] photos, MultipartFile operatorFile);
 	Property getPropertyDetails(Integer info_no);
 	Object getTotalPages(Long userId, int size);
 }

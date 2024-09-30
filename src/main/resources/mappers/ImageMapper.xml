@@ -24,5 +24,20 @@
     <select id="getImagesByPropertyId" resultMap="ImageResultMap" parameterType="java.lang.Integer">
         SELECT * FROM Pp_img WHERE info_no = #{info_no}
     </select>
+    
+     <!-- 이미지 업데이트 쿼리 -->
+    <update id="deleteByNo" parameterType="map">
+        update Pp_img SET
+		si_insideurl=#{si_insideurl},
+		si_outsideurl=#{si_outsideurl},
+		si_insidename=#{si_insidename},
+		si_outsidename=#{si_outsidename}
+        WHERE info_no = #{info_no}
+    </update>
+    
+    <delete id="deleteByNo" parameterType="Integer">
+        DELETE FROM Pp_img
+        WHERE img_no = #{img_no}
+    </delete>
 
 </mapper>
