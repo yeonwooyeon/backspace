@@ -231,10 +231,12 @@
         <label for="propertyImages">사진 미리보기</label>
         <div>
             <div th:if="${property != null}">
-                <div th:each="photo : ${property.images}">
-                    <div>
+                <div th:each="photo, iterStat : ${property.images}">
+                <div th:id="'image-' + ${iterStat.index}">
                         <img th:src="${photo.si_insideurl}" alt="Property Image" style="max-width: 100px; max-height: 100px;">
-                        <button type="button" th:attr="onclick='deleteImageFromServer(&quot;' + ${photo.si_insideurl} + '&quot;)'">삭제</button>
+                        <button type="button" th:attr="onclick='deleteImageFromServer(&quot;' + ${photo.si_insideurl} + '&quot;, ' + ${iterStat.index} + ');'">
+                       삭제
+                        </button>
                     </div>
                 </div>
             </div>
@@ -411,19 +413,31 @@
 
 
     // 서버에서 이미지를 삭제하는 함수
-   function deleteImageFromServer(photoUrl) {
-	   console.log('Deleting image:', photoUrl); // URL 로그
+   function deleteImageFromServer(photoUrl, index) {
+	   console.log('Deleting image:', photoUrl, 'with index:', index); // URL 로그
+	   
     fetch('http://localhost:1005/property/deleteImage?imageUrl=' + encodeURIComponent(photoUrl), {
         method: 'DELETE',
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
+
         }
         // 204 No Content일 경우 JSON 파싱을 하지 않음
         if (response.status === 204) {
             console.log('Image deleted successfully, no response body.');
-
+                      
+            // 서버에서 이미지를 삭제한 후 UI에서 해당 이미지와 버튼을 포함한 div 제거
+            const imageContainer = document.getElementById(`image-${index}`);
+            console.log('Attempting to remove container:', imageContainer);
+            if (imageContainer) {
+                imageContainer.remove(); // 해당 div를 제거
+                console.log('Image container removed:', imageContainer);
+            }else {
+                console.error('Image container not found for index:', index);
+            }
+            
             return null; // or return a resolved promise
         }
         return response.json();
@@ -435,6 +449,8 @@
     })
     .catch(error => console.error('There has been a problem with your fetch operation:', error));
 }
+    
+    
 		</script>
 
 	</div>
