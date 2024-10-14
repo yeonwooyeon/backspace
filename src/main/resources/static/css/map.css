@@ -1,206 +1,219 @@
-/* 전체 페이지 스타일 */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
+/* 색상 변수 정의 */
+:root {
+	--primary-color: #FF5722;
+	--secondary-color: #FFB74D;
+	--background-color: #FFFFFF;
+	--text-color: #333333;
+	--border-color: #CCCCCC;
+	--hover-color: #B03B3B;
+	--button-bg-color: #D95050;
 }
 
+/* 전체 페이지 스타일 */
+body {
+	font-family: 'Arial', sans-serif;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+	background-color: var(--background-color);
+	color: var(--text-color);
+}
+
+/* 헤더 스타일 */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: white;
-    border-bottom: 2px solid #FFB74D;
-    font-weight: bold;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 20px;
+	background-color: var(--background-color);
+	border-bottom: 2px solid var(--secondary-color);
+	font-weight: bold;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 header .logo img {
-    height: 40px;
-    margin-right: 10px;
-    cursor: pointer;
+	height: 40px;
+	margin-right: 10px;
+	cursor: pointer;
 }
 
 header nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
+	margin: 0 15px;
+	text-decoration: none;
+	color: var(--text-color);
+	font-weight: bold;
 }
 
 header .user-menu {
-    display: flex;
-    flex-wrap: nowrap;
+	display: flex;
+	flex-wrap: nowrap;
 }
 
 header .user-menu a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #FF5722;
-    border: 1px solid #FF5722;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.7em;
+	margin-left: 20px;
+	text-decoration: none;
+	color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-size: 0.7em;
 }
 
 header .user-menu a:hover {
-    background-color: #FF5722;
-    color: white;
+	background-color: var(--primary-color);
+	color: white;
 }
 
 /* 검색 박스 스타일 */
 #searchBox {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+	display: flex;
+	justify-content: center;
+	margin: 20px 0;
+	text-align: left;
 }
 
 #searchBox input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-    max-width: 300px;
-    outline: none;
-    transition: border-color 0.3s ease;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid var(--border-color);
+	border-radius: 4px 0 0 4px;
+	width: 400px;
+	outline: none;
+	transition: border-color 0.3s ease;
 }
 
 #searchBox input[type="text"]:focus {
-    border-color: #d95050;
+	border-color: var(--hover-color);
 }
 
 #searchBox button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #d95050;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 4px;
+	padding: 10px 20px;
+	font-size: 16px;
+	color: #fff;
+	background-color: var(--button-bg-color);
+	border: none;
+	border-radius: 0 4px 4px 0;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	margin-right: 4px;
 }
 
 #searchBox button:hover {
-    background-color: #b03b3b;
+	background-color: var(--hover-color);
+	transform: scale(1.05);
 }
+
+.checkbox {
+	text-align: left;
+	margin-left: 7.5%;
+}
+
+/* 컨테이너 및 지도 스타일 */
 .container {
-    display: flex;
-    justify-content: space-between; /* 두 요소 사이에 여백을 설정 */
-    align-items: flex-start; /* 상단에 맞추어 정렬 */
-    width: 100%; /* 부모 요소의 너비를 100%로 설정 */
-    height: 700px; /* 높이는 map 요소의 높이와 맞추기 */
+	display: flex;
+	justify-content: space-between; /* 두 요소 사이에 여백을 설정 */
+	align-items: flex-start; /* 상단에 맞추어 정렬 */
+	width: 100%; /* 부모 요소의 너비를 100%로 설정 */
+	height: 700px; /* 높이는 map 요소의 높이와 맞추기 */
 }
-/* 지도 스타일 */
+
 #map {
-    width: 40vw;
-    height: 700px;
-    margin-left: 9.5%;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
+	width: 40vw;
+	height: 700px;
+	margin-left: 9.5%;
+	border: 1px solid var(--border-color);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+	z-index: 5;
 }
 
 #locateMeBtn {
-    position: absolute;
-    bottom: 15%;
-    right: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #00A5FF;
-    color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 14px;
-    z-index: 10;
+	position: absolute;
+	bottom: 15%;
+	right: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #00A5FF;
+	color: #fff;
+	border: 1px solid #ddd;
+	padding: 10px 15px;
+	cursor: pointer;
+	border-radius: 5px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	z-index: 10;
 }
 
 /* 메뉴 스타일 */
 #menu_wrap {
-    top: 0;
-    bottom: 0;
-    width: 40%;
-    height:100%;
-    margin-right: 10%;
-    z-index: 1;
-    font-size: 12px;
-    background: rgba(255, 255, 0, 0.0);
-    border: 1px solid #000;
+	top: 0;
+	bottom: 0;
+	width: 40%;
+	height: 100%;
+	margin-right: 10%;
+	font-size: 12px;
+	background: rgba(255, 255, 0, 0.0);
+	border: 1px solid #000;
 }
 
 #menu_wrap hr {
-    border-top: 2px solid #5F5F5F;
-    margin: 3px 0;
+	border-top: 2px solid #5F5F5F;
+	margin: 3px 0;
 }
 
-#menu_wrap .option {
-    text-align: center;
-}
-
-/* 장소 목록 스타일 */
 #placesList {
-    list-style: none;
+	list-style: none;
 }
 
-#placesList .item {
-    position: relative;
-    border-bottom: 1px solid #888;
-    min-height: 65px;
-    cursor: pointer;
+#placesList li {
+	border-bottom: 1px solid var(--border-color);
+	margin-right: 10%;
 }
 
-#placesList .info {
-    padding: 10px 0 10px 55px;
+#roadview {
+	margin-top: 10px;
+	width: 80.5%;
+	height: 500px;
+	margin-left: 9.5%;
 }
 
-#placesList .gray {
-    color: #8a8a8a;
-}
-
-#placesList .tel {
-    color: #009900;
-}
-
-/* 마커 스타일 */
-#placesList .markerbg {
-    position: absolute;
-    width: 36px;
-    height: 37px;
-    margin: 10px 0 0 10px;
-    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
-}
-
-/* 페이지네이션 스타일 */
-#pagination {
-    margin: 10px auto;
-    text-align: center;
-}
-
-#pagination a {
-    margin-right: 10px;
-}
-
-#pagination .on {
-    font-weight: bold;
-    color: #777;
-    cursor: default;
-}
-
-/* 푸터 스타일 */
 footer {
-    background-color: grey;
-    color: white;
-    text-align: left;
-    padding: 20px 15%;
-    font-size: 1em;
-    margin-top: 100px;
+	background-color: grey;
+	color: white;
+	text-align: left;
+	padding: 30px 15%;
+	font-size: 1em;
+	margin-top: 100px;
+	bottom: 0;
+}
+
+.info_name {
+	font-size: 1.2em;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+#placesList p {
+	margin: 3px 0;
+}
+
+#placesList li:hover {
+	background-color: #F5D0A9;
+	transform: scale(1.05);
+}
+
+.map_info_name {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-align: center;
+    width: 10px;
+}
+
+.infowindow {
+	width: 100%;	
 }

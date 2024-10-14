@@ -33,32 +33,31 @@
 				<div class="option">
 					<form onsubmit="performSearch(); return false;">
 						<div id="searchBox">
-							<input type="text" id="address" placeholder="지명,도로명,지번만 됨">
-							<button id="addressSearchBtn" type="button">검색</button>							
-							<button type="button">&#x21BB; 초기화</button>							
-							<button type="button">조건저장</button>							
+							<input type="text" id="address" placeholder="지명,도로명,지번만 입력해 주세요">
+							<button id="addressSearchBtn" type="button">검색</button>
 						</div>
-						타입<br>
-						거래유형<br>
-						방갯수<br>
-						층수 | 준공년도 | 사진/영상<br>
-						추가옵션<br>
-						기준가<br>
-						보증금/매매가<br>
-						월세<br>
-						전용면적<br>
+						<div class="checkbox">
+							타입<br> 
+							거래유형<br> 
+							방갯수<br> 
+							층수 | 준공년도 | 사진/영상<br>
+							추가옵션<br> 
+							기준가<br> 
+							보증금/매매가<br> 
+							월세<br> 
+							전용면적<br>
+						</div>
 					</form>
 				</div>
 				<hr>
 				<ul id="placesList"></ul>
 				<div id="pagination"></div>
-				<div id="roadview" style="width: 100%; height: 300px;"></div>
-
 			</div>
 		</div>
+		<div id="roadview"></div>
 	</div>
 
-    <script>
+	<script>
         var map, marker, infowindow, geocoder;
         var roadview = new kakao.maps.Roadview(document.getElementById('roadview'));
         var roadviewClient = new kakao.maps.RoadviewClient();
@@ -105,8 +104,6 @@
             roadviewClient.getNearestPanoId(position, 50, (panoId) => {
                 if (panoId) {
                     roadview.setPanoId(panoId, position);
-                } else {
-                    alert('로드뷰 지원을 하지 않는 장소입니다.');
                 }
             });
         }
@@ -150,9 +147,9 @@
             places.forEach((place) => {
                 const itemEl = document.createElement('li');
                 itemEl.innerHTML = `
-                    <h5>${place.info_name}</h5>
-                    <p>${place.info_add}</p>
-                    <p>건물 유형: ${place.info_option}</p>
+                    <p class="info_name">${place.info_name}</p>
+                    <p class="info_add">${place.info_add}</p>
+                    <p class="info_option">건물 유형: ${place.info_option}</p>
                 `;
 
                 // 클릭 시 주소로 위치 이동
@@ -168,7 +165,7 @@
                                 map: map,
                                 position: coords
                             });
-                            infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+                            infowindow.setContent(`<div class="map_info_name">${place.info_name}</div>`);
                             infowindow.open(map, marker);
                         } else {
                             alert('주소 검색에 실패했습니다.');
@@ -214,8 +211,8 @@
                 });
         });
     </script>
-    <footer>
-        <div>© 2024 Vacancy. All rights reserved.</div>
-    </footer>
+	<footer>
+		<div>© 2024 Vacancy. All rights reserved.</div>
+	</footer>
 </body>
 </html>

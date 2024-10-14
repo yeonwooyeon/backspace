@@ -1,0 +1,2 @@
+ALTER TABLE Pp_img
+DROP COLUMN si_img;

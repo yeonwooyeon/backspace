@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>VACANCY</title>
+	<link rel="stylesheet" href="../css/index.css">
+	<link rel="icon" href="img/logo.ico" type="image/x-icon">
+</head>
+
+<body>
+	<header class="헤더">
+		<p class="로고" href="main.html"><img src="images/logo.png">VACANCY</p>
+
+		<div class="메뉴">
+			<a href="map">공실정보</a>
+			<th:block th:if="${loggedIn}"><a href="property">관리물건</a></th:block>
+			<th:block th:unless="${loggedIn}"><a onclick="showLoginPopup()">관리물건</a></th:block>
+		</div>
+
+		<div class="유저메뉴">
+			<a href="/boards/free">고객센터</a>
+			<th:block th:if="${loggedIn}">
+				<a href="users/myPage/boards">마이페이지</a>
+				<a href="users/logout">로그아웃</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a href="users/login">로그인</a>
+				<a href="users/join">회원가입</a>
+			</th:block>
+		</div>
+	</header>
+
+	<div class="배너">
+		<div>
+			<h2>공실정보</h2>
+			<p id="공실정보">0건</p>
+		</div>
+		<div>
+			<h2>임대정보</h2>
+			<p id="임대정보">0건</p>
+		</div>
+		<div>
+			<h2>신규공실정보</h2>
+			<p id="신규공실정보">0건</p>
+		</div>
+	</div>
+
+	<div class="검색">
+		<input class="검색창" type="text" placeholder="건물명, 도로명">
+		<button type="button">검색</button>
+	</div>
+
+	<div class="공실정보">
+		<h3>실시간 공실 정보</h3>
+		<div class="건물사진">
+			<div>
+				<img src="img/news-p.v1.20240719.96f020c1776f4ef69692b7b6825fb827.png" alt="property1">
+				<p>전세 2,600</p>
+				<p>동구 자양동</p>
+			</div>
+			<div>
+				<img src="img/pexels-photo-290275.jpeg" alt="property2">
+				<p>월세 300/35</p>
+				<p>동구 자양동</p>
+			</div>
+			<div>
+				<img src="img/unnamed.jpg" alt="property3">
+				<p>월세 100/21</p>
+				<p>동구 자양동</p>
+			</div>
+			<div>
+				<img src="img/news-p.v1.20240719.96f020c1776f4ef69692b7b6825fb827.png" alt="property4">
+				<p>월세 150/21</p>
+				<p>동구 자양동</p>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<div>© 2024 Vacancy. All rights reserved.</div>
+	</footer>
+
+	<div id="로그인팝업" class="로그인팝업">
+		<div>
+			<span class="close" onclick="closeLoginPopup()">&times;</span>
+			<p>로그인 후 관리물건에 접근하실 수 있습니다.</p>
+			<a href="users/login">로그인 페이지로 이동</a>
+		</div>
+	</div>
+
+	<script>
+		function showLoginPopup() {
+			document.getElementById("로그인팝업").style.display = "block";
+		}
+
+		function closeLoginPopup() {
+			document.getElementById("로그인팝업").style.display = "none";
+		}
+
+		window.onclick = function (event) {
+			var loginmodal = document.getElementById("로그인팝업");
+			if (event.target == loginmodal) {
+				loginmodal.style.display = "none";
+			}
+		}
+
+		function countUp(elementId, target) {
+			let countBox = document.querySelector(elementId);
+			let count = 0;
+			let duration = 1500;
+			let intervalTime = 10;
+			let steps = duration / intervalTime;
+			let increment = target / steps;
+
+			let counting = setInterval(function () {
+				if (count >= target) {
+					count = target;
+					clearInterval(counting);
+				} else {
+					count += increment;
+				}
+				countBox.innerHTML = new Intl.NumberFormat().format(Math.floor(count)) + "건";
+			}, intervalTime);
+		}
+
+		countUp('#공실정보', 312);
+		countUp('#임대정보', 124);
+		countUp('#신규공실정보', 32);
+	</script>
+
+</body>
+
+</html>
