@@ -213,3 +213,65 @@ hr{
 	height: 500px;
 	border: 2px solid #F5D0A9;
 }
+
+
+.로그인팝업 {
+    display: none;
+    /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.로그인팝업 div {
+    background-color: #fff;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    width: 500px;
+    height: 200px;
+    position: fixed;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.로그인팝업 div a {
+    position: absolute;
+    border: 2px solid #FF5722;
+    color: #FF5722;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 100px;
+    transform: translate(-50%);
+    top: -20px;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.로그인팝업 div a:hover {
+    background-color: #FF5722;
+    color: white;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    color: #aaa;
+    float: right;
+    padding-right: 10px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover {
+    color: black;
+    cursor: pointer;
+}

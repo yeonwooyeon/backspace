@@ -106,26 +106,39 @@ div[align="center"] {
 }
 
 .link-btn:hover {
-	background-color: #e9ecef; /* Hover 시 배경색 */
 }
 </style>
 </head>
 <body>
+<header class="헤더">
+		<a class="로고" href="/"><img src="../../images/logo.png">VACANCY</a>
 
-	<header>
-		<div class="logo">
-			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>VACANCY</span>
+		<div class="메뉴">
+			<th:block th:if="${loggedIn}">
+				<a href="map">공실정보</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a onclick="showLoginPopup()">공실정보</a>
+			</th:block>
+			
+			<th:block th:if="${loggedIn}">
+				<a href="property">관리물건</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a onclick="showLoginPopup()">관리물건</a>
+			</th:block>
 		</div>
-		<nav>
-			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
-			<a href="#">분양사무실</a>
-		</nav>
-		<div class="user-menu">
-			<a href="/boards/user">고객센터</a> 
-			<a href="/users/login">로그인</a> 
-			<a href="/users/join">회원가입</a>
+
+		<div class="유저메뉴">
+			<a href="/boards/free">고객센터</a>
+			<th:block th:if="${loggedIn}">
+				<a href="users/myPage/boards">마이페이지</a>
+				<a href="users/logout">로그아웃</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a href="users/login">로그인</a>
+				<a href="users/join">회원가입</a>
+			</th:block>
 		</div>
 	</header>
 	<div class="row">
