@@ -1,128 +1,268 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <meta charset="UTF-8">
 <title>VACANCY</title>
 <link rel="stylesheet" href="../css/map.css">
 <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
 <script type="text/javascript"
-	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
-<script src="script/map.js" defer></script>
+   src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
-
 <body>
-	<header class="헤더">
-		<a class="로고" href="/"><img src="images/logo.png" href="main.html">VACANCY</a>
+   <header>
+      <div class="logo">
+         <a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
+            class="logo" id="logo">
+         </a> <span>공실정보</span>
+      </div>
+      <nav>
+         <a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
+         <a href="#">분양사무실</a>
+      </nav>
+      <div class="user-menu">
+         <a href="#">고객센터</a> <a href="#">마이페이지</a> <a href="#">로그인</a> <a
+            href="#">회원가입</a>
+      </div>
+   </header>
 
-		<div class="메뉴">
-			<a href="map">공실정보</a>
-			<a href="property">관리물건</a>
-		</div>
+   <div class="map_wrap">
+      <div class="container">
+            <div id="mapContainer">
+            <button id="locateMeBtn">내 위치</button>
+             <div id="map"></div>
+             <div id="roadview"></div>
+            
+            </div>
+            <div id="menu_wrap" class="bg_white">
+            <div class="option">
+               <form onsubmit="performSearch(); return false;">
+                  <div id="searchBox">
+                     <input type="text" id="address" placeholder="ex) 하대동 320-43">
+                     <button id="addressSearchBtn" type="button">검색</button>                     
+                     <button type="button" id="resetBtn">&#x21BB; 초기화</button>               
+                  </div>
+               </form>
+               <a href="#" class="search-filter">주거타입</a> 
+               <label><input type="checkbox" name="info_option" value="주택"> 주택</label>
+               <label><input type="checkbox" name="info_option" value="오피스텔"> 오피스텔</label>
+               <label><input type="checkbox" name="info_option" value="사무실"> 사무실</label>
+               <label><input type="checkbox" name="info_option" value="상가"> 상가</label>
+               <br><hr>
+               
+               <a href="#" class="search-filter">거래유형</a> 
+               <label><input type="checkbox" name="transaction_type" value="전세"> 전세</label>
+               <label><input type="checkbox" name="transaction_type" value="월세"> 월세</label>
+               <label><input type="checkbox" name="transaction_type" value="매매"> 매매</label>
+               <br><hr>
+      
+               <a href="#" class="search-filter">방갯수</a> 
+               <label><input type="checkbox" name="field" value="원룸"> 원룸</label>
+               <label><input type="checkbox" name="field" value="투룸"> 투룸</label>
+               <label><input type="checkbox" name="field" value="쓰리룸"> 쓰리룸</label>
+               <label><input type="checkbox" name="field" value="포룸"> 포룸 이상</label>
+               <br><hr>
+               
+               <!-- Other filters... -->
 
-		<div class="유저메뉴">
-			<a href="/boards/free">고객센터</a>
-			<th:block th:if="${loggedIn}">
-				<a href="users/myPage/boards">마이페이지</a>
-				<a href="users/logout">로그아웃</a>
-			</th:block>
-			<th:block th:unless="${loggedIn}">
-				<a href="users/login">로그인</a>
-				<a href="users/join">회원가입</a>
-			</th:block>
-		</div>
-	</header>
+               <a href="#" class="search-filter">보증금/매매가</a>
+               <label><input type="checkbox" name="field" value="500"> ~500만원</label>
+               <label><input type="checkbox" name="field" value="1000"> 500~1000만원</label>
+               <label><input type="checkbox" name="field" value="4000"> 1000~4000만원</label>
+               <label><input type="checkbox" name="field" value="8000"> 4000~8000만원</label>
+               <label><input type="checkbox" name="field" value="8000plus"> 8000만원 이상</label>
+               <br><hr>
+               
+            </div>
+            
+            <ul id="placesList"></ul>
+            <div id="pagination"></div>
+            
+         </div>
+      </div>
+   </div>
+   
 
-	<div class="맵박스">
-		<div class="맵" id="map"></div>
-		<button class="내위치" id="locateMeBtn">내 위치</button>
-		<div class="검색박스">
-			<form onsubmit="performSearch(); return false;">
-				<div class="입력창" 1d="searchBox">
-					<input class="텍스트란" type="text" id="address"
-						placeholder="지명,도로명,지번만 입력해 주세요">
-					<button class="검색버튼" id="addressSearchBtn" type="button">검색</button>
-				</div>
-				<hr>
-				<div class="체크박스">
-					<div>
-						<div class="옵션이름">타입 |</div>
-						<div class="옵션">
-							<input type="checkbox">주택
-						</div>
-						<div class="옵션">
-							<input type="checkbox">오피스텔
-						</div>
-						<div class="옵션">
-							<input type="checkbox">사무실
-						</div>
-						<div class="옵션">
-							<input type="checkbox">상가
-						</div>
-					</div>
-					<div>
-						<div class="옵션이름">거래유형 |</div>
-						<div class="옵션">
-							<input type="checkbox">전세
-						</div>
-						<div class="옵션">
-							<input type="checkbox">월세
-						</div>
-						<div class="옵션">
-							<input type="checkbox">매매
-						</div>
-					</div>
-					<div>
-						<div class="옵션이름">방갯수 |</div>
-						<div class="옵션">
-							<input type="checkbox">1개
-						</div>
-						<div class="옵션">
-							<input type="checkbox">2개
-						</div>
-						<div class="옵션">
-							<input type="checkbox">3개 이상
-						</div>
-					</div>
-				</div>
-			</form>
-			<hr>
-			<ul id="placesList"></ul>
-			<div id="pagination"></div>
-		</div>
-	</div>
-	<div id="roadview"></div>
+    <script>
+        var map, marker, infowindow, geocoder;
+        var roadview = new kakao.maps.Roadview(document.getElementById('roadview'));
+        var roadviewClient = new kakao.maps.RoadviewClient();
+        var markers = [];
+        var allPlaces = []; // 전체 장소 정보를 저장할 배열
 
-	<script>
-		
-	</script>
-	<footer>
-		<div>© 2024 Vacancy. All rights reserved.</div>
-	</footer>
+        function initializeMap(lat, lng) {
+            map = new kakao.maps.Map(document.getElementById('map'), {
+                center: new kakao.maps.LatLng(lat, lng),
+                level: 3
+            });
+            map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+            map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
-	<div id="로그인팝업" class="로그인팝업">
-		<div>
-			<span class="close" onclick="closeLoginPopup()">&times;</span>
-			<p>로그인 후 관리물건에 접근하실 수 있습니다.</p>
-			<a href="users/login">로그인 페이지로 이동</a>
-		</div>
-	</div>
-	<script>
-		function showLoginPopup() {
-			document.getElementById("로그인팝업").style.display = "block";
-		}
+            marker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(lat, lng), map: map });
+            infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+            geocoder = new kakao.maps.services.Geocoder();
 
-		function closeLoginPopup() {
-			document.getElementById("로그인팝업").style.display = "none";
-		}
+            kakao.maps.event.addListener(map, 'click', (e) => {
+                map.setLevel(3);
+                marker.setPosition(e.latLng);
+                displayRoadview(e.latLng.getLat(), e.latLng.getLng());
+            });
+        }
 
-		window.onclick = function(event) {
-			var loginmodal = document.getElementById("로그인팝업");
-			if (event.target == loginmodal) {
-				loginmodal.style.display = "none";
-			}
-		}
-	</script>
+        function searchAddress() {
+            const address = document.getElementById('address').value.trim();
+            if (!address) return alert('주소를 입력해주세요!');
+
+            geocoder.addressSearch(address, (result, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    map.setLevel(3);
+                    map.setCenter(coords);
+                    marker.setPosition(coords);
+                    displayRoadview(result[0].y, result[0].x);
+                } else {
+                    alert('검색어를 확인해주세요.');
+                }
+            });
+        }
+
+        function displayRoadview(lat, lng) {
+            var position = new kakao.maps.LatLng(lat, lng);
+            roadviewClient.getNearestPanoId(position, 50, (panoId) => {
+                if (panoId) {
+                    roadview.setPanoId(panoId, position);
+                } else {
+                    alert('로드뷰 지원을 하지 않는 장소입니다.');
+                }
+            });
+        }
+
+        function getLocation(callback) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => callback(position.coords.latitude, position.coords.longitude),
+                    error => alert('위치 정보를 사용할 수 없습니다.')
+                );
+            } else {
+                alert('현재 위치를 지원하지 않는 브라우저입니다.');
+            }
+        }
+
+        function performSearch() {
+            searchAddress();  // 주소 검색
+            searchDatabase(); // 데이터베이스 검색
+        }
+
+        function searchDatabase() {
+            const keyword = document.getElementById('address').value.trim();
+            if (!keyword) return alert('검색어를 입력하세요.');
+
+            fetch(`/search?keyword=${keyword}`)
+                .then(response => response.json())
+                .then(data => {
+                    allPlaces = data; // 전체 데이터 저장
+                    displaySearchResults(allPlaces); // 결과 표시
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function displaySearchResults(places) {
+            const listEl = document.getElementById('placesList');
+            listEl.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            places.forEach((place) => {
+                const itemEl = document.createElement('li');
+                itemEl.innerHTML = `
+                    <h5>${place.info_name}</h5>
+                    <p>${place.info_add}</p>
+                    <p>건물 유형: ${place.info_option}</p>
+                `;
+
+                // 클릭 시 주소로 위치 이동
+                itemEl.addEventListener('click', function() {
+                    const address = place.info_add;
+
+                    geocoder.addressSearch(address, (result, status) => {
+                        if (status === kakao.maps.services.Status.OK) {
+                            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                            map.setLevel(3);
+                            map.setCenter(coords);
+                            const marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+                            infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+                            infowindow.open(map, marker);
+                        } else {
+                            alert('주소 검색에 실패했습니다.');
+                        }
+                    });
+                });
+
+                fragment.appendChild(itemEl);
+            });
+
+            listEl.appendChild(fragment);
+        }
+
+        // 체크박스 필터링
+        function filterResults() {
+            const filteredPlaces = allPlaces.filter(place => {
+                const infoOption = document.querySelector('input[name="info_option"]:checked');
+                const transactionType = document.querySelector('input[name="transaction_type"]:checked');
+                // 여기에 추가 필터링 로직을 넣을 수 있습니다.
+                return (infoOption ? place.info_option === infoOption.value : true) &&
+                       (transactionType ? place.transaction_type === transactionType.value : true);
+            });
+            displaySearchResults(filteredPlaces);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            getLocation((lat, lng) => {
+                initializeMap(lat, lng);
+                displayRoadview(lat, lng);
+            });
+
+            document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
+            document.getElementById('addressSearchBtn').addEventListener('click', performSearch);
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                document.getElementById('address').value = '';
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+                displaySearchResults(allPlaces); // 모든 결과 다시 표시
+            });
+            document.getElementById('address').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch();
+                }
+            });
+            document.getElementById('locateMeBtn').addEventListener('click', () => {
+                getLocation((lat, lng) => {
+                    const coords = new kakao.maps.LatLng(lat, lng);
+                    map.setLevel(3);
+                    map.setCenter(coords);
+                    marker.setPosition(coords);
+                    displayRoadview(lat, lng);
+                });
+            });
+
+            // 체크박스 변경 시 필터링 적용
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', filterResults);
+            });
+
+            // 데이터베이스에서 주소 목록을 불러와서 표시
+            fetch('/addresses')
+                .then(response => response.json())
+                .then(data => {
+                    allPlaces = data; // 전체 데이터 저장
+                    displaySearchResults(allPlaces); // 결과 표시
+                });
+        });
+    </script>
+
 </body>
-
 </html>

@@ -119,10 +119,10 @@ header .user-menu a:hover {
 
 /* 옵션 컨테이너 스타일 */
 .option {
-	margin-top: 10px;
-   	display: flex;
+   margin-top: 10px;
+      display: flex;
     flex-direction: column;
-	margin-left: 7.5%;
+   margin-left: 7.5%;
     padding: 15px;
     background-color: #f9f9f9; /* 배경색 */
     border-radius: 8px; /* 모서리 둥글게 */
@@ -142,7 +142,7 @@ header .user-menu a:hover {
 
 /* 체크박스 레이블 스타일 */
 .option label {
-	
+   
     
     display: block; /* 블록 형태로 보여주기 */
     
@@ -159,7 +159,7 @@ header .user-menu a:hover {
 /* 구분선 스타일 */
 .option hr {
     border-top: 1px solid var(--border-color); /* 경계선 색상 */
-    margin: 10px 0; /* 위아래 여백 */
+    margin: 5px 0; /* 위아래 여백 */
 }
 
 /* 옵션이 선택되었을 때의 효과 */
