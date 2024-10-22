@@ -1,97 +1,244 @@
-body {
-    margin: 0;
-    padding: 0;
+/* 색상 변수 정의 */
+:root {
+   --primary-color: #FF5722;
+   --secondary-color: #FFB74D;
+   --background-color: #FFFFFF;
+   --text-color: #333333;
+   --border-color: #CCCCCC;
+   --hover-color: #B03B3B;
+   --button-bg-color: #D95050;
 }
 
-/* body *{
-    border: 0.001px dashed #000;
-} */
-
-.헤더 {
-    display: flex;
-    align-items: center;
-    padding-left: 200px;
-    padding-right: 200px;
-    font-weight: bold;
-    height: 70px;
-    letter-spacing: 5px;
+/* 전체 페이지 스타일 */
+html, body {
+   height: 100%; /* 전체 페이지 높이를 100%로 설정 */
+   margin: 0;
+   padding: 0;
+   font-family: 'Arial', sans-serif;
+   background-color: var(--background-color);
+   color: var(--text-color);
+   display: flex;
+   flex-direction: column;
+   white-space: nowrap;
 }
 
-.로고 {
-    display: flex;
-    align-items: center;
-    font-size: 1.8em;
-    cursor: default;
-    margin-left: 5px;
-    text-decoration: none;
-    color: #000;
+
+/* 헤더 스타일 */
+header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 20px;
+   background-color: var(--background-color);
+   border-bottom: 2px solid var(--secondary-color);
+   font-weight: bold;
 }
 
-.로고 img {
-    height: 50px;
-    padding-right: 20px;
-    cursor: pointer;
+.logo {
+   display: flex;
+   align-items: center;
 }
 
-.메뉴 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-100%);
+header .logo img {
+   height: 40px;
+   margin-right: 10px;
+   cursor: pointer;
 }
 
-.메뉴 a {
-    padding-left: 10px;
-    padding-right: 10px;
-    text-decoration: none;
-    color: #505050;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1.2em;
-    border-right: 2px solid #FFB74D;
+header nav a {
+   margin: 0 15px;
+   text-decoration: none;
+   color: var(--text-color);
+   font-weight: bold;
 }
 
-.메뉴 a:hover {
-    color: #fff;
-    background-color: #FFB74D;
-    border-radius: 5px;
-    padding: 5px 10px;
+header .user-menu {
+   display: flex;
+   flex-wrap: nowrap;
 }
 
-.메뉴 a:last-child {
-    border-right: none;
+header .user-menu a {
+   margin-left: 20px;
+   text-decoration: none;
+   color: var(--primary-color);
+   border: 1px solid var(--primary-color);
+   padding: 5px 10px;
+   border-radius: 5px;
+   font-size: 0.7em;
 }
 
-.유저메뉴 {
-    display: flex;
-    font-size: 1.2em;
-    position: absolute;
-    right: 200px;
+header .user-menu a:hover {
+   background-color: var(--primary-color);
+   color: white;
 }
 
-.유저메뉴 a {
-    margin-left: 10px;
-    text-decoration: none;
-    color: #FF5722;
-    border: 1px solid #FF5722;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.7em;
+/* 검색 박스 스타일 */
+#searchBox {
+   display: flex;
+   justify-content: center;
+   margin: 20px 0;
+   text-align: left;
+   margin-left: 7%;
 }
 
-.유저메뉴 a:hover {
-    background-color: #FF5722;
-    color: white;
+#searchBox input[type="text"] {
+   padding: 10px;
+   font-size: 16px;
+   border: 1px solid var(--border-color);
+   border-radius: 4px 0 0 4px;
+   width: 400px;
+   outline: none;
+   transition: border-color 0.3s ease;
 }
 
-.맵박스{
-    display: flex;
-    margin-top: 20px;
-    margin-left: 200px;
-    margin-right: 200px;
-    overflow: hidden;
-	z-index: 5;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
-	margin-bottom: 0;
+#searchBox input[type="text"]:focus {
+   border-color: var(--hover-color);
+}
+
+#searchBox button {
+   padding: 10px 20px;
+   font-size: 16px;
+   color: #fff;
+   background-color: var(--button-bg-color);
+   border: none;
+   border-radius: 0 4px 4px 0;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+   margin-right: 4px;
+}
+
+#searchBox button:hover {
+   background-color: var(--hover-color);
+   transform: scale(1.05);
+}
+
+.checkbox {
+   text-align: left;
+   margin-left: 7.5%;
+}
+
+/* 옵션 컨테이너 스타일 */
+.option {
+	margin-top: 10px;
+   	display: flex;
+    flex-direction: column;
+	margin-left: 7.5%;
+    padding: 15px;
+    background-color: #f9f9f9; /* 배경색 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+}
+
+
+/* 필터 제목 스타일 */
+.option .search-filter {
+    font-weight: bold; /* 글씨 두껍게 */
+    color: var(--primary-color); /* 주 색상 사용 */
+    display: block; /* 블록 형태로 보여주기 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    cursor: pointer; /* 커서 모양 변경 */
+}
+
+/* 체크박스 레이블 스타일 */
+.option label {
+	
+    
+    display: block; /* 블록 형태로 보여주기 */
+    
+    cursor: pointer; /* 커서 모양 변경 */
+    color: var(--text-color); /* 텍스트 색상 */
+    font-size: 0.9em; /* 글씨 크기 */
+}
+
+/* 체크박스 스타일 */
+.option input[type="checkbox"] {
+    margin-right: 10px; /* 오른쪽 여백 */
+}
+
+/* 구분선 스타일 */
+.option hr {
+    border-top: 1px solid var(--border-color); /* 경계선 색상 */
+    margin: 10px 0; /* 위아래 여백 */
+}
+
+/* 옵션이 선택되었을 때의 효과 */
+.option label:hover {
+    color: var(--hover-color); /* 마우스 오버 시 색상 변경 */
+}
+
+/* 컨테이너 및 지도 스타일 */
+.container {
+   flex: 1; /* 컨테이너가 남는 공간을 모두 차지하도록 설정 */
+   display: flex;
+   justify-content: space-between; /* 두 요소 사이에 여백을 설정 */
+   align-items: flex-start; /* 상단에 맞추어 정렬 */
+   width: 100%; /* 부모 요소의 너비를 100%로 설정 */
+   height: 700px; /* 높이는 map 요소의 높이와 맞추기 */
+}
+
+
+#mapContainer {
+   width: 85%; /* 컨테이너 너비를 설정 */
+   margin-left: 5%; /* 좌측 여백 설정 */
+   margin-top: 20px; /* 컨테이너 상단 여백 설정 */
+   display: flex;
+   flex-direction: column; /* 요소를 세로로 배치 */
+   border: 1px solid var(--border-color); /* 컨테이너 테두리 */
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+   position: relative;
+   overflow: hidden;
+}
+
+#map {
+   width: 100%; /* 컨테이너 내부에서 너비 100% 사용 */
+   height: 400px; /* 지도의 높이 설정 */
+   border-bottom: 1px solid var(--border-color); /* 지도 아래에 구분선 추가 */
+}
+
+#roadview {
+   width: 100%; /* 컨테이너 내부에서 너비 100% 사용 */
+   height: 400px; /* 로드뷰의 높이 설정 */
+}
+#locateMeBtn {
+   position: absolute;
+   bottom: 430px; /* 지도의 하단에서 20px 위로 */
+   right: 20px; /* 지도의 오른쪽에서 20px 왼쪽으로 */
+   background-color: #00A5FF;
+   color: #fff;
+   border: 1px solid #ddd;
+   padding: 10px 15px;
+   cursor: pointer;
+   border-radius: 5px;
+   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+   font-size: 14px;
+   z-index: 10;
+}
+
+/* 메뉴 스타일 */
+#menu_wrap {
+   top: 0;
+   bottom: 0;
+   width: 40%;
+   height: 100%;
+   margin-right: 10%;
+   font-size: 12px;
+   background: rgba(255, 255, 0, 0.0);
+   /* border: 1px solid #000; */ /* 이 줄을 주석 처리 또는 삭제 */
+}
+
+#menu_wrap hr {
+   border-top: 2px solid #5F5F5F;
+   margin: 3px 0;
+}
+
+#placesList {
+   list-style: none;
+}
+
+#placesList li {
+   border-bottom: 1px solid var(--border-color);
+   margin-right: 10%;
 }
 
 footer {
@@ -99,179 +246,35 @@ footer {
     color: white;
     text-align: left;
     padding: 20px 200px;
-    bottom: 0;
-    margin-top: 50px;
+    position: relative; /* 상대 위치로 설정 */
+    margin-top: auto; /* 푸터가 아래로 밀려나도록 설정 */
 }
 
-.맵{
-    width: 50%;
-    height: 600px;
-}
 
-.내위치{
-    position: absolute;
-    top: 70%;
-    left: 40%;
-    color: #fff;
-    background-color: #00A5FF;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 1em;
-    cursor: pointer;
-    z-index: 1;
-    padding: 5px 10px;
-}
 
-.검색박스{
-    width: 44%;
-    margin-left: 3%;
-    margin-right: 3%;
-    padding-top: 10px;
-}
-
-.입력창{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-}
-
-.텍스트란{
-    font-size: 1.5em;
-    width: 75%;
-    border: 2px solid rgba(0, 0, 0, 0.3);
-    border-right: none;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    padding: 2px 10px;
-}
-
-.검색버튼{
-    font-size: 1.5em;
-    color: #fff;
-    background-color:#FFB74D;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none;
-    padding: 1px 10px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border: 0.1px solid #FFB74D;
-}
-
-.검색버튼:hover {
-    background-color:#fff;
-    color: #FFB74D;
-}
-
-.체크박스 div{
-    margin-left: 10px;
-    display: flex;
-    margin-bottom: 5px;
-}
-
-.옵션이름{
-    width: 120px;
-    justify-content: right;
-}
-
-.옵션{
-    border: 1px solid #000;
-    margin-left: 10px;
-    padding: 1px;
-    padding-right: 5px;
-    border-radius: 5px;
-}
-
-hr{
-    border: none; /* 기본 테두리 제거 */
-    height: 2px; /* 선의 두께 설정 */
-    background-color: #FFB74D; /* 선의 색상 설정 */
-}
-
-#placesList {
-	list-style: none;
+.info_name {
+   font-size: 1.2em;
+   font-weight: 600;
+   margin-bottom: 0;
 }
 
 #placesList p {
-	margin: 3px 0;
-}
-
-#placesList li {
-	border-bottom: 1px solid var(--border-color);
-	margin-right: 10%;
+   margin: 3px 0;
 }
 
 #placesList li:hover {
-	background-color: #F5D0A9;
-	transform: scale(1.05);
+   background-color: #F5D0A9;
+   transform: scale(1.05);
 }
 
-#roadview{
-    margin-left: 200px;
-    margin-right: 200px;
-	height: 500px;
-	border: 2px solid #F5D0A9;
-}
-
-
-.로그인팝업 {
-    display: none;
-    /* 기본적으로 숨김 */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.로그인팝업 div {
-    background-color: #fff;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%);
-    width: 500px;
-    height: 200px;
-    position: fixed;
+.map_info_name {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
     text-align: center;
-    border-radius: 10px;
-    font-weight: bold;
+    width: 10px;
 }
 
-.로그인팝업 div a {
-    position: absolute;
-    border: 2px solid #FF5722;
-    color: #FF5722;
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 100px;
-    transform: translate(-50%);
-    top: -20px;
-    text-decoration: none;
-    font-size: 1.2em;
-}
-
-.로그인팝업 div a:hover {
-    background-color: #FF5722;
-    color: white;
-}
-
-.close {
-    position: absolute;
-    right: 10px;
-    color: #aaa;
-    float: right;
-    padding-right: 10px;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover {
-    color: black;
-    cursor: pointer;
+.infowindow {
+   width: 100%;   
 }
