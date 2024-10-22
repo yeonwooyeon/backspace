@@ -8,121 +8,121 @@
 <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 </head>
 <body>
-	<header class="헤더">
-		<a class="로고" href="/"><img src="images/logo.png">VACANCY</a>
+   <header class="헤더">
+      <a class="로고" href="/"><img src="images/logo.png">VACANCY</a>
 
-		<div class="메뉴">
-			<a href="map">공실정보</a>
-			<th:block th:if="${loggedIn}">
-				<a href="property">관리물건</a>
-			</th:block>
-			<th:block th:unless="${loggedIn}">
-				<a onclick="showLoginPopup()">관리물건</a>
-			</th:block>
-		</div>
+      <div class="메뉴">
+         <a href="map">공실정보</a>
+         <th:block th:if="${loggedIn}">
+            <a href="property">관리물건</a>
+         </th:block>
+         <th:block th:unless="${loggedIn}">
+            <a onclick="showLoginPopup()">관리물건</a>
+         </th:block>
+      </div>
 
-		<div class="유저메뉴">
-			<a href="/boards/free">고객센터</a>
-			<th:block th:if="${loggedIn}">
-				<a href="users/myPage/boards">마이페이지</a>
-				<a href="users/logout">로그아웃</a>
-			</th:block>
-			<th:block th:unless="${loggedIn}">
-				<a href="users/login">로그인</a>
-				<a href="users/join">회원가입</a>
-			</th:block>
-		</div>
-	</header>
-	
-	<div class="등록하기버튼">
-		<a href="../property/propregister" class="register-button">물건 등록하기</a>
-	</div>
+      <div class="유저메뉴">
+         <a href="/boards/free">고객센터</a>
+         <th:block th:if="${loggedIn}">
+            <a href="users/myPage/boards">마이페이지</a>
+            <a href="users/logout">로그아웃</a>
+         </th:block>
+         <th:block th:unless="${loggedIn}">
+            <a href="users/login">로그인</a>
+            <a href="users/join">회원가입</a>
+         </th:block>
+      </div>
+   </header>
 
-	<div class="container">
-		<div th:each="property : ${propertyList}" class="item">
-			<div class="details">
-				<div class="image-container">
-					<ul>
-						<li th:each="image : ${property.images}"><img
-							th:src="@{${image.si_insideurl}}" alt="Property Image" /></li>
-					</ul>
-				</div>
-			</div>
-			<div class="info-container">
-				<p th:text="${property.info_name}"></p>
-				<span th:text="${property.info_type}"></span>
-				<div class="price">
-					<span th:text="${property.info_month}"></span> <span
-						th:text="${property.info_year}"></span> <span
-						th:text="${property.info_sell}"></span>
-				</div>
-				<span th:text="${property.info_add}"></span> <span
-					th:text="${property.status}"></span>
+        <div class="등록하기버튼">
+      <a href="../property/propregister" class="register-button">물건 등록하기</a>
+   </div>
 
-				<div class="buttons">
-					<a href="#" class="button detail-button"
-						th:data-info-no="${property.info_no}">상세보기</a>
-					<form th:action="@{/property/editProperty}" method="get"
-						style="display: inline;">
-						<input type="hidden" th:name="info_no"
-							th:value="${property.info_no}" />
-						<button type="submit" class="button delete-button">수정</button>
-					</form>
-					<form th:action="@{/property/deleteProperty}" method="post"
-						style="display: inline;">
-						<input type="hidden" th:name="info_no"
-							th:value="${property.info_no}" />
-						<button type="submit" class="button delete-button">삭제</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div id="popup" class="popup" style="display: none;">
-		<div class="popup-content">
-			<span class="close-button">&times;</span>
-			<div>
-				<h2 id="property-name">Property Name</h2>
-				<p>
-					유형: <span id="property-type"></span>
-				</p>
-				<p>
-					가격: <span id="property-month"></span> <span id="property-year"></span>
-					<span id="property-sell"></span>
-				</p>
-				<p>
-					주소: <span id="property-add"></span>
-				</p>
-				<p>
-					상태: <span id="property-status"></span>
-				</p>
-			</div>
-		</div>
-		<div class="pagination">
-			<a th:href="@{/property(page=${currentPage - 1}, size=${size})}"
-				th:class="${currentPage == 0} ? 'disabled' : ''">이전</a>
+        <div class="container">
+            <div th:each="property : ${propertyList}" class="item">
+                <div class="details">
+                    <div class="image-container">
+                        <ul>
+                            <li th:each="image : ${property.images}">
+                                <img th:src="@{${image.si_insideurl}}" alt="Property Image" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info-container">
+                    <p th:text="${property.info_name}"></p>
+                    <span th:text="${property.info_type}"></span>
+                    <div class="price">
+                        <span th:text="${property.info_month}"></span>
+                        <span th:text="${property.info_year}"></span>
+                        <span th:text="${property.info_sell}"></span>
+                    </div>
+                    <span th:text="${property.info_add}"></span>
+                    <span th:text="${property.status}"></span>
 
-			<!-- 페이지 번호 링크 -->
-			<span th:each="i : ${#numbers.sequence(1, totalPages)}"> <a
-				th:href="@{/property(page=${i - 1}, size=${size})}"
-				th:class="${i - 1 == currentPage} ? 'active' : ''" th:text="${i}"></a>
-			</span> <a th:href="@{/property(page=${currentPage + 1}, size=${size})}"
-				th:class="${currentPage + 1 >= totalPages || totalPages == 1} ? 'disabled' : ''">다음</a>
-		</div>
-		<p>
-			현재 페이지: <span th:text="${currentPage + 1}"></span>
-		</p>
-		<p>
-			총 페이지 수: <span th:text="${totalPages}"></span>
-		</p>
+                    <div class="buttons">
+                        <a href="#" class="button detail-button" th:data-info-no="${property.info_no}">상세보기</a>
+                        <form th:action="@{/property/editProperty}" method="get" style="display: inline;">
+                            <input type="hidden" th:name="info_no" th:value="${property.info_no}" />
+                            <button type="submit" class="button delete-button">수정</button>
+                        </form>
+                        <form th:action="@{/property/deleteProperty}" method="post" style="display: inline;">
+                            <input type="hidden" th:name="info_no" th:value="${property.info_no}" />
+                            <button type="submit" class="button delete-button">삭제</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<footer>
-			<div>© 2024 Vacancy. All rights reserved.</div>
-		</footer>
-	</div>
+        <div id="popup" class="popup" style="display: none;">
+            <div class="popup-content">
+                <span class="close-button">&times;</span>
+                <div>
+                    <h2 id="property-name">Property Name</h2>
+                    <div id="property-image-container" style="display: flex; flex-direction: column;"></div> <!-- 이미지 컨테이너 추가 -->
+                    <p><span class="highlight"> 유형 </span><span id="property-type"></span></p>
+                    <p><span class="highlight"> 가격 </span><span id="property-month"></span> <span id="property-year"></span> <span id="property-sell"></span>만원</p>
+                    <p><span class="highlight"> 주소 </span><span id="property-add"></span></p>
+                    <p><span class="highlight"> 상태 </span><span id="property-status"></span></p>
+                    <p><span class="highlight"> 건물해당층수 </span><span id="property-fl"></span>층</p>
+                    <p><span class="highlight"> 건물전체층수 </span><span id="property-allfl"></span>층</p>                    
+                    <p><span class="highlight"> 방호실 </span><span id="property-roomnum"></span>호</p>                    
+                    <p><span class="highlight"> 권리금 </span><span id="property_optionmoney"></span>만원</p>                    
+                    <p><span class="highlight"> 보증금 </span><span id="property-deposit"></span>만원</p>                    
+                    <p><span class="highlight"> 관리비 </span><span id="property-optioncost"></span>만원</p>                    
+                    <p><span class="highlight"> 건물면적 </span><span id="property-size"></span>m²</p>                    
+                    <p><span class="highlight"> 방개수 </span><span id="property-count"></span>개</p>                    
+                    <p><span class="highlight"> 준공일 </span><span id="property-comp"></span></p>                    
+                    <p><span class="highlight"> 입주가능일 </span><span id="property-move"></span></p>                    
+                    <p><span class="highlight"> 상세옵션 </span><span id="property-optionop"></span></p>                                                                                              
+                    <p><span class="highlight"> 기타옵션 </span><span id="property-optionetc"></span></p>                                                                                                                                                                                                                         
+                </div>
+            </div>
+        </div>
+<div class="pagination">
+    <a th:href="@{/property(page=${currentPage - 1}, size=${size})}" 
+       th:class="${currentPage == 0} ? 'disabled' : ''">이전</a>
+    
+    <!-- 페이지 번호 링크 -->
+    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{/property(page=${i - 1}, size=${size})}" 
+           th:class="${i - 1 == currentPage} ? 'active' : ''" 
+           th:text="${i}"></a>
+    </span>
 
-	<script>
+    
+    <a th:href="@{/property(page=${currentPage + 1}, size=${size})}" 
+       th:class="${currentPage + 1 >= totalPages || totalPages == 1} ? 'disabled' : ''">다음</a>
+</div>
+
+        <footer>
+            <div>© 2024 Vacancy. All rights reserved.</div>
+        </footer>
+    
+
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             // 상세보기 버튼 클릭 이벤트
             document.querySelectorAll('.detail-button').forEach(button => {
@@ -142,11 +142,43 @@
                             document.getElementById("property-sell").innerText = data.info_sell;
                             document.getElementById("property-add").innerText = data.info_add;
                             document.getElementById("property-status").innerText = data.status;
-
+                            document.getElementById("property-allfl").innerText = data.info_allfl;
+                            document.getElementById("property-fl").innerText = data.info_fl;
+                            document.getElementById("property-roomnum").innerText = data.room_num;
+                            document.getElementById("property_optionmoney").innerText = data.option_money;
+                            document.getElementById("property-deposit").innerText = data.info_deposit;
+                            document.getElementById("property-optioncost").innerText = data.option_cost;
+                            document.getElementById("property-size").innerText = data.info_size;
+                            document.getElementById("property-count").innerText = data.info_count;
+                            document.getElementById("property-comp").innerText = formatDate(data.info_comp);
+                            document.getElementById("property-move").innerText = formatDate(data.info_move);
+                            document.getElementById("property-optionop").innerText = data.option_op;
+                            document.getElementById("property-optionetc").innerText = data.option_etc;
+                            
+							
+                            //이미지 업데이트
+                            const imageContainer = document.getElementById("property-image-container");
+                            imageContainer.innerHTML = ""; // 기존 이미지를 초기화
+                            
+                            data.images.forEach(image => {
+                                const imgElement = document.createElement("img");
+                                imgElement.src = image.si_insideurl; // 이미지 URL 설정
+                                imgElement.alt = "Property Image";
+                                imgElement.style.maxWidth = "100%"; // 스타일 조정
+                                imgElement.style.height = "auto";
+                                imageContainer.appendChild(imgElement); // 이미지 추가
+                            });
+                            
                             // 팝업 보여주기
                             document.getElementById("popup").style.display = "block";
                         })
                         .catch(error => console.error('Error:', error));
+                    
+                    function formatDate(dateString) {
+                        const date = new Date(dateString);
+                        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                        return date.toLocaleDateString('ko-KR', options);
+                    }
                 });
             });
 
