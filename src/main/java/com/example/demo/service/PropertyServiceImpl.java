@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -90,11 +91,28 @@ public class PropertyServiceImpl implements PropertyService {
     }
     
     public void deleteProperty(Integer info_no) {
+    	deleteImagesByPropertyId(info_no);
         propertyRepository.deleteProperty(info_no);
     }
-	//사용자별 매물 목록 조회
-    public List<Property> getPropertiesByUserId(Long id) {
-        return propertyRepository.findByUserId(id);
+ // 기존 이미지 삭제 메서드
+    public void deleteImagesByPropertyId(Integer info_no) {
+        List<Image> images = imageRepository.getImagesByPropertyId(info_no);
+        for (Image image : images) {
+            // 실제 파일 시스템에서 이미지 삭제
+            Path path = Paths.get("src/main/resources/static" + image.getSi_insideurl());
+            try {
+                Files.deleteIfExists(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imageRepository.deleteByNo(image.getImg_no()); // 데이터베이스에서 이미지 삭제
+        }
+    }
+    
+	//사용자별 페이지별 매물 목록 조회
+    public List<Property> getPropertiesByUserId(Long id, Pageable pageable) {
+    	int startIndex = pageable.getPageNumber() * pageable.getPageSize();
+        return propertyRepository.findByUserId(id, startIndex, pageable.getPageSize());
     }
     public User findByUsername(String username) {
         return propertyRepository.findByUsername(username);
@@ -103,4 +121,51 @@ public class PropertyServiceImpl implements PropertyService {
     public List<Image> getImagesByPropertyId(Integer info_no) {
         return imageRepository.getImagesByPropertyId(info_no);
     }
+
+
+	@Override
+	public Property getPropertyById(Integer info_no) {
+		 return propertyRepository.getPropertyById(info_no);
+	}
+
+
+	@Override
+	public void updateProperty(Property property, MultipartFile[] photos, MultipartFile operatorFile) {
+	    if (operatorFile != null && !operatorFile.isEmpty()) {
+	        String operatorFileUrl = savePhoto(operatorFile); // 파일 저장
+	        property.setInfo_operators(operatorFileUrl); // URL 설정
+	    }
+		
+		propertyRepository.updateProperty(property);
+		
+		Integer info_no = property.getInfo_no();
+		
+		saveImages(info_no, photos);
+	}
+
+	public Property getPropertyDetails(Integer info_no) {
+		return propertyRepository.getPropertyById(info_no);
+	}
+
+
+	@Override
+	public Object getTotalPages(Long userId, int size) {
+	    // 사용자 ID로 총 매물 수 가져오기
+	    int totalProperties = propertyRepository.countPropertiesByUserId(userId);
+	    return (int) Math.ceil((double) totalProperties / size);
+	}
+
+
+	@Override
+	public void deleteImage(String imageUrl) {
+		Path filePath = Paths.get("src/main/resources/static" + imageUrl);
+	    try {
+	        Files.deleteIfExists(filePath); // 파일 삭제
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    // 데이터베이스에서 이미지 삭제
+	    imageRepository.deleteByUrl(imageUrl);
+	}
 }

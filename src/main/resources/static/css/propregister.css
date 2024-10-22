@@ -131,3 +131,29 @@ h3 {
 input::placeholder {
     color: #999;
 }
+/* 이미지 프리뷰 */
+.image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    .image-preview div {
+        position: relative;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .image-preview img {
+        max-width: 100px; /* 원하는 크기로 설정 */
+    }
+    .delete-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 2px 5px;
+        font-size: 12px;
+        border-radius: 3px;
+    }

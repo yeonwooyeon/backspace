@@ -4,8 +4,12 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +31,8 @@ public class PropertyController {
 	private PropertyService propertyService;
 
     @GetMapping
-    public String showProperties(Model model, Principal principal) {
+    public String showProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, 
+    							Model model, Principal principal) {
         // 로그인 상태 확인
         if (principal == null) {
             return "redirect:/users/login";
@@ -36,9 +41,12 @@ public class PropertyController {
         String username = principal.getName();
         User user = propertyService.findByUsername(username);
         Long userId = user.getId();
+        
+        // 페이지 요청 생성
+        Pageable pageable = PageRequest.of(page, size);
 
-        // 사용자 ID에 따라 매물 목록 가져오기
-        List<Property> userProperties = propertyService.getPropertiesByUserId(userId);
+        // 사용자 ID에 따라 매물 목록을 페이지네이션하여 가져오기
+        List<Property> userProperties = propertyService.getPropertiesByUserId(userId, pageable);
         
         // 각 매물에 대한 이미지 목록을 추가
         for (Property property : userProperties) {
@@ -47,6 +55,8 @@ public class PropertyController {
         }
         
         model.addAttribute("propertyList", userProperties);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", propertyService.getTotalPages(userId, size));
         model.addAttribute("loggedIn", true);
         
         return "property"; // property.html로 이동
@@ -59,8 +69,8 @@ public class PropertyController {
     
     @PostMapping("/addProperty")
     public RedirectView addProperty(@ModelAttribute Property property, 
-    								@RequestParam("photos") MultipartFile[] photos,
-    								@RequestParam("operatorFile") MultipartFile operatorFile,
+    								@RequestParam MultipartFile[] photos,
+    								@RequestParam MultipartFile operatorFile,
     								Principal principal) {
     	String username = principal.getName();// 현재 로그인한 사용자 ID 가져오기
     	 // 사용자 정보를 조회하여 실제 ID를 가져오기
@@ -76,6 +86,42 @@ public class PropertyController {
     public RedirectView deleteProperty(@RequestParam Integer info_no) {
         propertyService.deleteProperty(info_no);
         return new RedirectView("/property");
+    }
+    
+    @GetMapping("/editProperty")
+    public String editProperty(@RequestParam Integer info_no, Model model) {
+        Property property = propertyService.getPropertyById(info_no);
+        model.addAttribute("property", property);
+        return "propregister"; // 수정된 propregister.html로 이동
+    }
+    
+    @PostMapping("/updateProperty")
+    public RedirectView updateProperty(@ModelAttribute Property property,
+							    		@RequestParam MultipartFile[] photos,
+										@RequestParam MultipartFile operatorFile,
+    									Principal principal) {
+        // 현재 로그인한 사용자 ID 설정
+        String username = principal.getName();
+        User user = propertyService.findByUsername(username);
+        property.setId(user.getId());
+        
+        propertyService.updateProperty(property, photos, operatorFile);
+        return new RedirectView("/property");
+    }
+    
+    @GetMapping("/view")
+    public ResponseEntity<Property> viewProperty(@RequestParam Integer info_no) {
+        // 데이터베이스에서 infoNo에 해당하는 Property 조회
+    	Property selectedProperty = propertyService.getPropertyDetails(info_no);
+
+     // JSON 형태로 반환
+        return ResponseEntity.ok(selectedProperty);
+    }
+    
+    @DeleteMapping("/deleteImage")
+    public ResponseEntity<Void> deleteImage(@RequestParam String imageUrl) {
+        propertyService.deleteImage(imageUrl);
+        return ResponseEntity.noContent().build();
     }
     
 }

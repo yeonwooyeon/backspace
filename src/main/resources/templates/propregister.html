@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="../css/propregister.css">
 <script type="text/javascript"
 	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<header>
@@ -19,237 +20,439 @@
 			</div>
 		</div>
 	</header>
-	 <div class="container">
-        <form action="/property/addProperty" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="info_name">건물 이름</label>
-                <input type="text" id="info_name" name="info_name" placeholder="건물 이름을 입력하세요" required>
-            </div>
-            
-            <div>
-                <label for="info_add">주소</label>
-                <input type="text" id="info_add" name="info_add" placeholder="주소" required>
-                <input type="button" onclick="openPostcode()" value="주소 검색"><br>
-                <input type="hidden" id="info_latitude" name="info_latitude">
-                <input type="hidden" id="info_longitude" name="info_longitude">
-                <div id="map"></div>
-            </div>
-            <br>
-            
-            <div class="form-group">
-				<label for="propertyType">매물종류</label> <select id="propertyType"
-					name="info_option">
-					<option value="주택">주택</option>
-					<option value="오피스텔">오피스텔</option>
-					<option value="사무실">사무실</option>
-					<option value="상가">상가</option>
+	<div class="container">
+		<form
+			th:action="@{/property/{action}(action=${property != null ? 'updateProperty' : 'addProperty'})}"
+			method="post" enctype="multipart/form-data">
+			<input type="hidden" name="info_no"
+				th:value="${property != null ? property.info_no : ''}" />
+			<div class="form-group">
+				<label for="info_name">건물 이름</label> <input type="text"
+					id="info_name" name="info_name"
+					th:value="${property != null ? property.info_name : ''}"
+					placeholder="건물 이름을 입력하세요" required>
+			</div>
+
+			<div>
+				<label for="info_add">주소</label> <input type="button"
+					onclick="openPostcode()" value="주소 검색"><br> 
+					<input
+					type="text" id="info_add" name="info_add"
+					th:value="${property != null ? property.info_add : ''}"
+					placeholder="주소" readonly="readonly" required> <input
+					type="hidden" id="info_latitude" name="info_latitude"
+					th:value="${property != null ? property.info_latitude : ''}">
+				<input type="hidden" id="info_longitude" name="info_longitude"
+					th:value="${property != null ? property.info_longitude : ''}">
+				<div id="map"></div>
+			</div>
+			<br>
+
+			<div class="form-group">
+				<label for="propertyType">매물종류</label>
+				<select id="propertyType" name="info_option">
+					<option value="주택"
+						th:selected="${property != null && property.info_option == '주택'}">주택</option>
+					<option value="오피스텔"
+						th:selected="${property != null && property.info_option == '오피스텔'}">오피스텔</option>
+					<option value="사무실"
+						th:selected="${property != null && property.info_option == '사무실'}">사무실</option>
+					<option value="상가"
+						th:selected="${property != null && property.info_option == '상가'}">상가</option>
 				</select>
 			</div>
-       		
+
 			<div class="form-group">
-				<label for="buildingType">해당층/전체층</label>
+				<label for="buildingType">해당층/전체층</label> 
 				<input type="number"
-					id="info_fl" name="info_fl" placeholder="해당층수" required>
-				<input
-					type="number" id="info_allfl" name="info_allfl" placeholder="전체층수" required>
+					id="info_fl" name="info_fl" 
+					th:value="${property != null ? property.info_fl : ''}"
+					placeholder="해당층수" required>
+					<input type="number" id="info_allfl" name="info_allfl" 
+					th:value="${property != null ? property.info_allfl : ''}"
+					placeholder="전체층수" required>
 			</div>
-			
+
 			<div class="form-group">
 				<label for="RoomNumber">방호실</label>
 				<input type="number"
-					id="room_num" name="room_num" placeholder="호" required>
+					id="room_num" name="room_num" 
+					th:value="${property != null ? property.room_num : ''}"
+					placeholder="호" required>
 			</div>
-			
+
 			<div class="form-group">
-				<label for="Profit">권리금</label>
+				<label for="Profit">권리금</label> 
 				<input type="number"
-					id="option_money" name="option_money" placeholder="만원">
+					id="option_money" name="option_money" 
+					th:value="${property != null ? property.option_money : ''}"
+					placeholder="만원">
 			</div>
-			
+
 			<div class="form-group">
-				<label for="transactionType">거래형태</label> <input type="radio"
-					id="monthly" name="info_type" value="월세" checked
-					onclick="toggleTransactionFields()">월세 <input type="radio"
+				<label for="transactionType">거래형태</label> 
+				<input type="radio"	id="monthly" name="info_type" value="월세" 
+				th:checked="${property == null || property.info_type == '월세'}"
+				onclick="toggleTransactionFields()">월세 
+				<input type="radio"
 					id="jeonse" name="info_type" value="전세"
-					onclick="toggleTransactionFields()">전세 <input type="radio"
+					th:checked="${property != null && property.info_type == '전세'}"
+					onclick="toggleTransactionFields()">전세 
+					<input type="radio"
 					id="sale" name="info_type" value="매매"
+					th:checked="${property != null && property.info_type == '매매'}"
 					onclick="toggleTransactionFields()">매매
 			</div>
 
 			<!-- 월세 입력란 -->
 			<div id="monthlyFields" class="form-group">
-				<label for="rent">월세</label> <input type="number" id="info_month"
-					name="info_month" placeholder="만원">
+				<label for="rent">월세</label> 
+				<input type="number" id="info_month"
+					name="info_month" 
+					th:value="${property != null ? property.info_month : ''}"
+					placeholder="만원">
 			</div>
 
 			<!-- 전세 입력란 -->
 			<div id="jeonseFields" class="form-group" style="display: none;">
-				<label for="jeonsePrice">전세</label> <input type="number"
-					id="info_year" name="info_year" placeholder="만원">
+				<label for="jeonsePrice">전세</label> 
+				<input type="number"
+					id="info_year" name="info_year" 
+					th:value="${property != null ? property.info_year : ''}"
+					placeholder="만원">
 			</div>
 
 			<!-- 매매 입력란 -->
 			<div id="saleFields" class="form-group" style="display: none;">
-				<label for="salePrice">매매</label> <input type="number"
-					id="info_sell" name="info_sell" placeholder="만원">
+				<label for="salePrice">매매</label> 
+				<input type="number"
+					id="info_sell" name="info_sell" 
+					th:value="${property != null ? property.info_sell : ''}"
+					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="deposit">보증금</label> <input type="number"
-					id="info_deposit" name="info_deposit" placeholder="만원">
+				<label for="deposit">보증금</label> 
+				<input type="number"
+					id="info_deposit" name="info_deposit" 
+					th:value="${property != null ? property.info_deposit : ''}"
+					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="manageFee">관리비</label> <input type="number"
-					id="option_cost" name="option_cost" placeholder="만원">
-			</div>
-			
-			<div class="form-group">
-				<label for="info_size">건물면적</label> <input type="text"
-					id="info_size" name="info_size" placeholder="m²" required>
-			</div>
-			
-			<div class="form-group">
-				<label for="info_count">방개수</label> <input type="number"
-					id="info_count" name="info_count" placeholder="개" required>
-			</div>
-			
-			<div class="form-group">
-				<label for="CompletionDate">준공날짜</label> <input type="date"
-					id="info_comp" name="info_comp" required>
+				<label for="manageFee">관리비</label> 
+				<input type="number"
+					id="option_cost" name="option_cost" 
+					th:value="${property != null ? property.option_cost : ''}"
+					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="moveInDate">입주 가능일</label> <input type="date"
-					id="info_move" name="info_move" required>
+				<label for="info_size">건물면적</label> 
+				<input type="text"
+					id="info_size" name="info_size" 
+					th:value="${property != null ? property.info_size : ''}"
+					placeholder="m²" required>
 			</div>
 
 			<div class="form-group">
-				<label for="option_op">상세 옵션</label>
+				<label for="info_count">방개수</label> 
+				<input type="number"
+					id="info_count" name="info_count" 
+					th:value="${property != null ? property.info_count : ''}"
+					placeholder="개" required>
+			</div>
+
+			<div class="form-group">
+				<label for="CompletionDate">준공날짜</label> 
+				<input type="date"
+					id="info_comp" name="info_comp" 
+					th:value="${property != null ? property.info_comp : ''}"
+					required>
+			</div>
+
+			<div class="form-group">
+				<label for="moveInDate">입주 가능일</label> 
+				<input type="date"
+					id="info_move" name="info_move" 
+					th:value="${property != null ? property.info_move : ''}"
+					required>
+			</div>
+
+			<div class="form-group">
+				<label for="option_op">상세 옵션</label> 
 				<input type="checkbox"
-					id="option1" name="option_op" value="세탁기"> 세탁기 <input
-					type="checkbox" id="option2" name="option_op" value="에어컨"> 에어컨
-				<input type="checkbox" id="option3" name="option_op" value="인덕션">
-				인덕션 <input type="checkbox" id="option4" name="option_op" value="가스렌지">
-				가스렌지 <input type="checkbox" id="option5" name="option_op" value="TV">
-				TV <input type="checkbox" id="option6" name="option_op" value="침대">
-				침대
+					id="option1" name="option_op" value="세탁기"
+					 th:checked="${property != null && property.option_op.contains('세탁기')}"> 세탁기 
+					 <input type="checkbox" id="option2" name="option_op" value="에어컨"
+					th:checked="${property != null && property.option_op.contains('에어컨')}">에어컨 
+					 <input type="checkbox" id="option3" name="option_op" value="인덕션"
+					 th:checked="${property != null && property.option_op.contains('인덕션')}"> 인덕션 
+				<input type="checkbox" id="option4" name="option_op" value="가스렌지"
+					th:checked="${property != null && property.option_op.contains('가스렌지')}"> 가스렌지  
+					<input type="checkbox" id="option5" name="option_op" value="TV"
+					th:checked="${property != null && property.option_op.contains('TV')}"> TV 
+					<input type="checkbox"
+					id="option6" name="option_op" value="침대"
+					th:checked="${property != null && property.option_op.contains('침대')}"> 침대 
 			</div>
 
 			<div class="form-group">
-				<label for="option_etc">기타 옵션</label> 
-					<input type="checkbox"
-					id="optionEtc1" name="option_etc" value="분리형"> 분리형 <input
-					type="checkbox" id="optionEtc2" name="option_etc" value="복층">
-				복층 <input type="checkbox" id="optionEtc3" name="option_etc" value="옥탑">
-				옥탑 <input type="checkbox" id="optionEtc4" name="option_etc" value="신축">
-				신축 <input type="checkbox" id="optionEtc5" name="option_etc" value="주차">
-				주차 <input type="checkbox" id="optionEtc6" name="option_etc"
-					value="엘리베이터"> 엘리베이터 <input type="checkbox" id="optionEtc7"
-					name="option_etc" value="반려동물"> 반려동물 <input type="checkbox"
-					id="optionEtc8" name="option_etc" value="전세대출"> 전세대출
-			</div>
+    <label for="option_etc">기타 옵션</label> 
+    <input type="checkbox" id="optionEtc1" name="option_etc" value="분리형" 
+        th:checked="${property != null && property.option_etc.contains('분리형')}"> 분리형 
+    <input type="checkbox" id="optionEtc2" name="option_etc" value="복층" 
+        th:checked="${property != null && property.option_etc.contains('복층')}"> 복층 
+    <input type="checkbox" id="optionEtc3" name="option_etc" value="옥탑" 
+        th:checked="${property != null && property.option_etc.contains('옥탑')}"> 옥탑 
+    <input type="checkbox" id="optionEtc4" name="option_etc" value="신축" 
+        th:checked="${property != null && property.option_etc.contains('신축')}"> 신축 
+    <input type="checkbox" id="optionEtc5" name="option_etc" value="주차" 
+        th:checked="${property != null && property.option_etc.contains('주차')}"> 주차 
+    <input type="checkbox" id="optionEtc6" name="option_etc" value="엘리베이터" 
+        th:checked="${property != null && property.option_etc.contains('엘리베이터')}"> 엘리베이터 
+    <input type="checkbox" id="optionEtc7" name="option_etc" value="반려동물" 
+        th:checked="${property != null && property.option_etc.contains('반려동물')}"> 반려동물 
+    <input type="checkbox" id="optionEtc8" name="option_etc" value="전세대출" 
+        th:checked="${property != null && property.option_etc.contains('전세대출')}"> 전세대출 
+</div>
 
 			<h3>사진</h3>
 			<div class="form-group">
-				<label for="photos">사진 첨부</label> 
-				<input type="file" id="photos"
-					name="photos" accept="image/*" multiple>
-			</div>
-			
-			<div class="form-group">
-				<label for="info_operators">등기 첨부</label> 
-				<input type="file" id="operatorFile"
-					name="operatorFile" accept="image/*" multiple>
-			</div>
-
-            <div class="form-group">
-                <button type="submit">등록하기</button>
-            </div>
-        </form>
-		 <script>
-        var map;
-        var marker;
-
-        function initMap(lat, lng) {
-            var mapContainer = document.getElementById('map');
-            var mapOptions = {
-                center: new kakao.maps.LatLng(lat, lng),
-                level: 3
-            };
-
-            map = new kakao.maps.Map(mapContainer, mapOptions);
-            marker = new kakao.maps.Marker({
-                position: new kakao.maps.LatLng(lat, lng),
-                map: map
-            });
-        }
-        
-        function openPostcode() {
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    var addr = data.address; // 최종 주소 변수
-                    document.getElementById('info_add').value = addr; // 주소 입력창에 값 넣기
-
-                    // 위도 경도 가져오기
-                    var geocoder = new kakao.maps.services.Geocoder();
-                    geocoder.addressSearch(addr, function(result, status) {
-                        if (status === kakao.maps.services.Status.OK) {
-                            var lat = result[0].y;
-                            var lng = result[0].x;
-
-                            // 지도 초기화
-                            initMap(lat, lng);
-
-                            // 위도와 경도 자동 등록
-                            document.getElementById('info_latitude').value = lat;
-                            document.getElementById('info_longitude').value = lng;
-                        } else {
-                            alert('주소를 찾을 수 없습니다.');
-                        }
-                    });
-                }
-            }).open();
-        }
-        
-     // 거래형태에 따라 입력란을 보여주거나 숨기는 함수
-		function toggleTransactionFields() {
-			const monthly = document.getElementById('monthly');
-			const jeonse = document.getElementById('jeonse');
-			const sale = document.getElementById('sale');
-
-			const monthlyFields = document
-					.getElementById('monthlyFields');
-			const jeonseFields = document
-					.getElementById('jeonseFields');
-			const saleFields = document.getElementById('saleFields');
-
-			// 월세 선택 시 월세 입력란만 표시
-			if (monthly.checked) {
-				monthlyFields.style.display = 'block';
-				jeonseFields.style.display = 'none';
-				saleFields.style.display = 'none';
-			}
-			// 전세 선택 시 전세 입력란만 표시
-			else if (jeonse.checked) {
-				monthlyFields.style.display = 'none';
-				jeonseFields.style.display = 'block';
-				saleFields.style.display = 'none';
-			}
-			// 매매 선택 시 매매 입력란만 표시
-			else if (sale.checked) {
-				monthlyFields.style.display = 'none';
-				jeonseFields.style.display = 'none';
-				saleFields.style.display = 'block';
-			}
-		}
-
-		// 초기 로드 시 선택된 옵션에 따라 필드를 표시
-		window.onload = function() {
-			toggleTransactionFields();
-		};
-    </script>
+			    <label for="photos">사진 첨부</label> 
+			    <input type="file" id="photos"
+        name="photos" accept="image/*" multiple onchange="previewImages(event)">
+    <div id="imagePreview" class="image-preview">
     
+        </div>
+    
+    <!-- 기존 사진 미리보기 -->
+    <div class="form-group">
+        <label for="propertyImages">사진 미리보기</label>
+        <div>
+            <div th:if="${property != null}">
+                <div th:each="photo, iterStat : ${property.images}">
+                <div th:id="'image-' + ${iterStat.index}">
+                        <img th:src="${photo.si_insideurl}" alt="Property Image" style="max-width: 100px; max-height: 100px;">
+                        <button type="button" th:attr="onclick='deleteImageFromServer(&quot;' + ${photo.si_insideurl} + '&quot;, ' + ${iterStat.index} + ');'">
+                       삭제
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+			<div class="form-group">
+				<label for="info_operators">등기 첨부</label> <input type="file"
+					id="operatorFile" name="operatorFile" accept="image/*" multiple>
+			</div>
+
+			<div class="form-group">
+				<input type="submit"
+					th:value="${property != null ? '수정하기' : '등록하기'}" />
+			</div>
+
+		</form>
+		<script>
+			var map;
+			var marker;
+
+			function initMap(lat, lng) {
+				var mapContainer = document.getElementById('map');
+				var mapOptions = {
+					center : new kakao.maps.LatLng(lat, lng),
+					level : 3
+				};
+
+				map = new kakao.maps.Map(mapContainer, mapOptions);
+				marker = new kakao.maps.Marker({
+					position : new kakao.maps.LatLng(lat, lng),
+					map : map
+				});
+			}
+
+			function openPostcode() {
+				new daum.Postcode(
+						{
+							oncomplete : function(data) {
+								var addr = data.address; // 최종 주소 변수
+								document.getElementById('info_add').value = addr; // 주소 입력창에 값 넣기
+
+								// 위도 경도 가져오기
+								var geocoder = new kakao.maps.services.Geocoder();
+								geocoder
+										.addressSearch(
+												addr,
+												function(result, status) {
+													if (status === kakao.maps.services.Status.OK) {
+														var lat = result[0].y;
+														var lng = result[0].x;
+
+														// 지도 초기화
+														initMap(lat, lng);
+
+														// 위도와 경도 자동 등록
+														document
+																.getElementById('info_latitude').value = lat;
+														document
+																.getElementById('info_longitude').value = lng;
+													} else {
+														alert('주소를 찾을 수 없습니다.');
+													}
+												});
+							}
+						}).open();
+			}
+
+			// 거래형태에 따라 입력란을 보여주거나 숨기는 함수
+			function toggleTransactionFields() {
+				const monthly = document.getElementById('monthly');
+				const jeonse = document.getElementById('jeonse');
+				const sale = document.getElementById('sale');
+
+				const monthlyFields = document.getElementById('monthlyFields');
+				const jeonseFields = document.getElementById('jeonseFields');
+				const saleFields = document.getElementById('saleFields');
+
+				// 월세 선택 시 월세 입력란만 표시
+				if (monthly.checked) {
+					monthlyFields.style.display = 'block';
+					jeonseFields.style.display = 'none';
+					saleFields.style.display = 'none';
+					
+					 // 매매값 지우기
+			        document.getElementById('info_sell').value = '';
+			        // 전세값 지우기 (전세가 선택되지 않으므로)
+			        document.getElementById('info_year').value = '';
+				}
+				// 전세 선택 시 전세 입력란만 표시
+				else if (jeonse.checked) {
+					monthlyFields.style.display = 'none';
+					jeonseFields.style.display = 'block';
+					saleFields.style.display = 'none';
+					
+					// 월세와 매매값 지우기
+			        document.getElementById('info_month').value = '';
+			        document.getElementById('info_sell').value = '';
+				}
+				// 매매 선택 시 매매 입력란만 표시
+				else if (sale.checked) {
+					monthlyFields.style.display = 'none';
+					jeonseFields.style.display = 'none';
+					saleFields.style.display = 'block';
+					
+					// 월세값 지우기
+			        document.getElementById('info_month').value = '';
+			        // 전세값 지우기
+			        document.getElementById('info_year').value = '';
+				}
+			}
+
+			// 초기 로드 시 선택된 옵션에 따라 필드를 표시
+			window.onload = function() {
+				toggleTransactionFields();
+			};
+			
+			// 선택된 파일 목록을 저장할 배열 (파일 객체와 URL을 포함)
+ let selectedFiles = []; 
+
+            function previewImages(event) {
+                const imagePreview = document.getElementById('imagePreview');
+                const files = Array.from(event.target.files);
+                selectedFiles = selectedFiles.concat(files);
+                updateImagePreview();
+            }
+
+            function updateImagePreview() {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = '';
+
+                selectedFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const imgDiv = document.createElement('div');
+                        const img = document.createElement('img');
+                        img.src = e.target.result; 
+                        
+                        const deleteButton = document.createElement('button');
+                        deleteButton.classList.add('delete-button');
+                        deleteButton.innerText = '삭제';
+                        deleteButton.onclick = function() {
+                            deleteImage(index); 
+                        };
+
+                        imgDiv.style.position = 'relative';
+                        imgDiv.appendChild(img); 
+                        imgDiv.appendChild(deleteButton);
+                        imagePreview.appendChild(imgDiv);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function deleteImage(index) {
+                selectedFiles.splice(index, 1);
+                updateImagePreview();
+
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+                document.getElementById('photos').files = dataTransfer.files;
+            }
+            
+            document.querySelector('form').addEventListener('submit', function(event) {
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+                document.getElementById('photos').files = dataTransfer.files;
+            });
+
+
+    // 서버에서 이미지를 삭제하는 함수
+   function deleteImageFromServer(photoUrl, index) {
+	   console.log('Deleting image:', photoUrl, 'with index:', index); // URL 로그
+	   
+    fetch('http://localhost:1005/property/deleteImage?imageUrl=' + encodeURIComponent(photoUrl), {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+
+        }
+        // 204 No Content일 경우 JSON 파싱을 하지 않음
+        if (response.status === 204) {
+            console.log('Image deleted successfully, no response body.');
+                      
+            // 서버에서 이미지를 삭제한 후 UI에서 해당 이미지와 버튼을 포함한 div 제거
+            const imageContainer = document.getElementById(`image-${index}`);
+            console.log('Attempting to remove container:', imageContainer);
+            if (imageContainer) {
+                imageContainer.remove(); // 해당 div를 제거
+                console.log('Image container removed:', imageContainer);
+            }else {
+                console.error('Image container not found for index:', index);
+            }
+            
+            return null; // or return a resolved promise
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data) {
+            console.log('Image deleted successfully:', data);
+        }
+    })
+    .catch(error => console.error('There has been a problem with your fetch operation:', error));
+}
+    
+    
+		</script>
+
 	</div>
 </body>
 </html>
