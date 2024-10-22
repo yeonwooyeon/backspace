@@ -106,11 +106,12 @@ div[align="center"] {
 }
 
 .link-btn:hover {
+	background-color: #e9ecef; /* Hover 시 배경색 */
 }
 </style>
 </head>
 <body>
-<header class="헤더">
+	<header class="헤더">
 		<a class="로고" href="/"><img src="../../images/logo.png">VACANCY</a>
 
 		<div class="메뉴">
@@ -120,7 +121,7 @@ div[align="center"] {
 			<th:block th:unless="${loggedIn}">
 				<a onclick="showLoginPopup()">공실정보</a>
 			</th:block>
-			
+
 			<th:block th:if="${loggedIn}">
 				<a href="property">관리물건</a>
 			</th:block>
@@ -141,6 +142,7 @@ div[align="center"] {
 			</th:block>
 		</div>
 	</header>
+	
 	<div class="row">
 		<form class="offset-4 col-4 form-group user-form" th:method="post"
 			th:action="@{/users/login}" th:object="${userLoginRequest}"
@@ -161,22 +163,21 @@ div[align="center"] {
 			<div align="center">
 				<button class="btn user-btn" type="submit">로그인</button>
 			</div>
-			
-			<br>
-			<br>
-			
+
+			<br> <br>
+
 			<div align="center" style="margin-top: 10px;">
-			<button class="link-btn" style="font-size: 14px; padding: 8px 12px;"
-				onclick="location.href='/users/find/id'">아이디 찾기</button>
-			<button class="link-btn" style="font-size: 14px; padding: 8px 12px;"
-				onclick="location.href='/users/find/password'">비밀번호 찾기</button>
-			<button class="link-btn" style="font-size: 14px; padding: 8px 12px;"
-				onclick="location.href='/users/join'">회원가입</button>
-		</div>
-		
+				<button class="link-btn" style="font-size: 14px; padding: 8px 12px;"
+					onclick="location.href='/users/find/id'">아이디 찾기</button>
+				<button class="link-btn" style="font-size: 14px; padding: 8px 12px;"
+					onclick="location.href='/users/find/password'">비밀번호 찾기</button>
+				<button class="link-btn" style="font-size: 14px; padding: 8px 12px;"
+					onclick="location.href='/users/join'">회원가입</button>
+			</div>
+
 		</form>
 
-		
+
 
 		<script th:inline="javascript">
 			window.onload = function() {
