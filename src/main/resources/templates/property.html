@@ -34,13 +34,14 @@
       </div>
    </header>
 
-        <div class="등록하기버튼">
+   <div class="등록하기버튼">
       <a href="../property/propregister" class="register-button">물건 등록하기</a>
+      <a href="#" class="register-button">광고 결제하기</a>
    </div>
-
 
         <div class="container">
             <div th:each="property : ${propertyList}" class="item">
+            <input type="checkbox" id="optionEtc1" name="option_etc" value="분리형">
                 <div class="details">
                     <div class="image-container">
                         <ul>
