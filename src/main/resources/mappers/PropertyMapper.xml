@@ -43,11 +43,11 @@
 
 <!--   공실정보 주소 리스트 select 쿼리  -->
 <select id="getAllAddresses" resultMap="PropertyResultMap"> 
-SELECT info_name, info_add,info_option, info_latitude, info_longitude FROM Pp_info 
+SELECT * FROM Pp_info 
 </select>
 <!--   공실정보 주소 검색 select 쿼리  -->
 <select id="searchAddresses" resultMap="PropertyResultMap" parameterType="string"> 
-SELECT info_name, info_add, info_latitude, info_longitude FROM Pp_info 
+SELECT * FROM Pp_info 
 WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #{keyword}, '%') 
 </select>
 

@@ -27,62 +27,70 @@
 
    <div class="map_wrap">
       <div class="container">
-            <div id="mapContainer">
+         <div id="mapContainer">
             <button id="locateMeBtn">내 위치</button>
-             <div id="map"></div>
-             <div id="roadview"></div>
-            
-            </div>
-            <div id="menu_wrap" class="bg_white">
+            <div id="map"></div>
+            <div id="roadview"></div>
+
+         </div>
+         <div id="menu_wrap" class="bg_white">
             <div class="option">
                <form onsubmit="performSearch(); return false;">
                   <div id="searchBox">
                      <input type="text" id="address" placeholder="ex) 하대동 320-43">
-                     <button id="addressSearchBtn" type="button">검색</button>                     
-                     <button type="button" id="resetBtn">&#x21BB; 초기화</button>               
+                     <button id="addressSearchBtn" type="button">검색</button>
+                     <button type="button" id="resetBtn">&#x21BB; 초기화</button>
                   </div>
                </form>
-               <a href="#" class="search-filter">주거타입</a> 
-               <label><input type="checkbox" name="info_option" value="주택"> 주택</label>
-               <label><input type="checkbox" name="info_option" value="오피스텔"> 오피스텔</label>
-               <label><input type="checkbox" name="info_option" value="사무실"> 사무실</label>
-               <label><input type="checkbox" name="info_option" value="상가"> 상가</label>
-               <br><hr>
-               
-               <a href="#" class="search-filter">거래유형</a> 
-               <label><input type="checkbox" name="transaction_type" value="전세"> 전세</label>
-               <label><input type="checkbox" name="transaction_type" value="월세"> 월세</label>
-               <label><input type="checkbox" name="transaction_type" value="매매"> 매매</label>
-               <br><hr>
-      
-               <a href="#" class="search-filter">방갯수</a> 
-               <label><input type="checkbox" name="field" value="원룸"> 원룸</label>
-               <label><input type="checkbox" name="field" value="투룸"> 투룸</label>
-               <label><input type="checkbox" name="field" value="쓰리룸"> 쓰리룸</label>
-               <label><input type="checkbox" name="field" value="포룸"> 포룸 이상</label>
-               <br><hr>
-               
-               <!-- Other filters... -->
+               <div class="옵션">
+                  <a class="search-filter">주거타입</a> <label><input
+                     type="checkbox" name="info_option" value="주택"> 주택</label> <label><input
+                     type="checkbox" name="info_option" value="오피스텔"> 오피스텔</label> <label><input
+                     type="checkbox" name="info_option" value="사무실"> 사무실</label> <label><input
+                     type="checkbox" name="info_option" value="상가"> 상가</label> <br>
+               </div>
 
-               <a href="#" class="search-filter">보증금/매매가</a>
-               <label><input type="checkbox" name="field" value="500"> ~500만원</label>
-               <label><input type="checkbox" name="field" value="1000"> 500~1000만원</label>
-               <label><input type="checkbox" name="field" value="4000"> 1000~4000만원</label>
-               <label><input type="checkbox" name="field" value="8000"> 4000~8000만원</label>
-               <label><input type="checkbox" name="field" value="8000plus"> 8000만원 이상</label>
-               <br><hr>
-               
+               <a class="search-filter">거래유형</a> <label><input
+                  type="checkbox" name="info_type" value="전세"> 전세</label> <label><input
+                  type="checkbox" name="info_type" value="월세"> 월세</label> <label><input
+                  type="checkbox" name="info_type" value="매매"> 매매</label> <br>
+               <hr>
+
+               <a class="search-filter">방갯수</a> <label><input
+                  type="checkbox" name="info_count" value="1"> 원룸</label> <label><input
+                  type="checkbox" name="info_count" value="2"> 투룸</label> <label><input
+                  type="checkbox" name="info_count" value="3"> 쓰리룸</label> <label><input
+                  type="checkbox" name="info_count" value="4"> 포룸 이상</label> <br>
+               <hr>
+
+               <a class="search-filter">면적</a> <label><input
+                  type="checkbox" name="info_size" value="10"> ~10평</label> <label><input
+                  type="checkbox" name="info_size" value="11"> 10평대</label> <label><input
+                  type="checkbox" name="info_size" value="20"> 20평대</label> <label><input
+                  type="checkbox" name="info_size" value="30"> 30평대</label> <label><input
+                  type="checkbox" name="info_size" value="40"> 40평~</label> <br>
+               <hr>
+
+
+               <a class="search-filter">보증금/매매가</a> <label><input
+                  type="checkbox" name="field" value="500"> ~500만원</label> <label><input
+                  type="checkbox" name="field" value="1000"> 500~1000만원</label> <label><input
+                  type="checkbox" name="field" value="4000"> 1000~4000만원</label> <label><input
+                  type="checkbox" name="field" value="8000"> 4000~8000만원</label> <label><input
+                  type="checkbox" name="field" value="8000plus"> 8000만원 이상</label> <br>
+               <hr>
+
             </div>
-            
+
             <ul id="placesList"></ul>
             <div id="pagination"></div>
-            
+
          </div>
       </div>
    </div>
-   
 
-    <script>
+
+   <script>
         var map, marker, infowindow, geocoder;
         var roadview = new kakao.maps.Roadview(document.getElementById('roadview'));
         var roadviewClient = new kakao.maps.RoadviewClient();
@@ -207,18 +215,47 @@
 
             listEl.appendChild(fragment);
         }
-
+        
         // 체크박스 필터링
-        function filterResults() {
-            const filteredPlaces = allPlaces.filter(place => {
-                const infoOption = document.querySelector('input[name="info_option"]:checked');
-                const transactionType = document.querySelector('input[name="transaction_type"]:checked');
-                // 여기에 추가 필터링 로직을 넣을 수 있습니다.
-                return (infoOption ? place.info_option === infoOption.value : true) &&
-                       (transactionType ? place.transaction_type === transactionType.value : true);
-            });
-            displaySearchResults(filteredPlaces);
-        }
+      function filterResults() {
+          const infoOptions = Array.from(document.querySelectorAll('input[name="info_option"]:checked'))
+              .map(checkbox => checkbox.value);
+          
+          const infoCounts = Array.from(document.querySelectorAll('input[name="info_count"]:checked'))
+              .map(checkbox => parseInt(checkbox.value, 10));
+      
+          const infoTypes = Array.from(document.querySelectorAll('input[name="info_type"]:checked'))
+              .map(checkbox => checkbox.value);
+              
+          const infoSizes = Array.from(document.querySelectorAll('input[name="info_size"]:checked'))
+              .map(checkbox => parseInt(checkbox.value, 10)); // 면적 체크박스 값 배열
+      
+          const hasFourPlus = infoCounts.includes(4); // '포룸 이상' 체크 여부
+      
+          const filteredPlaces = allPlaces.filter(place => {
+              const matchesInfoOption = infoOptions.length === 0 || infoOptions.includes(place.info_option);
+              
+              const matchesInfoType = infoTypes.length === 0 || infoTypes.includes(place.info_type); // info_type 필터링
+              
+              // 방 갯수 필터링
+              const matchesInfoCount = hasFourPlus
+                  ? place.info_count >= 4 // '포룸 이상' 체크 시 4 이상인 경우
+                  : infoCounts.length === 0 || infoCounts.includes(place.info_count); // 나머지 경우
+      
+              // 면적 필터링
+              const matchesInfoSize = infoSizes.length === 0 || infoSizes.some(size => {
+                  if (size === 10) return place.info_size < 10; // ~10평
+                  if (size === 11) return place.info_size >= 10 && place.info_size < 20; // 10~19평
+                  if (size === 20) return place.info_size >= 20 && place.info_size < 30; // 20~29평
+                  if (size === 30) return place.info_size >= 30 && place.info_size < 40; // 30~39평
+                  if (size === 40) return place.info_size >= 40; // 40평 이상
+              });
+      
+              return matchesInfoOption && matchesInfoCount && matchesInfoType && matchesInfoSize; // 모든 조건 만족
+          });
+      
+          displaySearchResults(filteredPlaces);
+      }
 
         document.addEventListener('DOMContentLoaded', () => {
             getLocation((lat, lng) => {
@@ -248,11 +285,12 @@
                     displayRoadview(lat, lng);
                 });
             });
+           
+         // 체크박스 변경 시 필터링 적용
+         document.querySelectorAll('input[name="info_option"], input[name="info_count"], input[name="info_type"], input[name="info_size"]').forEach(checkbox => {
+             checkbox.addEventListener('change', filterResults);
+         });
 
-            // 체크박스 변경 시 필터링 적용
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', filterResults);
-            });
 
             // 데이터베이스에서 주소 목록을 불러와서 표시
             fetch('/addresses')
@@ -262,7 +300,7 @@
                     displaySearchResults(allPlaces); // 결과 표시
                 });
         });
-    </script>
+</script>
 
 </body>
 </html>
