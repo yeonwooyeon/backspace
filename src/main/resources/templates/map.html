@@ -5,35 +5,30 @@
 <title>VACANCY</title>
 <link rel="stylesheet" href="../css/map.css">
 <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-<script type="text/javascript"
-   src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
    <header>
       <div class="logo">
-         <a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-            class="logo" id="logo">
+         <a href="/"> <img src="/images/logo.png" alt="Vacancy Logo" class="logo" id="logo">
          </a> <span>공실정보</span>
       </div>
       <nav>
-         <a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
-         <a href="#">분양사무실</a>
+         <a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a> <a href="#">분양사무실</a>
       </nav>
       <div class="user-menu">
-         <a href="#">고객센터</a> <a href="#">마이페이지</a> <a href="#">로그인</a> <a
-            href="#">회원가입</a>
+         <a href="#">고객센터</a> <a href="#">마이페이지</a> <a href="#">로그인</a> <a href="#">회원가입</a>
       </div>
    </header>
-
+   
    <div class="map_wrap">
       <div class="container">
          <div id="mapContainer">
             <button id="locateMeBtn">내 위치</button>
             <div id="map"></div>
             <div id="roadview"></div>
-
-         </div>
-         <div id="menu_wrap" class="bg_white">
+         </div>         
+         
             <div class="option">
                <form onsubmit="performSearch(); return false;">
                   <div id="searchBox">
@@ -41,61 +36,51 @@
                      <button id="addressSearchBtn" type="button">검색</button>
                      <button type="button" id="resetBtn">&#x21BB; 초기화</button>
                   </div>
-               </form>
-               <div class="옵션">
-                  <a class="search-filter">주거타입</a> <label><input
-                     type="checkbox" name="info_option" value="주택"> 주택</label> <label><input
-                     type="checkbox" name="info_option" value="오피스텔"> 오피스텔</label> <label><input
-                     type="checkbox" name="info_option" value="사무실"> 사무실</label> <label><input
-                     type="checkbox" name="info_option" value="상가"> 상가</label> <br>
-               </div>
-
-               <a class="search-filter">거래유형</a> <label><input
-                  type="checkbox" name="info_type" value="전세"> 전세</label> <label><input
-                  type="checkbox" name="info_type" value="월세"> 월세</label> <label><input
-                  type="checkbox" name="info_type" value="매매"> 매매</label> <br>
-               <hr>
-
-               <a class="search-filter">방갯수</a> <label><input
-                  type="checkbox" name="info_count" value="1"> 원룸</label> <label><input
-                  type="checkbox" name="info_count" value="2"> 투룸</label> <label><input
-                  type="checkbox" name="info_count" value="3"> 쓰리룸</label> <label><input
-                  type="checkbox" name="info_count" value="4"> 포룸 이상</label> <br>
-               <hr>
-
-               <a class="search-filter">면적</a> <label><input
-                  type="checkbox" name="info_size" value="10"> ~10평</label> <label><input
-                  type="checkbox" name="info_size" value="11"> 10평대</label> <label><input
-                  type="checkbox" name="info_size" value="20"> 20평대</label> <label><input
-                  type="checkbox" name="info_size" value="30"> 30평대</label> <label><input
-                  type="checkbox" name="info_size" value="40"> 40평~</label> <br>
-               <hr>
-
-
-               <a class="search-filter">보증금/매매가</a> <label><input
-                  type="checkbox" name="field" value="500"> ~500만원</label> <label><input
-                  type="checkbox" name="field" value="1000"> 500~1000만원</label> <label><input
-                  type="checkbox" name="field" value="4000"> 1000~4000만원</label> <label><input
-                  type="checkbox" name="field" value="8000"> 4000~8000만원</label> <label><input
-                  type="checkbox" name="field" value="8000plus"> 8000만원 이상</label> <br>
-               <hr>
-
-            </div>
-
-            <ul id="placesList"></ul>
-            <div id="pagination"></div>
-
-         </div>
+               </form>                              
+	               <div id="op">
+	               <a class="search-filter">주거타입</a> 	               
+	               <label><input type="checkbox" name="info_option" value="주택"> 주택</label> <label><input type="checkbox" name="info_option" value="오피스텔"> 오피스텔</label> <label><input type="checkbox" name="info_option" value="사무실"> 사무실</label> <label><input type="checkbox" name="info_option" value="상가"> 상가</label> 
+	               </div>
+	               <div id="op">              
+	               <a class="search-filter">거래유형</a>	               
+	               <label><input type="checkbox" name="info_type" value="전세"> 전세</label> <label><input type="checkbox" name="info_type" value="월세"> 월세</label> <label><input type="checkbox" name="info_type" value="매매"> 매매</label> 
+	               </div>
+	               <a class="search-filter">방갯수</a> 	               
+	               <label><input type="checkbox" name="info_count" value="1"> 원룸</label> <label><input type="checkbox" name="info_count" value="2"> 투룸</label> <label><input type="checkbox" name="info_count" value="3"> 쓰리룸</label>  <label><input type="checkbox" name="info_count" value="4"> 포룸 이상</label>           
+	               
+	               <a class="search-filter">면적</a> 	               
+	               <label><input type="checkbox" name="info_size" value="9"> ~10평</label> <label><input type="checkbox" name="info_size" value="10"> 10평대</label> <label><input type="checkbox" name="info_size" value="20"> 20평대</label> <label><input type="checkbox" name="info_size" value="30"> 30평대</label> <label><input type="checkbox" name="info_size" value="40"> 40평~</label>	                               
+					
+					<a class="search-filter">월세</a>					
+				    <label><input type="checkbox" name="info_month" value="9"> ~10만원</label> <label><input type="checkbox" name="info_month" value="10"> 10~30만원</label> <label><input type="checkbox" name="info_month" value="30"> 30~50만원</label><label><input type="checkbox" name="info_month" value="50"> 50만원~</label>
+				    
+		            <a class="search-filter">보증금</a> 		            
+		            <label><input type="checkbox" name="info_deposit" value="0"> ~1000만원</label> <label><input type="checkbox" name="info_deposit" value="1000"> 1000~4000만원</label> <label><input type="checkbox" name="info_deposit" value="4000"> 4000~8000만원</label> <label><input type="checkbox" name="info_deposit" value="8000"> 8000만원~</label>              
+		            
+			        <a class="search-filter">층수</a> 			        
+				    <label><input type="checkbox" name="info_fl" value="지하"> 지하</label> <label><input type="checkbox" name="info_fl" value="1"> 1층</label> <label><input type="checkbox" name="info_fl" value="2"> 2층</label>	<label><input type="checkbox" name="info_fl" value="3"> 3층 이상</label><label><input type="checkbox" name="info_fl" value="옥탑"> 옥탑</label>
+				    
+				    <a class="search-filter">준공년도</a>   				    	    	    
+				    <label><input type="checkbox" name="info_comp" value="0"> ~3년</label><label><input type="checkbox" name="info_comp" value="3"> 3년~10년</label> <label><input type="checkbox" name="info_comp" value="10"> 10년~15년</label><label><input type="checkbox" name="info_comp" value="15"> 15년~</label><br> 
+				    					
+				    <a class="search-filter">추가옵션</a>				    
+				    <label><input type="checkbox" name="option_op" value="풀옵"> 풀옵션</label> <label><input type="checkbox" name="option_op" value="무옵"> 무옵션</label><label><input type="checkbox" name="option_etc" value="분리형"> 분리형</label> <label><input type="checkbox" name="option_etc" value="복층"> 복층</label><label><input type="checkbox" name="option_etc" value="복층"> 옥탑</label> <label><input type="checkbox" name="option_etc" value="신축"> 신축</label><label><input type="checkbox" name="option_etc" value="신축"> 주차</label> <label><input type="checkbox" name="option_etc" value="엘리베이터"> 엘리베이터</label><label><input type="checkbox" name="option_etc" value="반려동물"> 반려동물</label> <label><input type="checkbox" name="option_etc" value="전세대출"> 전세대출</label>		
+				    
+				    <a class="search-filter">사진/영상</a>					     
+				    <label><input type="checkbox" name="field" value="data"> 외부사진</label> <label><input type="checkbox" name="field" value="data"> 내부사진</label>  
+										
+		            <ul id="placesList"></ul>
+		            <div id="pagination"></div>
+        </div> 
       </div>
    </div>
-
 
    <script>
         var map, marker, infowindow, geocoder;
         var roadview = new kakao.maps.Roadview(document.getElementById('roadview'));
         var roadviewClient = new kakao.maps.RoadviewClient();
         var markers = [];
-        var allPlaces = []; // 전체 장소 정보를 저장할 배열
+        var allPlaces = []; 
 
         function initializeMap(lat, lng) {
             map = new kakao.maps.Map(document.getElementById('map'), {
@@ -156,8 +141,8 @@
         }
 
         function performSearch() {
-            searchAddress();  // 주소 검색
-            searchDatabase(); // 데이터베이스 검색
+            searchAddress();  
+            searchDatabase();
         }
 
         function searchDatabase() {
@@ -188,7 +173,6 @@
                     <p>${place.info_add}</p>
                     <p>건물 유형: ${place.info_option}</p>
                 `;
-
                 // 클릭 시 주소로 위치 이동
                 itemEl.addEventListener('click', function() {
                     const address = place.info_add;
@@ -209,98 +193,132 @@
                         }
                     });
                 });
-
                 fragment.appendChild(itemEl);
             });
-
             listEl.appendChild(fragment);
         }
         
-        // 체크박스 필터링
-      function filterResults() {
-          const infoOptions = Array.from(document.querySelectorAll('input[name="info_option"]:checked'))
-              .map(checkbox => checkbox.value);
-          
-          const infoCounts = Array.from(document.querySelectorAll('input[name="info_count"]:checked'))
-              .map(checkbox => parseInt(checkbox.value, 10));
-      
-          const infoTypes = Array.from(document.querySelectorAll('input[name="info_type"]:checked'))
-              .map(checkbox => checkbox.value);
-              
-          const infoSizes = Array.from(document.querySelectorAll('input[name="info_size"]:checked'))
-              .map(checkbox => parseInt(checkbox.value, 10)); // 면적 체크박스 값 배열
-      
-          const hasFourPlus = infoCounts.includes(4); // '포룸 이상' 체크 여부
-      
-          const filteredPlaces = allPlaces.filter(place => {
-              const matchesInfoOption = infoOptions.length === 0 || infoOptions.includes(place.info_option);
-              
-              const matchesInfoType = infoTypes.length === 0 || infoTypes.includes(place.info_type); // info_type 필터링
-              
-              // 방 갯수 필터링
-              const matchesInfoCount = hasFourPlus
-                  ? place.info_count >= 4 // '포룸 이상' 체크 시 4 이상인 경우
-                  : infoCounts.length === 0 || infoCounts.includes(place.info_count); // 나머지 경우
-      
-              // 면적 필터링
-              const matchesInfoSize = infoSizes.length === 0 || infoSizes.some(size => {
-                  if (size === 10) return place.info_size < 10; // ~10평
-                  if (size === 11) return place.info_size >= 10 && place.info_size < 20; // 10~19평
-                  if (size === 20) return place.info_size >= 20 && place.info_size < 30; // 20~29평
-                  if (size === 30) return place.info_size >= 30 && place.info_size < 40; // 30~39평
-                  if (size === 40) return place.info_size >= 40; // 40평 이상
-              });
-      
-              return matchesInfoOption && matchesInfoCount && matchesInfoType && matchesInfoSize; // 모든 조건 만족
-          });
-      
-          displaySearchResults(filteredPlaces);
-      }
+        function filterResults() {
+            const infoOptions = Array.from(document.querySelectorAll('input[name="info_option"]:checked')).map(checkbox => checkbox.value);
+            const infoCounts = Array.from(document.querySelectorAll('input[name="info_count"]:checked')).map(checkbox => parseInt(checkbox.value, 10));
+            const infoTypes = Array.from(document.querySelectorAll('input[name="info_type"]:checked')).map(checkbox => checkbox.value);
+            const infoSizes = Array.from(document.querySelectorAll('input[name="info_size"]:checked')).map(checkbox => parseInt(checkbox.value, 10));
+            const infoMonths = Array.from(document.querySelectorAll('input[name="info_month"]:checked')).map(checkbox => parseInt(checkbox.value, 10));
+            const infoDeposits = Array.from(document.querySelectorAll('input[name="info_deposit"]:checked')).map(checkbox => parseInt(checkbox.value, 10));
+            const infoFloors = Array.from(document.querySelectorAll('input[name="info_fl"]:checked')).map(checkbox => checkbox.value);
+            const infoComps = Array.from(document.querySelectorAll('input[name="info_comp"]:checked')).map(checkbox => parseInt(checkbox.value, 10));
+            const optionOps = Array.from(document.querySelectorAll('input[name="option_op"]:checked')).map(checkbox => checkbox.value);
+            const optionEtcs = Array.from(document.querySelectorAll('input[name="option_etc"]:checked')).map(checkbox => checkbox.value);
 
-        document.addEventListener('DOMContentLoaded', () => {
+            const fullOptions = ['세탁기', '에어컨', '인덕션', '가스렌지', 'TV', '침대']; // 풀옵 조건에 필요한 옵션들
+
+            const filteredPlaces = allPlaces.filter(place => {
+                const matchesInfoOption = infoOptions.length === 0 || infoOptions.includes(place.info_option);
+                const matchesInfoType = infoTypes.length === 0 || infoTypes.includes(place.info_type);
+                const matchesInfoCount = infoCounts.length === 0 || infoCounts.includes(place.info_count);
+                
+                const matchesInfoSize = infoSizes.length === 0 || infoSizes.some(size => {
+                    if (size === 9) return place.info_size < 10;
+                    if (size === 10) return place.info_size >= 10 && place.info_size < 20;
+                    if (size === 20) return place.info_size >= 20 && place.info_size < 30;
+                    if (size === 30) return place.info_size >= 30 && place.info_size < 40;
+                    if (size === 40) return place.info_size >= 40;
+                });
+
+                const matchesInfoMonth = infoMonths.length === 0 || (place.info_month !== null && infoMonths.some(month => {
+                    if (month === 9) return place.info_month < 10;
+                    if (month === 10) return place.info_month >= 10 && place.info_month < 30;
+                    if (month === 30) return place.info_month >= 30 && place.info_month < 50;
+                    if (month === 50) return place.info_month >= 50;
+                }));
+
+                const matchesInfoDeposit = infoDeposits.length === 0 || (place.info_deposit !== null && infoDeposits.some(deposit => {
+                    if (deposit === 0) return place.info_deposit < 1000;
+                    if (deposit === 1000) return place.info_deposit >= 1000 && place.info_deposit < 4000;
+                    if (deposit === 4000) return place.info_deposit >= 4000 && place.info_deposit < 8000;
+                    if (deposit === 8000) return place.info_deposit >= 8000;
+                }));
+
+                const matchesInfoFloor = infoFloors.length === 0 || infoFloors.some(floor => {
+                    if (floor === "지하") return place.info_fl === "지하";
+                    if (floor === "1") return parseInt(place.info_fl, 10) === 1;
+                    if (floor === "2") return parseInt(place.info_fl, 10) === 2;
+                    if (floor === "3") return parseInt(place.info_fl, 10) >= 3;
+                    if (floor === "옥탑") return place.info_fl === "옥탑";
+                });
+
+                const currentYear = new Date().getFullYear();
+                const buildingAge = currentYear - parseInt(place.info_comp, 10);
+                const matchesInfoComp = infoComps.length === 0 || infoComps.some(comp => {
+                    if (comp === 0) return buildingAge <= 3;
+                    if (comp === 3) return buildingAge > 3 && buildingAge <= 10;
+                    if (comp === 10) return buildingAge > 10 && buildingAge <= 15;
+                    if (comp === 15) return buildingAge > 15;
+                });
+
+                const matchesOptionOp = optionOps.length === 0 || optionOps.some(op => {
+                    if (op === "풀옵") return fullOptions.every(opt => place.option_op && place.option_op.includes(opt)); // 모든 풀옵 조건 포함
+                    if (op === "무옵") return !place.option_op; // 옵션이 없을 때 무옵으로 처리
+                });
+
+                const matchesOptionEtc = optionEtcs.length === 0 || optionEtcs.every(etc => place.option_etc && place.option_etc.includes(etc));
+
+                return matchesInfoOption && matchesInfoType && matchesInfoCount && matchesInfoSize && matchesInfoMonth &&
+                       matchesInfoDeposit && matchesInfoFloor && matchesInfoComp && matchesOptionOp && matchesOptionEtc;
+            });
+
+            // option_etc 필터링 조건을 처리하여 각 체크박스의 조합에 따라 필터링
+            const filteredByEtc = optionEtcs.length === 0 ? filteredPlaces : filteredPlaces.filter(place => {
+                return optionEtcs.every(etc => place.option_etc && place.option_etc.includes(etc));
+            });
+
+            displaySearchResults(filteredByEtc);
+        }
+
+        // 체크박스 변경 시 필터링 적용
+        document.querySelectorAll('input[name="info_option"], input[name="info_count"], input[name="info_type"], input[name="info_size"], input[name="info_month"], input[name="info_deposit"], input[name="info_fl"], input[name="info_comp"], input[name="option_op"], input[name="option_etc"]').forEach(checkbox => {
+            checkbox.addEventListener('change', filterResults);
+        });
+        
+	  //..
+      document.addEventListener('DOMContentLoaded', () => {
             getLocation((lat, lng) => {
                 initializeMap(lat, lng);
                 displayRoadview(lat, lng);
             });
 
-            document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
-            document.getElementById('addressSearchBtn').addEventListener('click', performSearch);
-            document.getElementById('resetBtn').addEventListener('click', () => {
-                document.getElementById('address').value = '';
-                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-                displaySearchResults(allPlaces); // 모든 결과 다시 표시
-            });
-            document.getElementById('address').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    performSearch();
-                }
-            });
-            document.getElementById('locateMeBtn').addEventListener('click', () => {
-                getLocation((lat, lng) => {
-                    const coords = new kakao.maps.LatLng(lat, lng);
-                    map.setLevel(3);
-                    map.setCenter(coords);
-                    marker.setPosition(coords);
-                    displayRoadview(lat, lng);
-                });
-            });
+      document.getElementById('logo').addEventListener('click', () => window.location.href = '/index');
+      document.getElementById('addressSearchBtn').addEventListener('click', performSearch);
+      document.getElementById('resetBtn').addEventListener('click', () => {
+          document.getElementById('address').value = '';
+          document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+          displaySearchResults(allPlaces); // 모든 결과 다시 표시
+      });      
+      document.getElementById('address').addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+              e.preventDefault();
+              performSearch();
+          }
+      });
+      document.getElementById('locateMeBtn').addEventListener('click', () => {
+          getLocation((lat, lng) => {
+              const coords = new kakao.maps.LatLng(lat, lng);
+              map.setLevel(3);
+              map.setCenter(coords);
+              marker.setPosition(coords);
+              displayRoadview(lat, lng);
+          });
+      });
            
-         // 체크박스 변경 시 필터링 적용
-         document.querySelectorAll('input[name="info_option"], input[name="info_count"], input[name="info_type"], input[name="info_size"]').forEach(checkbox => {
-             checkbox.addEventListener('change', filterResults);
-         });
-
-
-            // 데이터베이스에서 주소 목록을 불러와서 표시
-            fetch('/addresses')
-                .then(response => response.json())
-                .then(data => {
-                    allPlaces = data; // 전체 데이터 저장
-                    displaySearchResults(allPlaces); // 결과 표시
-                });
-        });
+      // 데이터베이스에서 주소 목록을 불러와서 표시
+      fetch('/addresses')
+          .then(response => response.json())
+          .then(data => {
+              allPlaces = data; // 전체 데이터 저장
+              displaySearchResults(allPlaces); // 결과 표시
+          });
+	  });
+      
 </script>
-
 </body>
 </html>
