@@ -108,19 +108,29 @@ function displaySearchResults(places) {
 	markers.forEach(marker => marker.setMap(null));
 	markers = [];
 	places.forEach((place) => {
-	    const itemEl = document.createElement('li');
-	    let rentInfo = '';
-	    if (place.info_type === "월세") {
-	        rentInfo = `${place.info_month}`;
-	    } else if (place.info_type === "전세") {
-	        rentInfo = `${place.info_year}`;
-	    } else if (place.info_type === "매매") {
-	        rentInfo = `${place.info_sell}`;
-	    }
-	    itemEl.innerHTML = `<h5>${place.info_name}</h5>
-	                        <p>${place.info_add}</p>
-	                        <p>건물 유형: ${place.info_option}</p>
-	                        <p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>`;	    
+		const itemEl = document.createElement('li');
+		let rentInfo = '';
+		if (place.info_type === "월세") {
+		    rentInfo = `${place.info_month}`;
+		} else if (place.info_type === "전세") {
+		    rentInfo = `${place.info_year}`;
+		} else if (place.info_type === "매매") {
+		    rentInfo = `${place.info_sell}`; // 매매의 경우에 대한 처리를 추가하세요
+		}
+		// 매물의 이미지를 위한 이미지 요소 생성
+		if (place.images && place.images.length > 0) {
+		        const imageEl = document.createElement('img');
+		        imageEl.src = place.images && place.images.length > 0 ? place.images[0].si_insideurl : 'default-image-url.jpg'; // 기본 이미지 URL 설정
+		        imageEl.alt = place.info_name; // 이미지에 대한 설명
+				itemEl.appendChild(imageEl); // 이미지 요소를 가장 위에 추가
+				        }
+				
+		itemEl.innerHTML += `<h5>${place.info_name}</h5>
+                   			<p>${place.info_add}</p>
+                    		<p>건물 유형: ${place.info_option}</p>							
+                    		<p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>							
+							`;
+								    
 	    itemEl.addEventListener('click', function() {	 
 			showPopup(place); // 모달 열기       
 	        const address = place.info_add;

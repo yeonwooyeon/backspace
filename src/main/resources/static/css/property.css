@@ -200,6 +200,7 @@ body {
 
 .buttons {
 	margin-top: 10px;
+	display: flex; 
 }
 
 .buttons .button {
@@ -222,6 +223,7 @@ body {
 	border-radius: 8px;
 	font-size: 1em;
 	cursor: pointer;
+	border: none;
 }
 
 .button:hover {

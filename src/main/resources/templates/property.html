@@ -51,12 +51,12 @@
 				<a th:text="${property.info_add}"></a>
 				<a class="승인대기" th:text="${property.status}"></a>
 				<div class="buttons">
-					<a href="#" class="button detail-button" th:data-info-no="${property.info_no}">상세보기</a>
-					<form th:action="@{/property/editProperty}" method="get" style="display: inline;">
+					<a class="button detail-button" th:data-info-no="${property.info_no}">상세보기</a>
+					<form th:action="@{/property/editProperty}" method="get">
 						<input type="hidden" th:name="info_no" th:value="${property.info_no}" />
 						<button type="submit" class="button delete-button">수정</button>
 					</form>
-					<form th:action="@{/property/deleteProperty}" method="post" style="display: inline;">
+					<form th:action="@{/property/deleteProperty}" method="post">
 						<input type="hidden" th:name="info_no" th:value="${property.info_no}" />
 						<button type="submit" class="button delete-button">삭제</button>
 					</form>
