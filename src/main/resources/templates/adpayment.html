@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VACANCY</title>
-<link rel="stylesheet" href="../css/property.css">
-<link rel="icon" href="../images/logo.ico" type="image/x-icon">
+	<meta charset="UTF-8">
+	<title>VACANCY</title>
+	<link rel="stylesheet" href="../css/map.css">
+	<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+	<script type="text/javascript"
+		src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
+
+
 <body>
 	<header class="헤더">
 		<a class="로고" href="/">
 			<img src="images/logo.png">VACANCY
 		</a>
-
 		<div class="메뉴">
 			<a class="호버" href="map">공실정보</a>
 			<a>|</a>
@@ -20,21 +23,18 @@
 			<a>|</a>
 			<a class="호버" href="cart">담은매물</a>
 		</div>
-
 		<div class="유저메뉴">
 			<a href="/boards/free">고객센터</a>
 			<a href="users/myPage/boards">마이페이지</a>
 			<a href="users/logout">로그아웃</a>
 		</div>
 	</header>
-
-
-
+	
+	으앙
 	<footer>
 		<div>© 2024 Vacancy. All rights reserved.</div>
 	</footer>
-
-
-	<script src="../script/adpayment.js"></script>
 </body>
+<script src="../script/map.js"></script>
+
 </html>
