@@ -278,7 +278,6 @@ footer {
 	margin: auto; /* 팝업 내용을 화면 중앙에 배치 */
 }
 
-@
 keyframes scaleUp {from { transform:scale(0.8);
 	opacity: 0;
 }
