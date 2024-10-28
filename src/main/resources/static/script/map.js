@@ -73,6 +73,35 @@ function searchDatabase() {
 		})
 		.catch(error => console.error('Error fetching data:', error));
 }
+// 팝업창 열기
+function showPopup(place) {
+    const popupContent = `
+        <div style="padding: 20px; border: 1px solid #ccc; background: #fff; width: 300px;">
+            <h5>${place.info_name}</h5>
+            <p>주소: ${place.info_add}</p>
+            <p>건물유형: ${place.info_option}</p>
+            <p>지불방식: ${place.info_type}</p>
+			<p>면적: ${place.info_size}평</p>
+            <p>권리금: ${place.option_money}만원</p>
+            <p>보증금: ${place.info_deposit}만원</p>
+            <p>관리비: ${place.option_cost}만원</p>           
+            <p>방갯수: ${place.info_count}개</p>
+            <p>해당층수: ${place.info_fl}층</p>
+            <p>전체층수: ${place.info_allfl}층</p>
+            <p>호실: ${place.room_num}호</p>			
+            <p>준공일: ${place.info_comp}</p>
+            <p>입주가능일: ${place.info_move}</p>
+            <p>상세옵션: ${place.option_op}</p>
+            <p>기타옵션: ${place.option_etc}</p>                    
+            <button id="closePopupBtn">닫기</button>
+        </div>
+    `;    
+    const popupWindow = window.open("", "팝업창", "width=500,height=1000");	
+    popupWindow.document.write(popupContent);       
+    popupWindow.document.getElementById('closePopupBtn').onclick = function() {
+        popupWindow.close();
+    };
+}
 //건물DB
 function displaySearchResults(places) {
 	const listEl = document.getElementById('placesList');
@@ -81,40 +110,40 @@ function displaySearchResults(places) {
 	markers.forEach(marker => marker.setMap(null));
 	markers = [];
 	places.forEach((place) => {
-		const itemEl = document.createElement('li');
-		let rentInfo = '';
-		if (place.info_type === "월세") {
-		    rentInfo = `${place.info_month}`;
-		} else if (place.info_type === "전세") {
-		    rentInfo = `${place.info_year}`;
-		} else if (place.info_type === "매매") {
-		    rentInfo = `${place.info_sell}`; // 매매의 경우에 대한 처리를 추가하세요
-		}
-		itemEl.innerHTML = `<h5>${place.info_name}</h5>
-                   			<p>${place.info_add}</p>
-                    		<p>건물 유형: ${place.info_option}</p>							
-                    		<p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>							
-							`;		
-		itemEl.addEventListener('click', function() {
-			const address = place.info_add;
-			geocoder.addressSearch(address, (result, status) => {
-				if (status === kakao.maps.services.Status.OK) {
-					const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					map.setLevel(3);
-					map.setCenter(coords);
-					const marker = new kakao.maps.Marker({
-						map: map,
-						position: coords
-					});
-					infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
-					infowindow.open(map, marker);
-				} else {
-					alert('주소 검색에 실패했습니다.');
-				}
-			});
-		});
-		fragment.appendChild(itemEl);
-	});
+	    const itemEl = document.createElement('li');
+	    let rentInfo = '';
+	    if (place.info_type === "월세") {
+	        rentInfo = `${place.info_month}`;
+	    } else if (place.info_type === "전세") {
+	        rentInfo = `${place.info_year}`;
+	    } else if (place.info_type === "매매") {
+	        rentInfo = `${place.info_sell}`;
+	    }
+	    itemEl.innerHTML = `<h5>${place.info_name}</h5>
+	                        <p>${place.info_add}</p>
+	                        <p>건물 유형: ${place.info_option}</p>
+	                        <p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>`;	    
+	    itemEl.addEventListener('click', function() {
+	        showPopup(place); // 팝업창 열기
+	        const address = place.info_add;
+	        geocoder.addressSearch(address, (result, status) => {
+	            if (status === kakao.maps.services.Status.OK) {
+	                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	                map.setLevel(3);
+	                map.setCenter(coords);
+	                const marker = new kakao.maps.Marker({
+	                    map: map,
+	                    position: coords
+	                });
+	                infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+	                infowindow.open(map, marker);
+	            } else {
+	                alert('주소 검색에 실패했습니다.');
+	            }
+	        });
+	    });
+	    fragment.appendChild(itemEl);
+	});	
 	listEl.appendChild(fragment);
 }
 //필터링
