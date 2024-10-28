@@ -73,35 +73,33 @@ function searchDatabase() {
 		})
 		.catch(error => console.error('Error fetching data:', error));
 }
-// 팝업창 열기
 function showPopup(place) {
     const popupContent = `
-        <div style="padding: 20px; border: 1px solid #ccc; background: #fff; width: 300px;">
-            <h5>${place.info_name}</h5>
-            <p>주소: ${place.info_add}</p>
-            <p>건물유형: ${place.info_option}</p>
-            <p>지불방식: ${place.info_type}</p>
-			<p>면적: ${place.info_size}평</p>
-            <p>권리금: ${place.option_money}만원</p>
-            <p>보증금: ${place.info_deposit}만원</p>
-            <p>관리비: ${place.option_cost}만원</p>           
-            <p>방갯수: ${place.info_count}개</p>
-            <p>해당층수: ${place.info_fl}층</p>
-            <p>전체층수: ${place.info_allfl}층</p>
-            <p>호실: ${place.room_num}호</p>			
-            <p>준공일: ${place.info_comp}</p>
-            <p>입주가능일: ${place.info_move}</p>
-            <p>상세옵션: ${place.option_op}</p>
-            <p>기타옵션: ${place.option_etc}</p>                    
-            <button id="closePopupBtn">닫기</button>
-        </div>
-    `;    
-    const popupWindow = window.open("", "팝업창", "width=500,height=1000");	
-    popupWindow.document.write(popupContent);       
-    popupWindow.document.getElementById('closePopupBtn').onclick = function() {
-        popupWindow.close();
-    };
+        <h5>${place.info_name}</h5>
+        <p>주소: ${place.info_add}</p>
+        <p>건물유형: ${place.info_option}</p>
+        <p>지불방식: ${place.info_type}</p>
+        <p>면적: ${place.info_size}평</p>
+        <p>권리금: ${place.option_money}만원</p>
+        <p>보증금: ${place.info_deposit}만원</p>
+        <p>관리비: ${place.option_cost}만원</p>
+        <p>방갯수: ${place.info_count}개</p>
+        <p>해당층수: ${place.info_fl}층</p>
+        <p>전체층수: ${place.info_allfl}층</p>
+        <p>호실: ${place.room_num}호</p>			
+        <p>준공일: ${place.info_comp}</p>
+        <p>입주가능일: ${place.info_move}</p>
+        <p>상세옵션: ${place.option_op}</p>
+        <p>기타옵션: ${place.option_etc}</p>
+    `;
+    
+    document.getElementById('popupContent').innerHTML = popupContent;
+    document.getElementById('popupModal').style.display = 'block'; // 모달 보여주기
 }
+document.getElementById('closePopupBtn').addEventListener('click', () => {
+    document.getElementById('popupModal').style.display = 'none'; // 모달 숨기기
+});
+
 //건물DB
 function displaySearchResults(places) {
 	const listEl = document.getElementById('placesList');
@@ -123,8 +121,8 @@ function displaySearchResults(places) {
 	                        <p>${place.info_add}</p>
 	                        <p>건물 유형: ${place.info_option}</p>
 	                        <p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>`;	    
-	    itemEl.addEventListener('click', function() {
-	        showPopup(place); // 팝업창 열기
+	    itemEl.addEventListener('click', function() {	 
+			showPopup(place); // 모달 열기       
 	        const address = place.info_add;
 	        geocoder.addressSearch(address, (result, status) => {
 	            if (status === kakao.maps.services.Status.OK) {
