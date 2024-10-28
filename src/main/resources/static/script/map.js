@@ -82,9 +82,19 @@ function displaySearchResults(places) {
 	markers = [];
 	places.forEach((place) => {
 		const itemEl = document.createElement('li');
+		let rentInfo = '';
+		if (place.info_type === "월세") {
+		    rentInfo = `${place.info_month}`;
+		} else if (place.info_type === "전세") {
+		    rentInfo = `${place.info_year}`;
+		} else if (place.info_type === "매매") {
+		    rentInfo = `${place.info_sell}`; // 매매의 경우에 대한 처리를 추가하세요
+		}
 		itemEl.innerHTML = `<h5>${place.info_name}</h5>
                    			<p>${place.info_add}</p>
-                    		<p>건물 유형: ${place.info_option}</p>`;		
+                    		<p>건물 유형: ${place.info_option}</p>							
+                    		<p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>							
+							`;		
 		itemEl.addEventListener('click', function() {
 			const address = place.info_add;
 			geocoder.addressSearch(address, (result, status) => {
