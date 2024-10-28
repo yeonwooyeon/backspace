@@ -11,22 +11,32 @@
 
 <body>
 	<header class="헤더">
-		<a class="로고" href="/"><img src="images/logo.png">VACANCY</a>
+		<a class="로고" href="/">
+			<img src="images/logo.png">VACANCY
+		</a>
 
 		<div class="메뉴">
 			<th:block th:if="${loggedIn}">
-				<a href="map">공실정보</a>
+				<a class="호버" href="map">공실정보</a>
 			</th:block>
 			<th:block th:unless="${loggedIn}">
-				<a onclick="showLoginPopup()">공실정보</a>
+				<a class="호버" onclick="showLoginPopup()">공실정보</a>
+			</th:block>
+			<a>|</a>
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="property">관리물건</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">관리물건</a>
+			</th:block>
+			<a>|</a>
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="cart">담은매물</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">담은매물</a>
 			</th:block>
 			
-			<th:block th:if="${loggedIn}">
-				<a href="property">관리물건</a>
-			</th:block>
-			<th:block th:unless="${loggedIn}">
-				<a onclick="showLoginPopup()">관리물건</a>
-			</th:block>
 		</div>
 
 		<div class="유저메뉴">
