@@ -1,409 +1,385 @@
 body {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 /* body *{
     border: 0.001px dashed #000;
 } */
-
 .헤더 {
-    display: flex;
-    align-items: center;
-    padding-left: 200px;
-    padding-right: 200px;
-    font-weight: bold;
-    height: 70px;
-    letter-spacing: 5px;
+	display: flex;
+	align-items: center;
+	padding-left: 200px;
+	padding-right: 200px;
+	font-weight: bold;
+	height: 70px;
+	letter-spacing: 5px;
+	box-shadow: 0 0 5px #ff7f50;
 }
 
 .로고 {
-    display: flex;
-    align-items: center;
-    font-size: 1.8em;
-    cursor: default;
-    margin-left: 5px;
-    text-decoration: none;
-    color: #000;
+	display: flex;
+	align-items: center;
+	font-size: 1.8em;
+	cursor: default;
+	margin-left: 5px;
+	text-decoration: none;
+	color: #000;
 }
 
 .로고 img {
-    height: 50px;
-    padding-right: 20px;
-    cursor: pointer;
+	height: 50px;
+	padding-right: 20px;
+	cursor: pointer;
 }
 
 .메뉴 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-100%);
+	position: absolute;
+	display: flex;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .메뉴 a {
-    padding-left: 10px;
-    padding-right: 10px;
-    text-decoration: none;
-    color: #505050;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1.2em;
-    border-right: 2px solid #FFB74D;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #505050;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1.2em;
+	transition: background-color 0.3s ease;
 }
 
-.메뉴 a:hover {
-    color: #fff;
-    background-color: #FFB74D;
-    border-radius: 5px;
-    padding: 5px 10px;
-}
-
-.메뉴 a:last-child {
-    border-right: none;
+.호버:hover {
+	color: #fff;
+	background-color: #FFB74D;
+	border-radius: 5px;
 }
 
 .유저메뉴 {
-    display: flex;
-    font-size: 1.2em;
-    position: absolute;
-    right: 200px;
+	display: flex;
+	font-size: 1.2em;
+	position: absolute;
+	right: 200px;
 }
 
 .유저메뉴 a {
-    margin-left: 10px;
-    text-decoration: none;
-    color: #FF5722;
-    border: 1px solid #FF5722;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.7em;
+	margin-left: 10px;
+	text-decoration: none;
+	color: #FF5722;
+	border: 1px solid #FF5722;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-size: 0.7em;
 }
 
 .유저메뉴 a:hover {
-    background-color: #FF5722;
-    color: white;
+	background-color: #FF5722;
+	color: white;
 }
 
 .등록하기버튼 {
-    display: flex;
-    justify-content: center;
-    margin: 20px;
+	display: flex;
+	justify-content: center;
+	margin: 20px;
 }
 
-.container {
-    flex: 1; /* 컨텐츠가 적을 때도 푸터를 밀어내도록 함 */
-    width: 50%;
-    margin: 0 auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+.등록하기버튼 a{
+	padding: 10px 20px;
+	background-color: #ff7f50;
+	color: #fff;
+	font-weight: bold;
+	border: 1px solid #ff7f50;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 1em;
+	transition: background-color 0.3s;
+	margin: 10px
 }
 
-.item {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    transition: background-color 0.3s ease;
+.등록하기버튼 a:hover {
+	background-color: #fff;
+	color: #ff7f50;
+	border: 1px solid #ff7f50;
 }
 
-.item:last-child {
-    border-bottom: none;
+.건물상자 {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	margin-left: 200px;
+	margin-right: 200px;
 }
 
-.item:hover {
-    background-color: #f0f0f0;
+.건물목록 {
+	display: flex;
+	align-items: flex-start;
+	padding: 20px;
+	border-bottom: 2px solid #e0e0e0;
+	transition: background-color 0.3s ease;
+}
+
+.건물목록:last-child {
+	border-bottom: none;
+}
+
+.건물목록:hover {
+	background-color: #f0f0f0;
 }
 
 /* 이미지 컨테이너 스타일 업데이트 */
-.image-container {
-    width: 200px; /* 정사각형 이미지 컨테이너 크기 */
-    height: 200px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    align-items: center;
-    position: relative;
-    margin-right: 40px;
-    overflow: hidden;
+.이미지 {
+	width: 200px;
+	height: 200px;
+	align-items: center;
+	position: relative;
+	margin-right: 40px;
+	overflow: hidden;
+	border: 1px solid #ddd;
 }
 
 /* 이미지가 없는 경우 로고를 표시 */
-.image-container::before {
-    content: '';
-    background-image: url('/images/logo.png'); /* 로고 이미지 경로 */
-    background-size: contain; /* 이미지 비율을 유지하면서 컨테이너에 맞춤 */
-    background-position: center; /* 중앙에 배치 */
-    background-repeat: no-repeat;
-    opacity: 0.3; /* 로고를 투명하게 설정 */
-    position: absolute;
-    top: 0;
-    left: 10%; /* 좌우로 10% 여백 */
-    right: 10%; /* 좌우로 10% 여백 */
-    bottom: 0;
+.이미지::before {
+	content: '';
+	background-image: url('/images/logo.png');
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0.3;
+	position: absolute;
+	top: 0;
+	left: 10%;
+	right: 10%;
+	bottom: 0;
 }
 
-/* 이미지 자체 스타일 */
-.image-container img {
-	width: 200px; /* 정사각형 이미지 컨테이너 크기 */
-    height: 200px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    align-items: center;
-    position: relative;
-    margin-right: 40px;
+.이미지 img {
+	width: 200px;
+	justify-content:center;
+	align-items: center;
+	position: relative;
 }
 
- .image-container ul {
-        list-style-type: none; /* 리스트 스타일 제거 */
-        padding: 0; /* 기본 패딩 제거 */
-        margin: 0; /* 기본 마진 제거 */
-    }
-
- .image-container li {
-        display: inline-block; /* 리스트 아이템을 인라인 블록으로 설정 */
-        margin: 0; /* 마진 제거 */
-    }
-
-/* 이미지가 로드된 경우 */
-.image-container img.loaded {
-    display: block; /* 이미지가 로드되면 보이도록 설정 */
+.이미지 ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
-
-.details {
-    display: flex;
-
+.건물정보 {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
-.price {
-    font-size: 1.5em;
-    color: #ff7f50;
-    font-weight: bold;
-    margin-bottom: 10px;
+.건물정보 div{
+	margin-bottom: 5px
 }
 
-.address {
-    color: #333;
-    font-size: 1.1em;
-    margin-bottom: 5px;
+.건물정보 a{
+	margin-bottom: 5px
 }
 
-.info {
-    color: #666;
-    font-size: 0.9em;
-    margin-bottom: 10px;
+.건물이름{
+	margin:0 0 15px 0;
+	font-size: 1.5em;
 }
-.info-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+
+.가격상자{
+	align-content: center;
 }
-.info-container p, .info-container span {
-    margin: 5px 0; /* 텍스트 간 위아래 간격을 5px로 설정 */
-    font-size: 16px;
+
+.가격 {
+	color: #ff7f50;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.승인대기{
+	color: red;
 }
 
 .buttons {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .buttons .button {
-    margin-top: 5px;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
+	margin-top: 5px;
+	padding: 10px;
+	background-color: #007BFF;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 5px;
 }
 
 /* 버튼 스타일 */
 .button {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 1em;
-  cursor: pointer;
+	padding: 10px 20px;
+	background-color: #007BFF;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 8px;
+	font-size: 1em;
+	cursor: pointer;
 }
 
 .button:hover {
-  background-color: #0056b3;
+	background-color: #0056b3;
 }
 
 /* 등록 버튼 스타일 */
-.register-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: white;
-    color: #ff7f50;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.register-button:hover {
-    background-color: #45a049;
-}
-
 
 
 /* 푸터 스타일 */
 footer {
-    background-color: grey;
-    color: white;
-    text-align: left;
-    padding: 20px 15%;
-    font-size: 1em;
-    margin-top: 5%; /* 푸터를 하단으로 고정 */
+	background-color: grey;
+	color: white;
+	text-align: left;
+	padding: 20px 15%;
+	font-size: 1em;
+	margin-top: 5%; /* 푸터를 하단으로 고정 */
 }
 
 /* 팝업 */
 .popup {
-  display: flex;
-    flex-direction: column; /* 세로排列 */
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100vw; /* 전체 화면 너비 */
-  height: 100vh; /* 전체 화면 높이 */
-  background-color: rgba(0, 0, 0, 0.7); /* 어두운 배경 */
-  overflow: hidden; /* 스크롤 숨김 */
+	display: flex;
+	flex-direction: column; /* 세로排列 */
+	justify-content: center; /* 가로 중앙 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100vw; /* 전체 화면 너비 */
+	height: 100vh; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.7); /* 어두운 배경 */
+	overflow: hidden; /* 스크롤 숨김 */
 }
 
-
-.popup div div div img{
+.popup div div div img {
 	width: 200px;
 	height: 200px;
-	margin-left:50%;
+	margin-left: 50%;
 	transform: translateX(-50%);
 }
 
 .popup-content {
-    position: relative;
-    padding: 40px;
-    width: 90%;
-    max-width: 600px; /* 최대 너비 설정 */
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* 깊이 있는 그림자 */
-    max-height: 80vh; /* 최대 높이 설정 */
-    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
-    animation: scaleUp 0.3s ease-in-out; /* 팝업 애니메이션 */
-    margin: auto; /* 팝업 내용을 화면 중앙에 배치 */
+	position: relative;
+	padding: 40px;
+	width: 90%;
+	max-width: 600px; /* 최대 너비 설정 */
+	background-color: #fff;
+	border-radius: 16px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* 깊이 있는 그림자 */
+	max-height: 80vh; /* 최대 높이 설정 */
+	overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
+	animation: scaleUp 0.3s ease-in-out; /* 팝업 애니메이션 */
+	margin: auto; /* 팝업 내용을 화면 중앙에 배치 */
 }
 
-@keyframes scaleUp {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+@
+keyframes scaleUp {from { transform:scale(0.8);
+	opacity: 0;
+}
+
+to {
+	transform: scale(1);
+	opacity: 1;
+}
+
 }
 
 /* 닫기 버튼 */
 .close-button {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #666;
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #666;
+	cursor: pointer;
+	transition: color 0.3s ease-in-out;
 }
 
 .close-button:hover {
-  color: #ff7f50; /* 닫기 버튼 호버 시 색상 강조 */
+	color: #ff7f50; /* 닫기 버튼 호버 시 색상 강조 */
 }
 
 /* 팝업 제목 스타일 수정 */
 .popup h2 {
-    font-size: 2em;
-    margin-bottom: 15px;
-    color: #333; /* 제목 색상 */
-    font-weight: bold;
-    text-align: center; /* 중앙 정렬 */
-    letter-spacing: 1px;
-    border-bottom: 2px solid #FFB74D; /* 구분선 */
-    padding-bottom: 10px;
+	font-size: 2em;
+	margin-bottom: 15px;
+	color: #333; /* 제목 색상 */
+	font-weight: bold;
+	text-align: center; /* 중앙 정렬 */
+	letter-spacing: 1px;
+	border-bottom: 2px solid #FFB74D; /* 구분선 */
+	padding-bottom: 10px;
 }
 
-    .highlight {
-        font-weight: bold; /* 굵은 글씨 */
-        color: #ffffff !important;/* 텍스트 색상 */
-        background-color: #5BBDC8; /* 배경색 */
-        padding: 2px 5px; /* 패딩 */
-        border-radius: 3px; /* 모서리 둥글게 */
-        z-index: 1; /* 다른 요소보다 위에 오도록 설정 */
-        margin-right: 10px; /* 오른쪽에 10px 여백 추가 */
-    }
+.highlight {
+	font-weight: bold; /* 굵은 글씨 */
+	color: #ffffff !important; /* 텍스트 색상 */
+	background-color: #5BBDC8; /* 배경색 */
+	padding: 2px 5px; /* 패딩 */
+	border-radius: 3px; /* 모서리 둥글게 */
+	z-index: 1; /* 다른 요소보다 위에 오도록 설정 */
+	margin-right: 10px; /* 오른쪽에 10px 여백 추가 */
+}
 
 .popup p {
-    font-size: 1.1em;
-    line-height: 1.7;
-    color: #555; /* 본문 색상 */
-    margin: 10px 0; /* 위아래 마진 */
-    padding: 10px 0; /* 위아래 패딩 */
-    border-bottom: 1px solid #5BBDC8; /* 구분선 */
+	font-size: 1.1em;
+	line-height: 1.7;
+	color: #555; /* 본문 색상 */
+	margin: 10px 0; /* 위아래 마진 */
+	padding: 10px 0; /* 위아래 패딩 */
+	border-bottom: 1px solid #5BBDC8; /* 구분선 */
 }
 
 .popup span {
-  font-weight: bold;
-  color: #333;
+	font-weight: bold;
+	color: #333;
 }
 
 .popup img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  transition: transform 0.3s ease-in-out;
+	width: 100%;
+	height: auto;
+	margin-bottom: 20px;
+	border-radius: 12px;
+	transition: transform 0.3s ease-in-out;
 }
 
 #property-image-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20x; /* 이미지 간 간격 추가 */
+	display: flex;
+	flex-direction: column;
+	gap: 20x; /* 이미지 간 간격 추가 */
 }
 
 .disabled {
-    pointer-events: none; /* 클릭 이벤트 차단 */
-    opacity: 0.5; /* 비활성화된 느낌을 주기 위해 반투명하게 */
+	pointer-events: none; /* 클릭 이벤트 차단 */
+	opacity: 0.5; /* 비활성화된 느낌을 주기 위해 반투명하게 */
 }
 
 .pagination {
-    display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    margin: 20px 0; /* 위아래 여백 추가 */
+	display: flex;
+	justify-content: center; /* 가로 중앙 정렬 */
+	margin: 20px 0; /* 위아래 여백 추가 */
 }
 
 .pagination a {
-    padding: 8px 12px;
-    text-decoration: none;
-    color: black;
+	padding: 8px 12px;
+	text-decoration: none;
+	color: black;
 }
 
 .pagination .active {
-    font-weight: bold;
-    background-color: #007BFF;
-    color: white;
+	font-weight: bold;
+	background-color: #007BFF;
+	color: white;
 }
 
 .pagination .disabled {
-    color: grey;
-    pointer-events: none;
+	color: grey;
+	pointer-events: none;
 }

@@ -2,28 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>VACANCY</title>
-	<link rel="stylesheet" href="../css/map.css">
-	<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-	<script type="text/javascript"
-		src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+<meta charset="UTF-8">
+<title>VACANCY</title>
+<link rel="stylesheet" href="../css/map.css">
+<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 
 <body>
 	<header class="헤더">
-		<a class="로고" href="/"><img src="images/logo.png">VACANCY</a>
-
+		<a class="로고" href="/">
+			<img src="images/logo.png">VACANCY
+		</a>
 		<div class="메뉴">
-			<a href="map">공실정보</a>
-			<a href="property">관리물건</a>
+			<a class="호버" href="map">공실정보</a>
+			<a>|</a>
+			<a class="호버" href="property">관리물건</a>
+			<a>|</a>
+			<a class="호버" href="cart">담은매물</a>
 		</div>
-
 		<div class="유저메뉴">
 			<a href="/boards/free">고객센터</a>
 			<a href="users/myPage/boards">마이페이지</a>
 			<a href="users/logout">로그아웃</a>
-
 		</div>
 	</header>
 
@@ -44,81 +45,218 @@
 			<div class="체크박스모음">
 				<div class="체크박스">
 					<div class="세부옵션">
-						<a class="옵션이름">주거타입</a><br>
-						<label><input type="checkbox" name="info_option" value="주택"> 주택</label><br>
-						<label><input type="checkbox" name="info_option" value="오피스텔"> 오피스텔</label><br>
-						<label><input type="checkbox" name="info_option" value="사무실"> 사무실</label><br>
-						<label><input type="checkbox" name="info_option" value="상가"> 상가</label><br>
+						<a class="옵션이름">주거타입</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_option" value="주택"> 주택
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_option" value="오피스텔"> 오피스텔
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_option" value="사무실"> 사무실
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_option" value="상가"> 상가
+						</label>
+						<br>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">거래유형</a><br>
-						<label><input type="checkbox" name="info_type" value="전세"> 전세</label><br>
-						<label><input type="checkbox" name="info_type" value="월세"> 월세</label><br>
-						<label><input type="checkbox" name="info_type" value="매매"> 매매</label><br>
+						<a class="옵션이름">거래유형</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_type" value="전세"> 전세
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_type" value="월세"> 월세
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_type" value="매매"> 매매
+						</label>
+						<br>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">방갯수</a><br>
-						<label><input type="checkbox" name="info_count" value="1"> 원룸</label><br>
-						<label><input type="checkbox" name="info_count" value="2"> 투룸</label> <br>
-						<label><input type="checkbox" name="info_count" value="3"> 쓰리룸</label><br>
-						<label><input type="checkbox" name="info_count" value="4"> 포룸 이상</label>
+						<a class="옵션이름">방갯수</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_count" value="1"> 원룸
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_count" value="2"> 투룸
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_count" value="3"> 쓰리룸
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_count" value="4"> 포룸 이상
+						</label>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">면적</a><br>
-						<label><input type="checkbox" name="info_size" value="9"> ~10평</label><br>
-						<label><input type="checkbox" name="info_size" value="10"> 10평대</label><br>
-						<label><input type="checkbox" name="info_size" value="20"> 20평대</label><br>
-						<label><input type="checkbox" name="info_size" value="30"> 30평대</label><br>
-						<label><input type="checkbox" name="info_size" value="40"> 40평~</label>
+						<a class="옵션이름">면적</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_size" value="9"> ~10평
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_size" value="10"> 10평대
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_size" value="20"> 20평대
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_size" value="30"> 30평대
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_size" value="40"> 40평~
+						</label>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">월세</a><br>
-						<label><input type="checkbox" name="info_month" value="9"> ~10만원</label><br>
-						<label><input type="checkbox" name="info_month" value="10"> 10~30만원</label><br>
-						<label><input type="checkbox" name="info_month" value="30"> 30~50만원</label><br>
-						<label><input type="checkbox" name="info_month" value="50"> 50만원~</label>
+						<a class="옵션이름">월세</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_month" value="9"> ~10만원
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_month" value="10"> 10~30만원
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_month" value="30"> 30~50만원
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_month" value="50"> 50만원~
+						</label>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">사진/영상</a><br>
-						<label><input type="checkbox" name="field" value="data"> 외부사진</label><br>
-						<label><input type="checkbox" name="field" value="data"> 내부사진</label>
+						<a class="옵션이름">사진/영상</a>
+						<br>
+						<label>
+							<input type="checkbox" name="field" value="data"> 외부사진
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="field" value="data"> 내부사진
+						</label>
 					</div>
 				</div>
 				<div class="체크박스">
 					<div class="세부옵션">
-						<a class="옵션이름">보증금</a><br>
-						<label><input type="checkbox" name="info_deposit" value="0"> ~1000만원</label><br>
-						<label><input type="checkbox" name="info_deposit" value="1000"> ~4000만원</label><br>
-						<label><input type="checkbox" name="info_deposit" value="4000"> ~8000만원</label><br>
-						<label><input type="checkbox" name="info_deposit" value="8000"> 8000만원~</label>
+						<a class="옵션이름">보증금</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_deposit" value="0"> ~1000만원
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_deposit" value="1000"> ~4000만원
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_deposit" value="4000"> ~8000만원
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_deposit" value="8000"> 8000만원~
+						</label>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">층수</a><br>
-						<label><input type="checkbox" name="info_fl" value="지하"> 지하</label><br>
-						<label><input type="checkbox" name="info_fl" value="1"> 1층</label><br>
-						<label><input type="checkbox" name="info_fl" value="2"> 2층</label><br>
-						<label><input type="checkbox" name="info_fl" value="3"> 3층 이상</label><br>
-						<label><input type="checkbox" name="info_fl" value="옥탑"> 옥탑</label>
+						<a class="옵션이름">층수</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_fl" value="지하"> 지하
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_fl" value="1"> 1층
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_fl" value="2"> 2층
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_fl" value="3"> 3층 이상
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_fl" value="옥탑"> 옥탑
+						</label>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">준공년도</a><br>
-						<label><input type="checkbox" name="info_comp" value="0"> ~3년</label><br>
-						<label><input type="checkbox" name="info_comp" value="3"> 3년~10년</label><br>
-						<label><input type="checkbox" name="info_comp" value="10"> 10년~15년</label><br>
-						<label><input type="checkbox" name="info_comp" value="15"> 15년~</label>
+						<a class="옵션이름">준공년도</a>
+						<br>
+						<label>
+							<input type="checkbox" name="info_comp" value="0"> ~3년
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_comp" value="3"> 3년~10년
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_comp" value="10"> 10년~15년
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="info_comp" value="15"> 15년~
+						</label>
 					</div>
 					<div class="세부옵션">
-						<a class="옵션이름">추가옵션</a><br>
-						<label><input type="checkbox" name="option_op" value="풀옵"> 풀옵션</label><br>
-						<label><input type="checkbox" name="option_op" value="무옵"> 무옵션</label><br>
-						<label><input type="checkbox" name="option_etc" value="분리형"> 분리형</label><br>
-						<label><input type="checkbox" name="option_etc" value="복층"> 복층</label><br>
-						<label><input type="checkbox" name="option_etc" value="복층"> 옥탑</label><br>
-						<label><input type="checkbox" name="option_etc" value="신축"> 신축</label><br>
-						<label><input type="checkbox" name="option_etc" value="신축"> 주차</label><br>
-						<label><input type="checkbox" name="option_etc" value="엘리베이터"> 엘리베이터</label><br>
-						<label><input type="checkbox" name="option_etc" value="반려동물"> 반려동물</label><br>
-						<label><input type="checkbox" name="option_etc" value="전세대출"> 전세대출</label>
+						<a class="옵션이름">추가옵션</a>
+						<br>
+						<label>
+							<input type="checkbox" name="option_op" value="풀옵"> 풀옵션
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_op" value="무옵"> 무옵션
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="분리형"> 분리형
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="복층"> 복층
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="복층"> 옥탑
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="신축"> 신축
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="신축"> 주차
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="엘리베이터"> 엘리베이터
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="반려동물"> 반려동물
+						</label>
+						<br>
+						<label>
+							<input type="checkbox" name="option_etc" value="전세대출"> 전세대출
+						</label>
 					</div>
 				</div>
 				<ul class="건물목록" id="placesList"></ul>
@@ -126,7 +264,9 @@
 			</div>
 		</div>
 	</div>
-
+	<footer>
+		<div>© 2024 Vacancy. All rights reserved.</div>
+	</footer>
 </body>
 <script src="../script/map.js"></script>
 
