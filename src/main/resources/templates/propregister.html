@@ -12,30 +12,24 @@
 </head>
 <body>
 	<header class="헤더">
-      <a class="로고" href="/"><img src="../images/logo.png">VACANCY</a>
+		<a class="로고" href="/"><img src="../images/logo.png">VACANCY</a>
 
-      <div class="메뉴">
-         <a href="map">공실정보</a>
-         <th:block th:if="${loggedIn}">
-            <a href="property">관리물건</a>
-         </th:block>
-         <th:block th:unless="${loggedIn}">
-            <a onclick="showLoginPopup()">관리물건</a>
-         </th:block>
-      </div>
+		<div class="메뉴">
+			<a href="../map">공실정보</a> <a href="../property">관리물건</a>
+		</div>
 
-      <div class="유저메뉴">
-         <a href="/boards/free">고객센터</a>
-         <th:block th:if="${loggedIn}">
-            <a href="users/myPage/boards">마이페이지</a>
-            <a href="users/logout">로그아웃</a>
-         </th:block>
-         <th:block th:unless="${loggedIn}">
-            <a href="users/login">로그인</a>
-            <a href="users/join">회원가입</a>
-         </th:block>
-      </div>
-   </header>
+		<div class="유저메뉴">
+			<a href="/boards/free">고객센터</a>
+			<th:block th:if="${loggedIn}">
+				<a href="users/myPage/boards">마이페이지</a>
+				<a href="users/logout">로그아웃</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a href="users/login">로그인</a>
+				<a href="users/join">회원가입</a>
+			</th:block>
+		</div>
+	</header>
 	<div class="container">
 		<form
 			th:action="@{/property/{action}(action=${property != null ? 'updateProperty' : 'addProperty'})}"
@@ -51,8 +45,7 @@
 
 			<div>
 				<label for="info_add">주소</label> <input type="button"
-					onclick="openPostcode()" value="주소 검색"><br> 
-					<input
+					onclick="openPostcode()" value="주소 검색"><br> <input
 					type="text" id="info_add" name="info_add"
 					th:value="${property != null ? property.info_add : ''}"
 					placeholder="주소" readonly="readonly" required> <input
@@ -65,8 +58,8 @@
 			<br>
 
 			<div class="form-group">
-				<label for="propertyType">매물종류</label>
-				<select id="propertyType" name="info_option">
+				<label for="propertyType">매물종류</label> <select id="propertyType"
+					name="info_option">
 					<option value="주택"
 						th:selected="${property != null && property.info_option == '주택'}">주택</option>
 					<option value="오피스텔"
@@ -79,42 +72,37 @@
 			</div>
 
 			<div class="form-group">
-				<label for="buildingType">해당층/전체층</label> 
-				<input type="number"
-					id="info_fl" name="info_fl" 
+				<label for="buildingType">해당층/전체층</label> <input type="number"
+					id="info_fl" name="info_fl"
 					th:value="${property != null ? property.info_fl : ''}"
-					placeholder="해당층수" required>
-					<input type="number" id="info_allfl" name="info_allfl" 
+					placeholder="해당층수" required> <input type="number"
+					id="info_allfl" name="info_allfl"
 					th:value="${property != null ? property.info_allfl : ''}"
 					placeholder="전체층수" required>
 			</div>
 
 			<div class="form-group">
-				<label for="RoomNumber">방호실</label>
-				<input type="number"
-					id="room_num" name="room_num" 
+				<label for="RoomNumber">방호실</label> <input type="number"
+					id="room_num" name="room_num"
 					th:value="${property != null ? property.room_num : ''}"
 					placeholder="호" required>
 			</div>
 
 			<div class="form-group">
-				<label for="Profit">권리금</label> 
-				<input type="number"
-					id="option_money" name="option_money" 
+				<label for="Profit">권리금</label> <input type="number"
+					id="option_money" name="option_money"
 					th:value="${property != null ? property.option_money : ''}"
 					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="transactionType">거래형태</label> 
-				<input type="radio"	id="monthly" name="info_type" value="월세" 
-				th:checked="${property == null || property.info_type == '월세'}"
-				onclick="toggleTransactionFields()">월세 
-				<input type="radio"
+				<label for="transactionType">거래형태</label> <input type="radio"
+					id="monthly" name="info_type" value="월세"
+					th:checked="${property == null || property.info_type == '월세'}"
+					onclick="toggleTransactionFields()">월세 <input type="radio"
 					id="jeonse" name="info_type" value="전세"
 					th:checked="${property != null && property.info_type == '전세'}"
-					onclick="toggleTransactionFields()">전세 
-					<input type="radio"
+					onclick="toggleTransactionFields()">전세 <input type="radio"
 					id="sale" name="info_type" value="매매"
 					th:checked="${property != null && property.info_type == '매매'}"
 					onclick="toggleTransactionFields()">매매
@@ -122,143 +110,139 @@
 
 			<!-- 월세 입력란 -->
 			<div id="monthlyFields" class="form-group">
-				<label for="rent">월세</label> 
-				<input type="number" id="info_month"
-					name="info_month" 
+				<label for="rent">월세</label> <input type="number" id="info_month"
+					name="info_month"
 					th:value="${property != null ? property.info_month : ''}"
 					placeholder="만원">
 			</div>
 
 			<!-- 전세 입력란 -->
 			<div id="jeonseFields" class="form-group" style="display: none;">
-				<label for="jeonsePrice">전세</label> 
-				<input type="number"
-					id="info_year" name="info_year" 
+				<label for="jeonsePrice">전세</label> <input type="number"
+					id="info_year" name="info_year"
 					th:value="${property != null ? property.info_year : ''}"
 					placeholder="만원">
 			</div>
 
 			<!-- 매매 입력란 -->
 			<div id="saleFields" class="form-group" style="display: none;">
-				<label for="salePrice">매매</label> 
-				<input type="number"
-					id="info_sell" name="info_sell" 
+				<label for="salePrice">매매</label> <input type="number"
+					id="info_sell" name="info_sell"
 					th:value="${property != null ? property.info_sell : ''}"
 					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="deposit">보증금</label> 
-				<input type="number"
-					id="info_deposit" name="info_deposit" 
+				<label for="deposit">보증금</label> <input type="number"
+					id="info_deposit" name="info_deposit"
 					th:value="${property != null ? property.info_deposit : ''}"
 					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="manageFee">관리비</label> 
-				<input type="number"
-					id="option_cost" name="option_cost" 
+				<label for="manageFee">관리비</label> <input type="number"
+					id="option_cost" name="option_cost"
 					th:value="${property != null ? property.option_cost : ''}"
 					placeholder="만원">
 			</div>
 
 			<div class="form-group">
-				<label for="info_size">건물면적</label> 
-				<input type="text"
-					id="info_size" name="info_size" 
+				<label for="info_size">건물면적</label> <input type="text"
+					id="info_size" name="info_size"
 					th:value="${property != null ? property.info_size : ''}"
 					placeholder="m²" required>
 			</div>
 
 			<div class="form-group">
-				<label for="info_count">방개수</label> 
-				<input type="number"
-					id="info_count" name="info_count" 
+				<label for="info_count">방개수</label> <input type="number"
+					id="info_count" name="info_count"
 					th:value="${property != null ? property.info_count : ''}"
 					placeholder="개" required>
 			</div>
 
 			<div class="form-group">
-				<label for="CompletionDate">준공날짜</label> 
-				<input type="date"
-					id="info_comp" name="info_comp" 
-					th:value="${property != null ? property.info_comp : ''}"
-					required>
+				<label for="CompletionDate">준공날짜</label> <input type="date"
+					id="info_comp" name="info_comp"
+					th:value="${property != null ? property.info_comp : ''}" required>
 			</div>
 
 			<div class="form-group">
-				<label for="moveInDate">입주 가능일</label> 
-				<input type="date"
-					id="info_move" name="info_move" 
-					th:value="${property != null ? property.info_move : ''}"
-					required>
+				<label for="moveInDate">입주 가능일</label> <input type="date"
+					id="info_move" name="info_move"
+					th:value="${property != null ? property.info_move : ''}" required>
 			</div>
 
 			<div class="form-group">
-				<label for="option_op">상세 옵션</label> 
-				<input type="checkbox"
+				<label for="option_op">상세 옵션</label> <input type="checkbox"
 					id="option1" name="option_op" value="세탁기"
-					 th:checked="${property != null && property.option_op.contains('세탁기')}"> 세탁기 
-					 <input type="checkbox" id="option2" name="option_op" value="에어컨"
-					th:checked="${property != null && property.option_op.contains('에어컨')}">에어컨 
-					 <input type="checkbox" id="option3" name="option_op" value="인덕션"
-					 th:checked="${property != null && property.option_op.contains('인덕션')}"> 인덕션 
-				<input type="checkbox" id="option4" name="option_op" value="가스렌지"
-					th:checked="${property != null && property.option_op.contains('가스렌지')}"> 가스렌지  
-					<input type="checkbox" id="option5" name="option_op" value="TV"
-					th:checked="${property != null && property.option_op.contains('TV')}"> TV 
-					<input type="checkbox"
-					id="option6" name="option_op" value="침대"
-					th:checked="${property != null && property.option_op.contains('침대')}"> 침대 
+					th:checked="${property != null && property.option_op.contains('세탁기')}">
+				세탁기 <input type="checkbox" id="option2" name="option_op" value="에어컨"
+					th:checked="${property != null && property.option_op.contains('에어컨')}">에어컨
+				<input type="checkbox" id="option3" name="option_op" value="인덕션"
+					th:checked="${property != null && property.option_op.contains('인덕션')}">
+				인덕션 <input type="checkbox" id="option4" name="option_op"
+					value="가스렌지"
+					th:checked="${property != null && property.option_op.contains('가스렌지')}">
+				가스렌지 <input type="checkbox" id="option5" name="option_op" value="TV"
+					th:checked="${property != null && property.option_op.contains('TV')}">
+				TV <input type="checkbox" id="option6" name="option_op" value="침대"
+					th:checked="${property != null && property.option_op.contains('침대')}">
+				침대
 			</div>
 
 			<div class="form-group">
-    <label for="option_etc">기타 옵션</label> 
-    <input type="checkbox" id="optionEtc1" name="option_etc" value="분리형" 
-        th:checked="${property != null && property.option_etc.contains('분리형')}"> 분리형 
-    <input type="checkbox" id="optionEtc2" name="option_etc" value="복층" 
-        th:checked="${property != null && property.option_etc.contains('복층')}"> 복층 
-    <input type="checkbox" id="optionEtc3" name="option_etc" value="옥탑" 
-        th:checked="${property != null && property.option_etc.contains('옥탑')}"> 옥탑 
-    <input type="checkbox" id="optionEtc4" name="option_etc" value="신축" 
-        th:checked="${property != null && property.option_etc.contains('신축')}"> 신축 
-    <input type="checkbox" id="optionEtc5" name="option_etc" value="주차" 
-        th:checked="${property != null && property.option_etc.contains('주차')}"> 주차 
-    <input type="checkbox" id="optionEtc6" name="option_etc" value="엘리베이터" 
-        th:checked="${property != null && property.option_etc.contains('엘리베이터')}"> 엘리베이터 
-    <input type="checkbox" id="optionEtc7" name="option_etc" value="반려동물" 
-        th:checked="${property != null && property.option_etc.contains('반려동물')}"> 반려동물 
-    <input type="checkbox" id="optionEtc8" name="option_etc" value="전세대출" 
-        th:checked="${property != null && property.option_etc.contains('전세대출')}"> 전세대출 
-</div>
+				<label for="option_etc">기타 옵션</label> <input type="checkbox"
+					id="optionEtc1" name="option_etc" value="분리형"
+					th:checked="${property != null && property.option_etc.contains('분리형')}">
+				분리형 <input type="checkbox" id="optionEtc2" name="option_etc"
+					value="복층"
+					th:checked="${property != null && property.option_etc.contains('복층')}">
+				복층 <input type="checkbox" id="optionEtc3" name="option_etc"
+					value="옥탑"
+					th:checked="${property != null && property.option_etc.contains('옥탑')}">
+				옥탑 <input type="checkbox" id="optionEtc4" name="option_etc"
+					value="신축"
+					th:checked="${property != null && property.option_etc.contains('신축')}">
+				신축 <input type="checkbox" id="optionEtc5" name="option_etc"
+					value="주차"
+					th:checked="${property != null && property.option_etc.contains('주차')}">
+				주차 <input type="checkbox" id="optionEtc6" name="option_etc"
+					value="엘리베이터"
+					th:checked="${property != null && property.option_etc.contains('엘리베이터')}">
+				엘리베이터 <input type="checkbox" id="optionEtc7" name="option_etc"
+					value="반려동물"
+					th:checked="${property != null && property.option_etc.contains('반려동물')}">
+				반려동물 <input type="checkbox" id="optionEtc8" name="option_etc"
+					value="전세대출"
+					th:checked="${property != null && property.option_etc.contains('전세대출')}">
+				전세대출
+			</div>
 
 			<h3>사진</h3>
 			<div class="form-group">
-			    <label for="photos">사진 첨부</label> 
-			    <input type="file" id="photos"
-        name="photos" accept="image/*" multiple onchange="previewImages(event)">
-    <div id="imagePreview" class="image-preview">
-    
-        </div>
-    
-    <!-- 기존 사진 미리보기 -->
-    <div class="form-group">
-        <label for="propertyImages">사진 미리보기</label>
-        <div>
-            <div th:if="${property != null}">
-                <div th:each="photo, iterStat : ${property.images}">
-                <div th:id="'image-' + ${iterStat.index}">
-                        <img th:src="${photo.si_insideurl}" alt="Property Image" style="max-width: 100px; max-height: 100px;">
-                        <button type="button" th:attr="onclick='deleteImageFromServer(&quot;' + ${photo.si_insideurl} + '&quot;, ' + ${iterStat.index} + ');'">
-                       삭제
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+				<label for="photos">사진 첨부</label> <input type="file" id="photos"
+					name="photos" accept="image/*" multiple
+					onchange="previewImages(event)">
+				<div id="imagePreview" class="image-preview"></div>
+
+				<!-- 기존 사진 미리보기 -->
+				<div class="form-group">
+					<label for="propertyImages">사진 미리보기</label>
+
+					<div th:if="${property != null}">
+						<div th:each="photo, iterStat : ${property.images}">
+							<div th:id="'image-' + ${iterStat.index}">
+								<img th:src="${photo.si_insideurl}" alt="Property Image"
+									style="max-width: 100px; max-height: 100px;">
+								<button type="button"
+									th:attr="onclick='deleteImageFromServer(&quot;' + ${photo.si_insideurl} + '&quot;, ' + ${iterStat.index} + ');'">
+									삭제</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label for="info_operators">등기 첨부</label> <input type="file"
