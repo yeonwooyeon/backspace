@@ -8,37 +8,59 @@
 <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 </head>
 <body>
-   <header class="헤더">
-      <a class="로고" href="/"><img src="images/logo.png">VACANCY</a>
+	<header class="헤더">
+		<a class="로고" href="/">
+			<img src="images/logo.png">VACANCY
+		</a>
 
-      <div class="메뉴">
-         <a href="map">공실정보</a>
-         <th:block th:if="${loggedIn}">
-            <a href="property">관리물건</a>
-         </th:block>
-         <th:block th:unless="${loggedIn}">
-            <a onclick="showLoginPopup()">관리물건</a>
-         </th:block>
-         <a href="cart">담은매물</a>
-      </div>
+		<div class="메뉴">
+			<a class="호버" href="map">공실정보</a>
+			<a>|</a>
+			<a class="호버" href="property">관리물건</a>
+			<a>|</a>
+			<a class="호버" href="cart">담은매물</a>
+		</div>
 
-      <div class="유저메뉴">
-         <a href="/boards/free">고객센터</a>
-         <th:block th:if="${loggedIn}">
-            <a href="users/myPage/boards">마이페이지</a>
-            <a href="users/logout">로그아웃</a>
-         </th:block>
-         <th:block th:unless="${loggedIn}">
-            <a href="users/login">로그인</a>
-            <a href="users/join">회원가입</a>
-         </th:block>
-      </div>
-   </header>
+		<div class="유저메뉴">
+			<a href="/boards/free">고객센터</a>
+			<a href="users/myPage/boards">마이페이지</a>
+			<a href="users/logout">로그아웃</a>
+		</div>
+	</header>
+	<table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>건물 번호</th>
+                    <th>건물명</th>
+                    <th>주소</th>
+                    <th>상태</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cartItem : ${cartItems}">
+                    <td th:text="${cartItem.info_no}">건물 번호</td>
+                    <td th:text="${cartItem.property.info_name}">건물명</td>
+                    <td th:text="${cartItem.property.info_add}">주소</td>
+                    <td th:text="${cartItem.wish_status}">상태</td>
+                    <td>
+                        <form th:action="@{/clear-cart}" method="post">
+                            <input type="hidden" name="userId" th:value="${session.userId}"/>
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-        <footer>
-            <div>© 2024 Vacancy. All rights reserved.</div>
-        </footer>
-    <script>
-    </script>
+    <a href="/map">Back to Map</a>
+	
+
+	<footer>
+		<div>© 2024 Vacancy. All rights reserved.</div>
+	</footer>
+	<script>
+		
+	</script>
 </body>
 </html>
