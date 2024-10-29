@@ -47,6 +47,7 @@ function performSearch() {
 	searchAddress();
 	searchDatabase();
 }
+
 function searchAddress() {
 	const address = document.getElementById('address').value.trim();
 	if (!address) return alert('주소를 입력해주세요!');
@@ -62,6 +63,7 @@ function searchAddress() {
 		}
 	});
 }
+
 function searchDatabase() {
 	const keyword = document.getElementById('address').value.trim();
 	if (!keyword) return alert('검색어를 입력하세요.');
@@ -73,6 +75,7 @@ function searchDatabase() {
 		})
 		.catch(error => console.error('Error fetching data:', error));
 }
+
 function showPopup(place) {
     const popupContent = `
         <h5>${place.info_name}</h5>
@@ -91,12 +94,12 @@ function showPopup(place) {
         <p>입주가능일: ${place.info_move}</p>
         <p>상세옵션: ${place.option_op}</p>
         <p>기타옵션: ${place.option_etc}</p>
-    `;
-    
+   		 `;
+	    
     document.getElementById('popupContent').innerHTML = popupContent;
     document.getElementById('popupModal').style.display = 'block'; // 모달 보여주기
 }
-document.getElementById('closePopupBtn').addEventListener('click', () => {
+	document.getElementById('closePopupBtn').addEventListener('click', () => {
     document.getElementById('popupModal').style.display = 'none'; // 모달 숨기기
 });
 
@@ -125,7 +128,8 @@ function displaySearchResults(places) {
 				itemEl.appendChild(imageEl); // 이미지 요소를 가장 위에 추가
 				        }
 				
-		itemEl.innerHTML += `<h5>${place.info_name}</h5>
+		itemEl.innerHTML += `
+							<h5>${place.info_name}</h5>
                    			<p>${place.info_add}</p>
                     		<p>건물 유형: ${place.info_option}</p>							
                     		<p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>							
@@ -154,6 +158,7 @@ function displaySearchResults(places) {
 	});	
 	listEl.appendChild(fragment);
 }
+
 //필터링
 function filterResults() {
 	const infoOptions = Array.from(document.querySelectorAll('input[name="info_option"]:checked')).map(checkbox => checkbox.value);
@@ -216,11 +221,14 @@ function filterResults() {
 	const filteredByEtc = optionEtcs.length === 0 ? filteredPlaces : filteredPlaces.filter(place => {
 		return optionEtcs.every(etc => place.option_etc && place.option_etc.includes(etc));
 	});
+		
 	displaySearchResults(filteredByEtc);
 }
+
 document.querySelectorAll('input[name="info_option"], input[name="info_count"], input[name="info_type"], input[name="info_size"], input[name="info_month"], input[name="info_deposit"], input[name="info_fl"], input[name="info_comp"], input[name="option_op"], input[name="option_etc"]').forEach(checkbox => {
 	checkbox.addEventListener('change', filterResults);
 });
+
 //클릭이벤트
 document.addEventListener('DOMContentLoaded', () => {	
 	document.getElementById('locateMeBtn').addEventListener('click', () => {
@@ -232,22 +240,26 @@ document.addEventListener('DOMContentLoaded', () => {
 			displayRoadview(lat, lng);
 			});
 	});	
+	
 	document.getElementById('addressSearchBtn').addEventListener('click', performSearch);	
 	document.getElementById('resetBtn').addEventListener('click', () => {
 		document.getElementById('address').value = '';
 		document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
 		displaySearchResults(allPlaces); // 모든 결과 다시 표시
 		});	
+		
 	document.getElementById('address').addEventListener('keydown', (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			performSearch();
 		}
 	});	
+	
 	getLocation((lat, lng) => {
 		initializeMap(lat, lng);
 		displayRoadview(lat, lng);
 	});	
+	
 	fetch('/addresses')
 		.then(response => response.json())
 		.then(data => {
