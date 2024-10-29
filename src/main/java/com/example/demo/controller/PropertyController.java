@@ -31,7 +31,7 @@ public class PropertyController {
 	private PropertyService propertyService;
 
     @GetMapping
-    public String showProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size, 
+    public String showProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, 
     							Model model, Principal principal) {
         // 로그인 상태 확인
         if (principal == null) {
