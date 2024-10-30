@@ -36,10 +36,13 @@
 			<th:block th:unless="${loggedIn}">
 				<a class="호버" onclick="showLoginPopup()">담은매물</a>
 			</th:block>
-			
+
 		</div>
 
 		<div class="유저메뉴">
+			<th:block th:if="${loggedIn}">
+				<span th:text="${loginId} + '님'"></span>
+			</th:block>
 			<a href="/boards/free">고객센터</a>
 			<th:block th:if="${loggedIn}">
 				<a href="users/myPage/boards">마이페이지</a>

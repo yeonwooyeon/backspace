@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,18 @@ public class MapController {
 	public String home(Model model, Authentication authentication) {
 		boolean loggedIn = authentication != null && authentication.isAuthenticated();
 		model.addAttribute("loggedIn", loggedIn);
+		if (loggedIn) {
+			String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
+			model.addAttribute("loginId", loginId);
+		}
 		return "main";
 	}
 
 	@GetMapping("/map")
-	public String map() {
-		return "map"; // map.html 템플릿을 렌더링
+	public String map(Model model, Authentication authentication) {
+		String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
+		model.addAttribute("loginId", loginId);
+		return "map";
 	}
-
 
 }

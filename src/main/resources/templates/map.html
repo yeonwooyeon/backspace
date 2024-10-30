@@ -2,12 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>VACANCY</title>
-	<link rel="stylesheet" href="../css/map.css">
-	<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-	<script type="text/javascript"
-		src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+<meta charset="UTF-8">
+<title>VACANCY</title>
+<link rel="stylesheet" href="../css/map.css">
+<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
 </head>
 
 
@@ -24,18 +23,18 @@
 			<a class="호버" href="cart">담은매물</a>
 		</div>
 		<div class="유저메뉴">
+			<span th:text="${loginId} + '님'"></span>
 			<a href="/boards/free">고객센터</a>
 			<a href="users/myPage/boards">마이페이지</a>
 			<a href="users/logout">로그아웃</a>
 		</div>
 	</header>
-	
-	<div id="popupModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background: white; border: 1px solid #ccc; padding: 20px; z-index: 1000;">
-    <div id="popupContent"></div>
-    <button id="closePopupBtn">닫기</button>
-    <a href="../cart">담기</a>
-    </div>
 
+	<div id="popupModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background: white; border: 1px solid #ccc; padding: 20px; z-index: 1000;">
+		<div id="popupContent"></div>
+		<button id="closePopupBtn">닫기</button>
+		<a href="../cart">담기</a>
+	</div>
 
 	<div class="맵검색상자">
 		<div class="맵상자">
@@ -272,6 +271,68 @@
 				<div id="pagination"></div>
 			</div>
 		</div>
+	</div>
+
+	<div id="popup" class="popup">
+		<div class="popup-content">
+			<span class="close-button">&times;</span>
+			<div>
+				<h2 id="property-name">Property Name</h2>
+				<div id="property-image-container" style="display: flex; flex-direction: column;"></div>
+				<!-- 이미지 컨테이너 추가 -->
+				<p>
+					<span class="highlight"> 유형 </span><span id="property-type"></span>
+				</p>
+				<p>
+					<span class="highlight"> 가격 </span><span id="property-month"></span><span id="property-year"></span><span id="property-sell"></span>만원
+				</p>
+				<p>
+					<span class="highlight"> 주소 </span><span id="property-add"></span>
+				</p>
+				<p>
+					<span class="highlight"> 상태 </span><span id="property-status"></span>
+				</p>
+				<p>
+					<span class="highlight"> 건물해당층수 </span><span id="property-fl"></span>층
+				</p>
+				<p>
+					<span class="highlight"> 건물전체층수 </span><span id="property-allfl"></span>층
+				</p>
+				<p>
+					<span class="highlight"> 방호실 </span><span id="property-roomnum"></span>호
+				</p>
+				<p>
+					<span class="highlight"> 권리금 </span><span id="property_optionmoney"></span>만원
+				</p>
+				<p>
+					<span class="highlight"> 보증금 </span><span id="property-deposit"></span>만원
+				</p>
+				<p>
+					<span class="highlight"> 관리비 </span><span id="property-optioncost"></span>만원
+				</p>
+				<p>
+					<span class="highlight"> 건물면적 </span><span id="property-size"></span>m²
+				</p>
+				<p>
+					<span class="highlight"> 방개수 </span><span id="property-count"></span>개
+				</p>
+				<p>
+					<span class="highlight"> 준공일 </span><span id="property-comp"></span>
+				</p>
+				<p>
+					<span class="highlight"> 입주가능일 </span><span id="property-move"></span>
+				</p>
+				<p>
+					<span class="highlight"> 상세옵션 </span><span id="property-optionop"></span>
+				</p>
+				<p>
+					<span class="highlight"> 기타옵션 </span><span id="property-optionetc"></span>
+				</p>
+			</div>
+		</div>
+	</div>
+
+
 	</div>
 	<footer>
 		<div>© 2024 Vacancy. All rights reserved.</div>

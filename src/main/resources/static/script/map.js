@@ -77,31 +77,80 @@ function searchDatabase() {
 }
 
 function showPopup(place) {
-    const popupContent = `
-        <h5>${place.info_name}</h5>
-        <p>주소: ${place.info_add}</p>
-        <p>건물유형: ${place.info_option}</p>
-        <p>지불방식: ${place.info_type}</p>
-        <p>면적: ${place.info_size}평</p>
-        <p>권리금: ${place.option_money}만원</p>
-        <p>보증금: ${place.info_deposit}만원</p>
-        <p>관리비: ${place.option_cost}만원</p>
-        <p>방갯수: ${place.info_count}개</p>
-        <p>해당층수: ${place.info_fl}층</p>
-        <p>전체층수: ${place.info_allfl}층</p>
-        <p>호실: ${place.room_num}호</p>			
-        <p>준공일: ${place.info_comp}</p>
-        <p>입주가능일: ${place.info_move}</p>
-        <p>상세옵션: ${place.option_op}</p>
-        <p>기타옵션: ${place.option_etc}</p>
-   		 `;
-	    
-    document.getElementById('popupContent').innerHTML = popupContent;
-    document.getElementById('popupModal').style.display = 'block'; // 모달 보여주기
+    // 각 요소의 내용을 설정
+    document.getElementById('property-name').textContent = place.info_name || 'N/A';
+    document.getElementById('property-add').textContent = place.info_add || 'N/A';
+    document.getElementById('property-type').textContent = place.info_option || 'N/A';
+    
+    // 가격 관련 요소 설정
+    document.getElementById('property-month').textContent = place.info_month || '';
+    document.getElementById('property-year').textContent = place.info_year || '';
+    document.getElementById('property-sell').textContent = place.info_type || ''; // 필요에 따라 수정
+
+    document.getElementById('property_optionmoney').textContent = place.option_money || '0';
+    document.getElementById('property-deposit').textContent = place.info_deposit || '0';
+    document.getElementById('property-optioncost').textContent = place.option_cost || '0';
+    document.getElementById('property-size').textContent = place.info_size || '0';
+    document.getElementById('property-count').textContent = place.info_count || '0';
+    document.getElementById('property-fl').textContent = place.info_fl || '0';
+    document.getElementById('property-allfl').textContent = place.info_allfl || '0';
+    document.getElementById('property-roomnum').textContent = place.room_num || '0';
+    document.getElementById('property-comp').textContent = place.info_comp || 'N/A';
+    document.getElementById('property-move').textContent = place.info_move || 'N/A';
+    document.getElementById('property-optionop').textContent = place.option_op || 'N/A';
+    document.getElementById('property-optionetc').textContent = place.option_etc || 'N/A';
+
+    // 주소 및 상태 등 추가 정보 설정
+    document.getElementById('property-status').textContent = place.info_status || 'N/A'; // 예시 추가
+    // 필요한 경우 다른 필드도 추가로 설정
+
+    // 이미지 컨테이너 처리 (옵션)
+	// 이미지 컨테이너 처리
+	    const imageContainer = document.getElementById('property-image-container');
+	    imageContainer.innerHTML = ''; // 기존 이미지 제거
+
+	    if (place.images && Array.isArray(place.images)) {
+	        place.images.forEach(image => {
+	            let imgUrl = '';
+
+	            if (typeof image === 'string') {
+	                // 이미지가 문자열 URL인 경우
+	                imgUrl = image;
+	            } else if (image.si_insideurl) {
+	                // 이미지가 객체이고 si_insideurl 속성이 있는 경우
+	                imgUrl = image.si_insideurl;
+	            } else if (image.url) {
+	                // 이미지가 객체이고 url 속성이 있는 경우
+	                imgUrl = image.url;
+	            }
+
+	            if (imgUrl && imgUrl.trim() !== '') {
+	                const img = document.createElement('img');
+	                img.src = imgUrl;
+	                img.alt = place.info_name || 'Property Image';
+	                img.style.maxWidth = "100%"; // 스타일 조정
+	                img.style.height = "auto";
+	                img.style.marginBottom = "10px"; // 이미지 간 간격 추가
+
+	                // 이미지 로드 실패 시 기본 이미지로 대체
+	                img.onerror = function() {
+	                    this.src = 'https://via.placeholder.com/400x200.png?text=No+Image';
+	                };
+
+	                imageContainer.appendChild(img);
+	            }
+	        });
+	    }
+
+    // 팝업 보이기
+    document.getElementById('popup').style.display = 'block';
 }
-	document.getElementById('closePopupBtn').addEventListener('click', () => {
-    document.getElementById('popupModal').style.display = 'none'; // 모달 숨기기
+
+// 팝업 닫기 버튼 이벤트 리스너 설정
+document.querySelector('#popup .close-button').addEventListener('click', () => {
+    document.getElementById('popup').style.display = 'none';
 });
+
 
 //건물DB
 function displaySearchResults(places) {
