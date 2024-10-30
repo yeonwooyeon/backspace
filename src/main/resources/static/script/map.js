@@ -70,85 +70,85 @@ function searchDatabase() {
 	fetch(`/search?keyword=${keyword}`)
 		.then(response => response.json())
 		.then(data => {
-			allPlaces = data; 
-			displaySearchResults(allPlaces); 
+			allPlaces = data;
+			displaySearchResults(allPlaces);
 		})
 		.catch(error => console.error('Error fetching data:', error));
 }
 
 function showPopup(place) {
-    // 각 요소의 내용을 설정
-    document.getElementById('property-name').textContent = place.info_name || 'N/A';
-    document.getElementById('property-add').textContent = place.info_add || 'N/A';
-    document.getElementById('property-type').textContent = place.info_option || 'N/A';
-    
-    // 가격 관련 요소 설정
-    document.getElementById('property-month').textContent = place.info_month || '';
-    document.getElementById('property-year').textContent = place.info_year || '';
-    document.getElementById('property-sell').textContent = place.info_type || ''; // 필요에 따라 수정
+	// 각 요소의 내용을 설정
+	document.getElementById('property-name').textContent = place.info_name || 'N/A';
+	document.getElementById('property-add').textContent = place.info_add || 'N/A';
+	document.getElementById('property-type').textContent = place.info_option || 'N/A';
 
-    document.getElementById('property_optionmoney').textContent = place.option_money || '0';
-    document.getElementById('property-deposit').textContent = place.info_deposit || '0';
-    document.getElementById('property-optioncost').textContent = place.option_cost || '0';
-    document.getElementById('property-size').textContent = place.info_size || '0';
-    document.getElementById('property-count').textContent = place.info_count || '0';
-    document.getElementById('property-fl').textContent = place.info_fl || '0';
-    document.getElementById('property-allfl').textContent = place.info_allfl || '0';
-    document.getElementById('property-roomnum').textContent = place.room_num || '0';
-    document.getElementById('property-comp').textContent = place.info_comp || 'N/A';
-    document.getElementById('property-move').textContent = place.info_move || 'N/A';
-    document.getElementById('property-optionop').textContent = place.option_op || 'N/A';
-    document.getElementById('property-optionetc').textContent = place.option_etc || 'N/A';
+	// 가격 관련 요소 설정
+	document.getElementById('property-month').textContent = place.info_month || '';
+	document.getElementById('property-year').textContent = place.info_year || '';
+	document.getElementById('property-sell').textContent = place.info_type || ''; // 필요에 따라 수정
 
-    // 주소 및 상태 등 추가 정보 설정
-    document.getElementById('property-status').textContent = place.info_status || 'N/A'; // 예시 추가
-    // 필요한 경우 다른 필드도 추가로 설정
+	document.getElementById('property_optionmoney').textContent = place.option_money || '0';
+	document.getElementById('property-deposit').textContent = place.info_deposit || '0';
+	document.getElementById('property-optioncost').textContent = place.option_cost || '0';
+	document.getElementById('property-size').textContent = place.info_size || '0';
+	document.getElementById('property-count').textContent = place.info_count || '0';
+	document.getElementById('property-fl').textContent = place.info_fl || '0';
+	document.getElementById('property-allfl').textContent = place.info_allfl || '0';
+	document.getElementById('property-roomnum').textContent = place.room_num || '0';
+	document.getElementById('property-comp').textContent = place.info_comp || 'N/A';
+	document.getElementById('property-move').textContent = place.info_move || 'N/A';
+	document.getElementById('property-optionop').textContent = place.option_op || 'N/A';
+	document.getElementById('property-optionetc').textContent = place.option_etc || 'N/A';
 
-    // 이미지 컨테이너 처리 (옵션)
+	// 주소 및 상태 등 추가 정보 설정
+	document.getElementById('property-status').textContent = place.info_status || 'N/A'; // 예시 추가
+	// 필요한 경우 다른 필드도 추가로 설정
+
+	// 이미지 컨테이너 처리 (옵션)
 	// 이미지 컨테이너 처리
-	    const imageContainer = document.getElementById('property-image-container');
-	    imageContainer.innerHTML = ''; // 기존 이미지 제거
+	const imageContainer = document.getElementById('property-image-container');
+	imageContainer.innerHTML = ''; // 기존 이미지 제거
 
-	    if (place.images && Array.isArray(place.images)) {
-	        place.images.forEach(image => {
-	            let imgUrl = '';
+	if (place.images && Array.isArray(place.images)) {
+		place.images.forEach(image => {
+			let imgUrl = '';
 
-	            if (typeof image === 'string') {
-	                // 이미지가 문자열 URL인 경우
-	                imgUrl = image;
-	            } else if (image.si_insideurl) {
-	                // 이미지가 객체이고 si_insideurl 속성이 있는 경우
-	                imgUrl = image.si_insideurl;
-	            } else if (image.url) {
-	                // 이미지가 객체이고 url 속성이 있는 경우
-	                imgUrl = image.url;
-	            }
+			if (typeof image === 'string') {
+				// 이미지가 문자열 URL인 경우
+				imgUrl = image;
+			} else if (image.si_insideurl) {
+				// 이미지가 객체이고 si_insideurl 속성이 있는 경우
+				imgUrl = image.si_insideurl;
+			} else if (image.url) {
+				// 이미지가 객체이고 url 속성이 있는 경우
+				imgUrl = image.url;
+			}
 
-	            if (imgUrl && imgUrl.trim() !== '') {
-	                const img = document.createElement('img');
-	                img.src = imgUrl;
-	                img.alt = place.info_name || 'Property Image';
-	                img.style.maxWidth = "100%"; // 스타일 조정
-	                img.style.height = "auto";
-	                img.style.marginBottom = "10px"; // 이미지 간 간격 추가
+			if (imgUrl && imgUrl.trim() !== '') {
+				const img = document.createElement('img');
+				img.src = imgUrl;
+				img.alt = place.info_name || 'Property Image';
+				img.style.maxWidth = "100%"; // 스타일 조정
+				img.style.height = "auto";
+				img.style.marginBottom = "10px"; // 이미지 간 간격 추가
 
-	                // 이미지 로드 실패 시 기본 이미지로 대체
-	                img.onerror = function() {
-	                    this.src = 'https://via.placeholder.com/400x200.png?text=No+Image';
-	                };
+				// 이미지 로드 실패 시 기본 이미지로 대체
+				img.onerror = function() {
+					this.src = 'https://via.placeholder.com/400x200.png?text=No+Image';
+				};
 
-	                imageContainer.appendChild(img);
-	            }
-	        });
-	    }
+				imageContainer.appendChild(img);
+			}
+		});
+	}
 
-    // 팝업 보이기
-    document.getElementById('popup').style.display = 'block';
+	// 팝업 보이기
+	document.getElementById('popup').style.display = 'block';
 }
 
 // 팝업 닫기 버튼 이벤트 리스너 설정
 document.querySelector('#popup .close-button').addEventListener('click', () => {
-    document.getElementById('popup').style.display = 'none';
+	document.getElementById('popup').style.display = 'none';
 });
 
 
@@ -163,48 +163,47 @@ function displaySearchResults(places) {
 		const itemEl = document.createElement('li');
 		let rentInfo = '';
 		if (place.info_type === "월세") {
-		    rentInfo = `${place.info_month}`;
+			rentInfo = `${place.info_month}`;
 		} else if (place.info_type === "전세") {
-		    rentInfo = `${place.info_year}`;
+			rentInfo = `${place.info_year}`;
 		} else if (place.info_type === "매매") {
-		    rentInfo = `${place.info_sell}`; // 매매의 경우에 대한 처리를 추가하세요
+			rentInfo = `${place.info_sell}`; // 매매의 경우에 대한 처리를 추가하세요
 		}
 		// 매물의 이미지를 위한 이미지 요소 생성
 		if (place.images && place.images.length > 0) {
-		        const imageEl = document.createElement('img');
-		        imageEl.src = place.images && place.images.length > 0 ? place.images[0].si_insideurl : 'default-image-url.jpg'; // 기본 이미지 URL 설정
-		        imageEl.alt = place.info_name; // 이미지에 대한 설명
-				itemEl.appendChild(imageEl); // 이미지 요소를 가장 위에 추가
-				        }
-				
+			const imageEl = document.createElement('img');
+			imageEl.src = place.images && place.images.length > 0 ? place.images[0].si_insideurl : 'default-image-url.jpg'; // 기본 이미지 URL 설정
+			imageEl.alt = place.info_name; // 이미지에 대한 설명
+			itemEl.appendChild(imageEl); // 이미지 요소를 가장 위에 추가
+		}
+
 		itemEl.innerHTML += `
 							<h5>${place.info_name}</h5>
                    			<p>${place.info_add}</p>
                     		<p>건물 유형: ${place.info_option}</p>							
                     		<p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>							
 							`;
-								    
-	    itemEl.addEventListener('click', function() {	 
+
+		itemEl.addEventListener('click', function() {
+			event.stopPropagation();
 			showPopup(place); // 모달 열기       
-	        const address = place.info_add;
-	        geocoder.addressSearch(address, (result, status) => {
-	            if (status === kakao.maps.services.Status.OK) {
-	                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	                map.setLevel(3);
-	                map.setCenter(coords);
-	                const marker = new kakao.maps.Marker({
-	                    map: map,
-	                    position: coords
-	                });
-	                infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
-	                infowindow.open(map, marker);
-	            } else {
-	                alert('주소 검색에 실패했습니다.');
-	            }
-	        });
-	    });
-	    fragment.appendChild(itemEl);
-	});	
+			const address = place.info_add;
+			geocoder.addressSearch(address, (result, status) => {
+				if (status === kakao.maps.services.Status.OK) {
+					const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					map.setLevel(3);
+					map.setCenter(coords);
+					const marker = new kakao.maps.Marker({
+						map: map,
+						position: coords
+					});
+					infowindow.setContent(`<div style="padding:5px;">${place.info_name}</div>`);
+					infowindow.open(map, marker);
+				}
+			});
+		});
+		fragment.appendChild(itemEl);
+	});
 	listEl.appendChild(fragment);
 }
 
@@ -260,17 +259,17 @@ function filterResults() {
 			if (comp === 15) return buildingAge > 15;
 		});
 		const matchesOptionOp = optionOps.length === 0 || optionOps.some(op => {
-			if (op === "풀옵") return fullOptions.every(opt => place.option_op && place.option_op.includes(opt)); 
-			if (op === "무옵") return !place.option_op; 
+			if (op === "풀옵") return fullOptions.every(opt => place.option_op && place.option_op.includes(opt));
+			if (op === "무옵") return !place.option_op;
 		});
 		const matchesOptionEtc = optionEtcs.length === 0 || optionEtcs.every(etc => place.option_etc && place.option_etc.includes(etc));
 		return matchesInfoOption && matchesInfoType && matchesInfoCount && matchesInfoSize && matchesInfoMonth &&
 			matchesInfoDeposit && matchesInfoFloor && matchesInfoComp && matchesOptionOp && matchesOptionEtc;
-	});	
+	});
 	const filteredByEtc = optionEtcs.length === 0 ? filteredPlaces : filteredPlaces.filter(place => {
 		return optionEtcs.every(etc => place.option_etc && place.option_etc.includes(etc));
 	});
-		
+
 	displaySearchResults(filteredByEtc);
 }
 
@@ -279,7 +278,7 @@ document.querySelectorAll('input[name="info_option"], input[name="info_count"], 
 });
 
 //클릭이벤트
-document.addEventListener('DOMContentLoaded', () => {	
+document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('locateMeBtn').addEventListener('click', () => {
 		getLocation((lat, lng) => {
 			const coords = new kakao.maps.LatLng(lat, lng);
@@ -287,33 +286,33 @@ document.addEventListener('DOMContentLoaded', () => {
 			map.setCenter(coords);
 			marker.setPosition(coords);
 			displayRoadview(lat, lng);
-			});
-	});	
-	
-	document.getElementById('addressSearchBtn').addEventListener('click', performSearch);	
+		});
+	});
+
+	document.getElementById('addressSearchBtn').addEventListener('click', performSearch);
 	document.getElementById('resetBtn').addEventListener('click', () => {
 		document.getElementById('address').value = '';
 		document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
 		displaySearchResults(allPlaces); // 모든 결과 다시 표시
-		});	
-		
+	});
+
 	document.getElementById('address').addEventListener('keydown', (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			performSearch();
 		}
-	});	
-	
+	});
+
 	getLocation((lat, lng) => {
 		initializeMap(lat, lng);
 		displayRoadview(lat, lng);
-	});	
-	
+	});
+
 	fetch('/addresses')
 		.then(response => response.json())
 		.then(data => {
-			allPlaces = data; 
-			displaySearchResults(allPlaces); 
+			allPlaces = data;
+			displaySearchResults(allPlaces);
 		})
 		.catch(error => console.error('Error fetching addresses:', error));
 });

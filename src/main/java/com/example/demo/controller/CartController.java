@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,11 +61,13 @@ public class CartController {
 	}
 
     @GetMapping("/cart")
-    public String viewCart(Model model, Principal principal) {
+    public String viewCart(Model model, Principal principal, Authentication authentication) {
     	 // 로그인 상태 확인
         if (principal == null) {
             return "redirect:/users/login";
         }
+        String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
+		model.addAttribute("loginId", loginId);
         
         String username = principal.getName();
         User user = propertyService.findByUsername(username);
@@ -72,6 +76,7 @@ public class CartController {
         List<Cart> cartItems = cartService.getCart();
         model.addAttribute("cartItems", cartItems);
         return "cart"; // cart.html 템플릿을 렌더링
+        
     }
 
     @PostMapping("/clear-cart")
