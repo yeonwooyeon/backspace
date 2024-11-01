@@ -10,13 +10,11 @@ let selectedOption = {
 //선택한옵션 표시
 function selectOption(optionName, optionPrice) {
     selectedOption.name = optionName;
-    selectedOption.price = optionPrice;    
-    
+    selectedOption.price = optionPrice;       
     document.getElementById("selectedOption").innerHTML = `
         ✅ 옵션  ${optionName} (${optionPrice.toLocaleString()}원)  <br><br>
         결제를 원하시면 아래의 구독버튼을 눌러주세요.
-    `;
-    
+    	`;    
     const selectedOptionDiv = document.getElementById("selectedOption");
     selectedOptionDiv.style.animation = "shake 0.5s infinite";    
     setTimeout(function() {
@@ -36,9 +34,9 @@ function requestPay() {
         // 파라미터 값 설정 
         pg: "kakaopay.TC0ONETIME",
         pay_method: "card",
-        merchant_uid: "57008833-33004", // 상점 고유 주문번호
-        name: selectedOption.name, // 선택한 옵션 이름
-        amount: selectedOption.price, // 선택한 가격
+        merchant_uid: "57008833-33004", 
+		name: "옵션 " + selectedOption.name,
+        amount: selectedOption.price, 
         buyer_email: "good@portone.io",
         buyer_name: "포트원 기술지원팀",
         buyer_tel: "010-1234-5678",

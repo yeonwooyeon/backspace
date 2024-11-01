@@ -1,7 +1,12 @@
 body {
     margin: 0;
     padding: 0;    
+    background-image: url('/backspace/src/main/resources/static/images/pay.jpg'); /* 이미지 경로 */
+    background-size: cover; /* 이미지를 화면에 맞게 조정 */
+    background-position: center; /* 이미지 위치를 중앙으로 설정 */
 }
+
+
 
 /*body * {
 	border: 0.001px dashed #000;
