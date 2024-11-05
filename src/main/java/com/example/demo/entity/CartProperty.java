@@ -12,15 +12,15 @@ public class CartProperty {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer info_no; // 조인 테이블의 고유 ID
+    private Integer info_no; 
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
-    private Cart cart; // Cart와의 관계
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "property_id")
-     Property property; // Property와의 관계
+    private Property property;
 
 	public Integer getId() {
 		return info_no;

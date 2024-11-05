@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.CartRepository">
+<resultMap id="cartResultMap" type="com.example.demo.entity.Cart">
+    <id property="info_no" column="info_no"/>
+    <result property="wish_date" column="wish_date"/>
+    <result property="wish_status" column="wish_status"/>
+    
+    <collection property="cartProperties" ofType="com.example.demo.entity.CartProperty">
+        <result property="property.info_name" column="info_name"/>
+        <result property="property.info_add" column="info_add"/>
+    </collection>
+</resultMap>
+
     <insert id="addCart">
-        INSERT INTO cart (info_no, id, wish_date, wish_status) 
+        INSERT INTO Wish (info_no, id, wish_date, wish_status) 
         VALUES (#{info_no}, #{id}, #{wish_date}, #{wish_status})
     </insert>
     
@@ -12,7 +23,10 @@
         VALUES (#{cartId}, #{propertyId})
     </insert>
     
-    <select id="getCartByUserId" resultType="com.example.demo.entity.Cart">
-        SELECT * FROM cart WHERE id = #{id}
-    </select>
+    <select id="getCartByUserId" resultMap="cartResultMap">
+    SELECT * FROM Wish w
+	JOIN cart_property cp ON w.info_no = cp.cart_id
+	JOIN Pp_info p ON cp.property_id = p.info_no
+	WHERE w.id = #{userId}
+	</select>
 </mapper>

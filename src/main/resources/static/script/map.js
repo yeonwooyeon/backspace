@@ -153,6 +153,8 @@ document.querySelector('#popup .close-button').addEventListener('click', () => {
 
 
 //건물DB
+let cart = [];  // 장바구니 배열 (전역에서 관리)
+
 function displaySearchResults(places) {
 	const listEl = document.getElementById('placesList');
 	listEl.innerHTML = '';
@@ -184,6 +186,19 @@ function displaySearchResults(places) {
                     		<p>${place.info_type}: ${rentInfo}/보증금: ${place.info_deposit}</p>							
 							`;
 
+		// 장바구니 담기 버튼
+		const cartButton = document.createElement('button');
+		cartButton.innerText = '담기';
+		cartButton.classList.add('cart-btn');
+		cartButton.addEventListener('click', function(event) {
+			event.stopPropagation();  // 클릭 이벤트가 부모 요소로 전파되지 않도록 방지
+			addToCart(place);         // 장바구니에 추가하는 함수 호출
+		});
+
+		// 장바구니 버튼을 항목에 추가
+		itemEl.appendChild(cartButton);
+
+		// 매물 클릭 시 지도에서 위치 표시 및 팝업 열기
 		itemEl.addEventListener('click', function() {
 			event.stopPropagation();
 			showPopup(place); // 모달 열기       
@@ -205,6 +220,41 @@ function displaySearchResults(places) {
 		fragment.appendChild(itemEl);
 	});
 	listEl.appendChild(fragment);
+}
+
+
+// 장바구니에 매물 추가 함수 (AJAX로 서버에 전송)
+function addToCart(place) {
+	
+	const propertyId = place.info_no; 
+	const userId = place.id;
+	
+	// 콘솔로 보내는 데이터 확인
+	 console.log("Sending data to server:", { propertyId, userId });
+	 
+	// 서버로 POST 요청을 보냄
+	fetch('/add-to-cart', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			propertyId: propertyId,
+			userId: userId
+		})
+	})
+	.then(response => response.json())
+	.then(data => {
+		if (data.success) {
+			alert(`${place.info_name}이 장바구니에 추가되었습니다.`);
+		} else {
+			alert('장바구니 추가 실패');
+		}
+	})
+	.catch(error => {
+		alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+		console.error(error);
+	});
 }
 
 //필터링

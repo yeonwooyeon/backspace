@@ -121,4 +121,6 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
 <select id="countPropertiesByUserId" parameterType="Long" resultType="int">
     SELECT COUNT(*) FROM Pp_info WHERE id = #{id}
 </select>
+
+
 </mapper>
