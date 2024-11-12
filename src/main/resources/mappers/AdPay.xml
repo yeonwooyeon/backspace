@@ -3,6 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.AdpayRepository">
 
+<resultMap id="AdPayResultMap" type="com.example.demo.entity.AdPay">
+	<result column="info_no" property="info_no"/> <!-- 건물번호 -->
+	<result column="id" property="id"/> <!-- 회원넘버 -->
+</resultMap>
 
 
 </mapper>

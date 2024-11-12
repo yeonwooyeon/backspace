@@ -36,7 +36,13 @@
 			<th:block th:unless="${loggedIn}">
 				<a class="호버" onclick="showLoginPopup()">담은매물</a>
 			</th:block>
-
+			<a>|</a>
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="../adpayment">광고구독</a>				
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">광고구독</a>
+			</th:block>
 		</div>
 
 		<div class="유저메뉴">
