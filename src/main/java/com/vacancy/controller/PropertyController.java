@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +31,7 @@ public class PropertyController {
 	private PropertyService propertyService;
 
 	@GetMapping
-	public String showProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model, Principal principal,Authentication authentication) {
+	public String showProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model, Principal principal) {
 		// 로그인 상태 확인
 		if (principal == null) {
 			return "redirect:/users/login";
@@ -58,10 +56,6 @@ public class PropertyController {
 		model.addAttribute("propertyList", userProperties);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", propertyService.getTotalPages(userId, size));
-		model.addAttribute("loggedIn", true);
-
-		String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
-		model.addAttribute("loginId", loginId);
 
 		return "property"; // property.html로 이동
 	}
@@ -73,11 +67,10 @@ public class PropertyController {
 
 	@PostMapping("/addProperty")
 	public RedirectView addProperty(@ModelAttribute Property property, @RequestParam MultipartFile[] photos, @RequestParam MultipartFile operatorFile, Principal principal) {
-		String username = principal.getName();// 현재 로그인한 사용자 ID 가져오기
-		// 사용자 정보를 조회하여 실제 ID를 가져오기
+		String username = principal.getName(); // 현재 로그인한 사용자 ID 가져오기
 		User user = propertyService.findByUsername(username); // 사용자 로그인 ID로 실제 ID 조회
 		Long userId = user.getId();
-		property.setId(userId);// 사용자의 ID를 Property에 설정
+		property.setId(userId); // 사용자의 ID를 Property에 설정
 
 		propertyService.addProperty(property, photos, operatorFile);
 		return new RedirectView("/property");
@@ -98,7 +91,6 @@ public class PropertyController {
 
 	@PostMapping("/updateProperty")
 	public RedirectView updateProperty(@ModelAttribute Property property, @RequestParam MultipartFile[] photos, @RequestParam MultipartFile operatorFile, Principal principal) {
-		// 현재 로그인한 사용자 ID 설정
 		String username = principal.getName();
 		User user = propertyService.findByUsername(username);
 		property.setId(user.getId());
@@ -121,5 +113,4 @@ public class PropertyController {
 		propertyService.deleteImage(imageUrl);
 		return ResponseEntity.noContent().build();
 	}
-
 }

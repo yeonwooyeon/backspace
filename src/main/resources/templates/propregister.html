@@ -12,25 +12,8 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<header class="헤더">
-		<a class="로고" href="/"><img src="../images/logo.png">VACANCY</a>
-
-		<div class="메뉴">
-			<a href="../map">공실정보</a> <a href="../property">관리물건</a> <a href="../adpayment">광고구독</a>
-		</div>
-
-		<div class="유저메뉴">
-			<a href="/boards/free">고객센터</a>
-			<th:block th:if="${loggedIn}">
-				<a href="users/myPage/boards">마이페이지</a>
-				<a href="users/logout">로그아웃</a>
-			</th:block>
-			<th:block th:unless="${loggedIn}">
-				<a href="users/login">로그인</a>
-				<a href="users/join">회원가입</a>
-			</th:block>
-		</div>
-	</header>
+	<div th:replace="헤더.html"/>
+	
 	<div class="container">
 		<form
 			th:action="@{/property/{action}(action=${property != null ? 'updateProperty' : 'addProperty'})}"

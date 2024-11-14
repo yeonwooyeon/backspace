@@ -96,23 +96,8 @@ div[align="center"] {
 </head>
 <body>
 
-	<header>
-		<div class="logo">
-			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>VACANCY</span>
-		</div>
-		<nav>
-			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
-			<a href="#">분양사무실</a>
-		</nav>
-		<div class="user-menu">
-			<a href="/boards/user">고객센터</a> 
-			<a href="/users/login">로그인</a> 
-			<a href="/users/join">회원가입</a>
-
-		</div>
-	</header>
+	<div th:replace="헤더.html"/>
+	
 	<div class="row">
 		<form th:method="post" th:action="@{/users/find/id}">
 			<label for="nickname">닉네임</label> <input type="text" id="nickname"

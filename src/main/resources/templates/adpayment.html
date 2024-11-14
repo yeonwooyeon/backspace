@@ -1,61 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VACANCY</title>
-    <link rel="stylesheet" href="../css/adpayment.css">
-    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VACANCY</title>
+<link rel="stylesheet" href="../css/adpayment.css">
+<link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 <body>
 
-	<header class="헤더">
-		<a class="로고" href="/">
-			<img src="/images/logo.png" alt="Logo">VACANCY
-		</a>
-    <div class="메뉴">
-        <a class="호버" href="../map">공실정보</a>
-        <a>|</a>
-        <a class="호버" href="../property">관리물건</a>
-        <a>|</a>
-        <a class="호버" href="../cart">담은매물</a>
-        <a>|</a>
-        <a class="호버" href="../adpayment">광고구독</a>
-    </div>
-    
-		<div class="유저메뉴">
-			<span th:text="${loginId} + '님'"></span>
-			<a href="/boards/free">고객센터</a>
-			<a href="users/myPage/boards">마이페이지</a>
-			<a href="users/logout">로그아웃</a>
+	<div th:replace="헤더.html" />
+
+	<div class="내용">
+		<h1>
+			<br>
+			<br>
+			<br>메인화면 상단에 매물을 노출시키기 위한 유료 광고 결제 서비스 화면입니다.
+		</h1>
+		<h3>It is a paid advertisement payment service screen to expose the sale at the top of the main screen.</h3>
+		<h4>
+			가입 혜택을 선택하시고 구독을 시작하세요.<br>월 예산에 맞는 혜택 옵션을 선택하시고, 준비가 되시면 가입하세요.
+		</h4>
+
+		<div class="체크박스모음">
+			<div class="세부옵션" onclick="selectOption('A', '5,000')">
+				✔옵션A <br> 적용 기간 1일 <br> 5,000원
+			</div>
+			<div class="세부옵션" onclick="selectOption('B', '15,000')">
+				✔옵션B <br> 적용 기간 3일 <br> 15,000원
+			</div>
+			<div class="세부옵션" onclick="selectOption('C', '35,000')">
+				✔옵션C <br> 적용 기간 7일 <br> 35,000원
+			</div>
+			<div class="세부옵션" onclick="selectOption('D', '45,000')">
+				✔옵션D <br> 적용 기간 10일 <br> 45,000원
+			</div>
+			<div class="세부옵션" onclick="selectOption('E', '70,000')">
+				✔옵션E <br> 적용 기간 15일 <br> 70,000원
+			</div>
+			<div class="세부옵션" onclick="selectOption('F', '120,000')">
+				✔옵션F <br> 적용 기간 30일 <br> 120,000원
+			</div>
 		</div>
-</header>
 
-<div class="내용">
-    <h1><br><br><br>메인화면 상단에 매물을 노출시키기 위한 유료 광고 결제 서비스 화면입니다.</h1>
-    <h3>It is a paid advertisement payment service screen to expose the sale at the top of the main screen.</h3>
-    <h4>가입 혜택을 선택하시고 구독을 시작하세요.<br>월 예산에 맞는 혜택 옵션을 선택하시고, 준비가 되시면 가입하세요.</h4>	    
-    
-    <div class="체크박스모음">
-        <div class="세부옵션" onclick="selectOption('A', '5,000')"> ✔옵션A  <br> 적용 기간 1일 <br> 5,000원</div>
-        <div class="세부옵션" onclick="selectOption('B', '15,000')"> ✔옵션B <br> 적용 기간 3일 <br> 15,000원</div>
-        <div class="세부옵션" onclick="selectOption('C', '35,000')"> ✔옵션C <br> 적용 기간 7일 <br> 35,000원</div>
-        <div class="세부옵션" onclick="selectOption('D', '45,000')"> ✔옵션D <br> 적용 기간 10일 <br> 45,000원</div>
-        <div class="세부옵션" onclick="selectOption('E', '70,000')"> ✔옵션E <br> 적용 기간 15일 <br> 70,000원</div>
-        <div class="세부옵션" onclick="selectOption('F', '120,000')"> ✔옵션F <br> 적용 기간 30일 <br> 120,000원</div>	    
-    </div>	
-    
-	<div id="selectedOption"></div>
-    <button id="buyButton" onclick="requestPay()">구독</button>
-</div>
+		<div id="selectedOption"></div>
+		<button id="buyButton" onclick="requestPay()">구독</button>
+	</div>
 
-<footer>
-    <div>© 2024 Vacancy. All rights reserved.</div>
-</footer>
+	<footer>
+		<div>© 2024 Vacancy. All rights reserved.</div>
+	</footer>
 
-<script src="../script/adpayment.js"></script>
+	<script src="../script/adpayment.js"></script>
 
 </body>
 </html>

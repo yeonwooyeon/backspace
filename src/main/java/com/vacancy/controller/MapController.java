@@ -11,24 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MapController {
 
 	@GetMapping("/")
-	public String home(Model model, Authentication authentication) {
-		boolean loggedIn = authentication != null && authentication.isAuthenticated();
-		model.addAttribute("loggedIn", loggedIn);
-		if (loggedIn) {
-			String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
-			model.addAttribute("loginId", loginId);
-		}
+	public String home(Model model) {
 		return "main";
 	}
 
 	@GetMapping("/map")
-	public String map(Model model, Authentication authentication) {
-		boolean loggedIn = authentication != null && authentication.isAuthenticated();
-		model.addAttribute("loggedIn", loggedIn);
-		if (loggedIn) {
-			String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
-			model.addAttribute("loginId", loginId);
-		}
+	public String map(Model model) {
 		return "map";
 	}
 

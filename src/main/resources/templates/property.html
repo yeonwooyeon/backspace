@@ -13,28 +13,7 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<header class="헤더">
-		<a class="로고" href="/">
-			<img src="images/logo.png">VACANCY
-		</a>
-
-		<div class="메뉴">
-			<a class="호버" href="map">공실정보</a>
-			<a>|</a>
-			<a class="호버" href="property">관리물건</a>
-			<a>|</a>
-			<a class="호버" href="cart">담은매물</a>
-			<a>|</a>
-        	<a class="호버" href="../adpayment">광고구독</a>
-		</div>
-
-		<div class="유저메뉴">
-			<span th:text="${loginId} + '님'"></span>
-			<a href="/boards/free">고객센터</a>
-			<a href="users/myPage/boards">마이페이지</a>
-			<a href="users/logout">로그아웃</a>
-		</div>
-	</header>
+	<div th:replace="헤더.html"/>
 
 	<div class="등록하기버튼">
 		<a href="../property/propregister">물건 등록하기</a>
