@@ -1,3 +1,7 @@
+body {
+    overflow-y: scroll;
+}
+
 .헤더 {
 	display: flex;
 	align-items: center;

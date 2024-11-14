@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VACANCY</title>
-<link rel="stylesheet" href="../css/property.css">
+<link rel="stylesheet" href="../css/cart.css">
 <link rel="stylesheet" href="../css/헤더.css">
 <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -22,6 +22,7 @@
 				<th>삭제</th>
 			</tr>
 		</thead>
+		
 		<tbody>
 			<tr th:each="cartItem : ${cartItems}">
 				<!-- 건물 번호 -->
@@ -44,9 +45,6 @@
 			</tr>
 		</tbody>
 	</table>
-
-	<a href="/map">Back to Map</a>
-
 
 	<footer>
 		<div>© 2024 Vacancy. All rights reserved.</div>
