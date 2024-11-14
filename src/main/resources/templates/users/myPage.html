@@ -4,131 +4,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Page</title>
-<link rel="stylesheet" href="/css/index.css">
-<link rel="icon" href="../images/logo.ico" type="image/x-icon">
+<title>VACANCY</title>
+<link rel="stylesheet" href="../../css/헤더.css">
+<link rel="stylesheet" href="../../css/main.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../images/logo.ico" type="image/x-icon">
+</head>
 
 <style>
-body {
-	font-family: 'Helvetica Neue', Arial, sans-serif;
-	background-color: #f8f9fa; /* 배경 색상 조정 */
-	margin: 0;
-	padding: 0;
-}
-
-header {
-	background-color: #007bff;
-	color: white;
-	padding: 10px 0;
-	text-align: center;
-}
-
-header .logo img {
-	height: 50px; /* 로고 크기 조정 */
-	vertical-align: middle;
-}
-
-header nav a, header .user-menu a {
-	color: white;
-	margin: 0 15px;
-	text-decoration: none;
-	font-weight: 500;
-}
-
-.row {
-	display: flex;
-	justify-content: center;
-	padding: 20px; /* 여백 추가 */
-}
-
-.offset-3 {
-	display: flex;
-	justify-content: center;
-	margin-right: 15%; /* 오른쪽 마진 */
-}
 
 .card {
 	background-color: #ffffff;
-	padding: 20px;
+	border: 1px solid #ddd;
 	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	width: 90%; /* 카드 너비 */
-	max-width: 600px; /* 최대 너비 제한 */
-	margin: 10px auto; /* 자동 중앙 정렬 및 간격 추가 */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 20px 0;
+}
+
+.card h4 {
+	margin-bottom: 15px;
+	font-weight: bold;
+	color: #333;
+}
+
+.board-info h5 {
+	margin: 10px 0;
+	color: #555;
 }
 
 .btn {
+	display: inline-block;
 	background-color: #007bff;
-	color: white;
-	border: none;
+	color: #fff;
 	padding: 10px 15px;
-	border-radius: 5px;
+	border: none;
+	border-radius: 4px;
+	text-decoration: none;
 	cursor: pointer;
-	font-size: 16px;
-	margin: 5px; /* 여백 추가 */
-	transition: background-color 0.3s, transform 0.3s;
+	font-size: 14px;
+	margin: 5px;
+	transition: background-color 0.3s ease;
 }
 
 .btn:hover {
 	background-color: #0056b3;
-	transform: translateY(-2px);
 }
 
-h5 {
-	margin: 10px 0;
-	color: #333; /* 제목 색상 조정 */
+.edit-btn {
+	background-color: #28a745;
+}
+
+.edit-btn:hover {
+	background-color: #218838;
+}
+
+.del-btn {
+	background-color: #dc3545;
+}
+
+.del-btn:hover {
+	background-color: #c82333;
+}
+
+.selected-btn {
+	background-color: #17a2b8;
+	cursor: default;
 }
 
 .table {
 	width: 100%;
-	margin-top: 20px;
 	border-collapse: collapse;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	margin: 15px 0;
 }
 
-th, td {
-	padding: 12px; /* 여백 추가 */
+.table th, .table td {
+	border: 1px solid #ddd;
+	padding: 10px;
 	text-align: center;
-	border-bottom: 1px solid #ddd; /* 상단 경계 추가 */
 }
 
-th {
-	background-color: #007bff;
-	color: white;
+.table th {
+	background-color: #f2f2f2;
 	font-weight: bold;
+	color: #333;
 }
 
-tbody tr:hover {
-	background-color: #e9ecef; /* 마우스 오버 효과 */
+.table-hover tbody tr:hover {
+	background-color: #f9f9f9;
 	cursor: pointer;
 }
+
+.row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	margin: 20px 0;
+}
+
+.offset-3 {
+	margin-left: 25%;
+}
+
+.col-6 {
+	flex: 0 0 50%;
+	max-width: 50%;
+}
+
+@media ( max-width : 768px) {
+	.offset-3 {
+		margin-left: 0;
+	}
+	.col-6 {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+}
 </style>
-</head>
-</head>
+
 <body>
-
-	<header>
-		<div class="logo">
-			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>VACANCY</span>
-		</div>
-		<nav>
-			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
-			<a href="#">분양사무실</a>
-		</nav>
-		<div class="user-menu">
-			<a href="users/board">고객센터</a>
-
-
-		
-			
-				<a href="boards">마이페이지</a>
-				<a href="logout">로그아웃</a>
-			
-			
-		</div>
-	</header>
+	<div th:replace="헤더.html" />
 
 	<div class="offset-3 col-6">
 		<div class="card">
@@ -141,15 +136,11 @@ tbody tr:hover {
 			</div>
 
 			<div class="actions">
-				<button class="btn edit-btn" onclick="location.href='/users/edit'">정보
-					수정</button>
-				<button class="btn del-btn" onclick="location.href='/users/delete'">회원
-					탈퇴</button>
+				<button class="btn edit-btn" onclick="location.href='/users/edit'">정보 수정</button>
+				<button class="btn del-btn" onclick="location.href='/users/delete'">회원 탈퇴</button>
 			</div>
 		</div>
 	</div>
-
-
 
 	<div class="row">
 		<div class="offset-3 col-6">
@@ -158,16 +149,12 @@ tbody tr:hover {
 				<h5 th:if="${boards != null}">전체: [[${boards.size}]]개</h5>
 				<h5 th:unless="${boards != null}">전체: 0개</h5>
 				<div class="row" align="center">
-					<button th:if="${category == 'board'}" class="btn selected-btn"
-						onclick="location.href='/users/myPage/board'">작성한 글</button>
-					<button th:unless="${category == 'board'}" class="btn"
-						onclick="location.href='/users/myPage/board'">작성한 글</button>
+					<button th:if="${category == 'board'}" class="btn selected-btn" onclick="location.href='/users/myPage/board'">작성한 글</button>
+					<button th:unless="${category == 'board'}" class="btn" onclick="location.href='/users/myPage/board'">작성한 글</button>
 
 
-					<button th:if="${category == 'comment'}" class="btn selected-btn"
-						onclick="location.href='/users/myPage/comment'">댓글 추가한 글</button>
-					<button th:unless="${category == 'comment'}" class="btn"
-						onclick="location.href='/users/myPage/comment'">댓글 추가한 글</button>
+					<button th:if="${category == 'comment'}" class="btn selected-btn" onclick="location.href='/users/myPage/comment'">댓글 추가한 글</button>
+					<button th:unless="${category == 'comment'}" class="btn" onclick="location.href='/users/myPage/comment'">댓글 추가한 글</button>
 				</div>
 			</div>
 		</div>
@@ -188,8 +175,7 @@ tbody tr:hover {
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="board: ${boards}"
-							th:onclick="|location.href='@{/boards/{category}/{boardId} (category=${#strings.toLowerCase(board.category)}, boardId=${board.id})}'|">
+						<tr th:each="board: ${boards}" th:onclick="|location.href='@{/boards/{category}/{boardId} (category=${#strings.toLowerCase(board.category)}, boardId=${board.id})}'|">
 							<td th:if="${#strings.toLowerCase(board.category) == 'greeting'}">가입인사</td>
 							<td th:if="${#strings.toLowerCase(board.category) == 'free'}">자유게시판</td>
 							<td th:if="${#strings.toLowerCase(board.category) == 'gold'}">골드게시판</td>
@@ -197,8 +183,7 @@ tbody tr:hover {
 							<td th:text="${board.title}"></td>
 
 							<td th:text="${board.commentCnt}"></td>
-							<td
-								th:text="${#temporals.format(board.createdAt, 'yy/MM/dd HH:mm')}"></td>
+							<td th:text="${#temporals.format(board.createdAt, 'yy/MM/dd HH:mm')}"></td>
 						</tr>
 					</tbody>
 				</table>

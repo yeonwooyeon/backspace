@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VACANCY</title>
 <link rel="stylesheet" href="../css/property.css">
+<link rel="stylesheet" href="../css/헤더.css">
 <link rel="icon" href="../images/logo.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<script type="text/javascript"
-	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=78b33a405481aa556df21c1eda9ce3ee&libraries=services,clusterer,drawing"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<div th:replace="헤더.html"/>
+	<div th:replace="헤더.html" />
 
 	<div class="등록하기버튼">
 		<a href="../property/propregister">물건 등록하기</a>
@@ -60,79 +59,52 @@
 				<div id="property-image-container" style="display: flex; flex-direction: column;"></div>
 				<!-- 이미지 컨테이너 추가 -->
 				<p>
-					<span class="highlight"> 유형 </span>
-					<span id="property-type"></span>
+					<span class="highlight"> 유형 </span> <span id="property-type"></span>
 				</p>
 				<p>
-					<span class="highlight"> 가격 </span>
-					<span id="property-month"></span>
-					<span id="property-year"></span>
-					<span id="property-sell"></span>
-					만원
+					<span class="highlight"> 가격 </span> <span id="property-month"></span> <span id="property-year"></span> <span id="property-sell"></span> 만원
 				</p>
 				<p>
-					<span class="highlight"> 주소 </span>
-					<span id="property-add"></span>
+					<span class="highlight"> 주소 </span> <span id="property-add"></span>
 				</p>
 				<p>
-					<span class="highlight"> 상태 </span>
-					<span id="property-status"></span>
+					<span class="highlight"> 상태 </span> <span id="property-status"></span>
 				</p>
 				<p>
-					<span class="highlight"> 건물해당층수 </span>
-					<span id="property-fl"></span>
-					층
+					<span class="highlight"> 건물해당층수 </span> <span id="property-fl"></span> 층
 				</p>
 				<p>
-					<span class="highlight"> 건물전체층수 </span>
-					<span id="property-allfl"></span>
-					층
+					<span class="highlight"> 건물전체층수 </span> <span id="property-allfl"></span> 층
 				</p>
 				<p>
-					<span class="highlight"> 방호실 </span>
-					<span id="property-roomnum"></span>
-					호
+					<span class="highlight"> 방호실 </span> <span id="property-roomnum"></span> 호
 				</p>
 				<p>
-					<span class="highlight"> 권리금 </span>
-					<span id="property_optionmoney"></span>
-					만원
+					<span class="highlight"> 권리금 </span> <span id="property_optionmoney"></span> 만원
 				</p>
 				<p>
-					<span class="highlight"> 보증금 </span>
-					<span id="property-deposit"></span>
-					만원
+					<span class="highlight"> 보증금 </span> <span id="property-deposit"></span> 만원
 				</p>
 				<p>
-					<span class="highlight"> 관리비 </span>
-					<span id="property-optioncost"></span>
-					만원
+					<span class="highlight"> 관리비 </span> <span id="property-optioncost"></span> 만원
 				</p>
 				<p>
-					<span class="highlight"> 건물면적 </span>
-					<span id="property-size"></span>
-					m²
+					<span class="highlight"> 건물면적 </span> <span id="property-size"></span> m²
 				</p>
 				<p>
-					<span class="highlight"> 방개수 </span>
-					<span id="property-count"></span>
-					개
+					<span class="highlight"> 방개수 </span> <span id="property-count"></span> 개
 				</p>
 				<p>
-					<span class="highlight"> 준공일 </span>
-					<span id="property-comp"></span>
+					<span class="highlight"> 준공일 </span> <span id="property-comp"></span>
 				</p>
 				<p>
-					<span class="highlight"> 입주가능일 </span>
-					<span id="property-move"></span>
+					<span class="highlight"> 입주가능일 </span> <span id="property-move"></span>
 				</p>
 				<p>
-					<span class="highlight"> 상세옵션 </span>
-					<span id="property-optionop"></span>
+					<span class="highlight"> 상세옵션 </span> <span id="property-optionop"></span>
 				</p>
 				<p>
-					<span class="highlight"> 기타옵션 </span>
-					<span id="property-optionetc"></span>
+					<span class="highlight"> 기타옵션 </span> <span id="property-optionetc"></span>
 				</p>
 			</div>
 		</div>
@@ -141,8 +113,7 @@
 		<a th:href="@{/property(page=${currentPage - 1}, size=${size})}" th:class="${currentPage == 0} ? 'disabled' : ''">이전</a>
 
 		<!-- 페이지 번호 링크 -->
-		<span th:each="i : ${#numbers.sequence(1, totalPages)}">
-			<a th:href="@{/property(page=${i - 1}, size=${size})}" th:class="${i - 1 == currentPage} ? 'active' : ''" th:text="${i}"></a>
+		<span th:each="i : ${#numbers.sequence(1, totalPages)}"> <a th:href="@{/property(page=${i - 1}, size=${size})}" th:class="${i - 1 == currentPage} ? 'active' : ''" th:text="${i}"></a>
 		</span>
 		<a th:href="@{/property(page=${currentPage + 1}, size=${size})}" th:class="${currentPage + 1 >= totalPages || totalPages == 1} ? 'disabled' : ''">다음</a>
 	</div>

@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VACANCY</title>
 <link rel="stylesheet" href="../css/property.css">
+<link rel="stylesheet" href="../css/헤더.css">
 <link rel="icon" href="../images/logo.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-	<div th:replace="헤더.html"/>
-	
+	<div th:replace="헤더.html" />
+
 	<table class="table table-bordered mt-3">
 		<thead>
 			<tr>
@@ -20,21 +22,15 @@
 				<th>삭제</th>
 			</tr>
 		</thead>
-			<tbody>
+		<tbody>
 			<tr th:each="cartItem : ${cartItems}">
 				<!-- 건물 번호 -->
 				<td th:text="${cartItem.info_no}">건물 번호</td>
 
 				<!-- cartProperties가 비어 있지 않으면 반복문 실행 -->
-				<td>
-					<span th:each="cartProperty : ${cartItem.cartProperties}" 
-					      th:text="${cartProperty.property.info_name}">건물명</span>
-				</td>
+				<td><span th:each="cartProperty : ${cartItem.cartProperties}" th:text="${cartProperty.property.info_name}">건물명</span></td>
 
-				<td>
-					<span th:each="cartProperty : ${cartItem.cartProperties}" 
-					      th:text="${cartProperty.property.info_add}">주소</span>
-				</td>
+				<td><span th:each="cartProperty : ${cartItem.cartProperties}" th:text="${cartProperty.property.info_add}">주소</span></td>
 
 				<!-- 찜 상태 출력 -->
 				<td th:text="${cartItem.wish_status}">상태</td>

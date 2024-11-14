@@ -1,100 +1,108 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login Page</title>
-<link rel="stylesheet" href="/css/index.css">
-<link rel="icon" href="../images/logo.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VACANCY</title>
+<link rel="stylesheet" href="../../css/헤더.css">
+<link rel="stylesheet" href="../css/main.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../images/logo.ico" type="image/x-icon">
+</head>
 
- <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #eef1f5;
-            margin: 0;
-            padding: 0;
-        }
-        .row {
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-            padding: 20px;
-        }
-        form {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 450px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        form:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #0066cc;
-            box-shadow: 0 0 8px rgba(0, 102, 204, 0.5);
-            outline: none;
-        }
-        .error-input {
-            border-color: red;
-        }
-        .error-div {
-            color: red;
-            font-size: 12px;
-            margin-top: -14px;
-            margin-bottom: 10px;
-        }
-        .btn {
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 17px;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .btn:hover {
-            background-color: #004d99;
-            transform: translateY(-2px);
-        }
-        div[align="center"] {
-            margin-top: 30px;
-        }
-    </style>
+<style>
+.row {
+	display: flex;
+	justify-content: center;
+	margin-top: 60px;
+	padding: 20px;
+}
+
+form {
+	background-color: #ffffff;
+	padding: 40px;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	width: 90%;
+	max-width: 450px;
+	transition: transform 0.3s, box-shadow 0.3s;
+}
+
+form:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: bold;
+	color: #333;
+}
+
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 20px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 15px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+	border-color: #0066cc;
+	box-shadow: 0 0 8px rgba(0, 102, 204, 0.5);
+	outline: none;
+}
+
+.error-input {
+	border-color: red;
+}
+
+.error-div {
+	color: red;
+	font-size: 12px;
+	margin-top: -14px;
+	margin-bottom: 10px;
+}
+
+.btn {
+	background-color: #0066cc;
+	color: white;
+	border: none;
+	padding: 15px 25px;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+	font-size: 17px;
+	font-weight: bold;
+	transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+	background-color: #004d99;
+	transform: translateY(-2px);
+}
+
+div[align="center"] {
+	margin-top: 30px;
+}
+</style>
 </head>
 <body>
 
-	<div th:replace="헤더.html"/>
-	
-<div class="row" align="center">
-    <div class="result-container">
-        <h3 th:if="${message != null}" th:text="${message}"></h3>
-        <h3 th:if="${error != null}" th:text="${error}"></h3>
-        <a class="btn" href="/users/login">로그인 페이지로 돌아가기</a>
-        <a class="btn" href="/users/join">회원가입 페이지로 돌아가기</a>
-    </div>
-</div>
+	<div th:replace="헤더.html" />
+
+	<div class="row" align="center">
+		<div class="result-container">
+			<h3 th:if="${message != null}" th:text="${message}"></h3>
+			<h3 th:if="${error != null}" th:text="${error}"></h3>
+			<a class="btn" href="/users/login">로그인 페이지로 돌아가기</a>
+			<a class="btn" href="/users/join">회원가입 페이지로 돌아가기</a>
+		</div>
+	</div>
 
 </body>
 </html>
