@@ -1,4 +1,5 @@
 body {
+	font-family: 'Roboto';
 	margin: 0;
 	padding: 0;
 }
@@ -36,13 +37,13 @@ body {
 
 .메뉴 {
 	position: absolute;
-	display:flex;
+	display: flex;
 	left: 50%;
 	transform: translateX(-50%);
 }
 
 .메뉴 a {
-	padding:5px 10px;
+	padding: 5px 10px;
 	text-decoration: none;
 	color: #505050;
 	font-weight: bold;
@@ -81,16 +82,35 @@ body {
 
 .배너 {
 	margin: 0;
+	margin-top: 50px;
 	margin-left: 200px;
 	margin-right: 200px;
+	height: 500px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #FFB74D;
+	background-image: url("../images/메인배너.jpg");
+	background-size: cover;
+	background-position: center;
+	position: relative;
 	color: white;
 	font-size: 1.2em;
 	padding-top: 100px;
 	padding-bottom: 100px;
+}
+
+.배너::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 검은색 불투명도 설정 */
+}
+
+.배너 > * {
+  z-index: 1;
 }
 
 .배너 h2 {
@@ -113,35 +133,6 @@ body {
 	display: flex;
 	justify-content: center;
 	font-size: 1.3em;
-}
-
-.검색 {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 20px 200px;
-}
-
-.검색창 {
-	padding: 10px 20px;
-	font-size: 1.2em;
-	border: 1px solid #aaa;
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
-	text-align: center;
-	width: 400px;
-}
-
-.검색 button {
-	background-color: #FF5722;
-	color: white;
-	border: none;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
-	font-size: 1.2em;
-	padding: 9px 20px;
-	cursor: pointer;
-	font-weight: bold;
 }
 
 .공실정보 {

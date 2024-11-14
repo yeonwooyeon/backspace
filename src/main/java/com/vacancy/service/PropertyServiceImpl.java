@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.vacancy.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.entity.Image;
-import com.example.demo.entity.Property;
-import com.example.demo.repository.ImageRepository;
-import com.example.demo.repository.PropertyRepository;
 import com.study.basicboard.domain.entity.User;
+import com.vacancy.entity.Image;
+import com.vacancy.entity.Property;
+import com.vacancy.repository.ImageRepository;
+import com.vacancy.repository.PropertyRepository;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {

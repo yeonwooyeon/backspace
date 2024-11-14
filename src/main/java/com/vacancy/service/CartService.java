@@ -1,9 +1,9 @@
-package com.example.demo.service;
+package com.vacancy.service;
 
 import java.util.List;
 
-import com.example.demo.entity.Cart;
-import com.example.demo.entity.CartProperty;
+import com.vacancy.entity.Cart;
+import com.vacancy.entity.CartProperty;
 
 public interface CartService {
 	void addToCart(Cart cart);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.repository.PropertyRepository">
+<mapper namespace="com.vacancy.repository.PropertyRepository">
 
-<resultMap id="PropertyResultMap" type="com.example.demo.entity.Property">
+<resultMap id="PropertyResultMap" type="com.vacancy.entity.Property">
 <result column="info_no" property="info_no"/> <!-- 건물번호 -->
 <result column="id" property="id"/> <!-- 회원넘버 -->
 <result column="info_name" property="info_name"/> <!-- 건물명 -->
@@ -36,8 +36,8 @@
 <result column="option_notes" property="option_notes"/> <!-- 비고 -->
 <result column="info_operators" property="info_operators"/> <!-- 등기부등본URL -->
 <!-- 이미지 리스트 -->
-<collection property="images" ofType="com.example.demo.entity.Image" 
-                 select="com.example.demo.repository.ImageRepository.getImagesByPropertyId" 
+<collection property="images" ofType="com.vacancy.entity.Image" 
+                 select="com.vacancy.repository.ImageRepository.getImagesByPropertyId" 
                  column="info_no"/>
 </resultMap>
 
@@ -52,7 +52,7 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
 </select>
 
     <!-- 관리물건 insert 쿼리 -->
-    <insert id="insertProperty" parameterType="com.example.demo.entity.Property" useGeneratedKeys="true" keyProperty="info_no">
+    <insert id="insertProperty" parameterType="com.vacancy.entity.Property" useGeneratedKeys="true" keyProperty="info_no">
         INSERT INTO Pp_info (info_name, id, info_add, info_size, info_allfl, info_fl, info_count, 
                              info_upload, info_update, info_delflag, info_option, 
                              info_type, info_sell, info_year, info_month, 
@@ -69,7 +69,7 @@ WHERE info_add LIKE CONCAT('%', #{keyword}, '%') OR info_name LIKE CONCAT('%', #
     </insert>
     
     <!-- 관리물건 delete 쿼리 -->
-    <delete id="deleteProperty" parameterType="com.example.demo.entity.Property">
+    <delete id="deleteProperty" parameterType="com.vacancy.entity.Property">
        delete from Pp_info where info_no = #{info_no}
     </delete>
     

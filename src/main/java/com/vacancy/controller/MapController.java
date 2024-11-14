@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.vacancy.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +23,12 @@ public class MapController {
 
 	@GetMapping("/map")
 	public String map(Model model, Authentication authentication) {
-		String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
-		model.addAttribute("loginId", loginId);
+		boolean loggedIn = authentication != null && authentication.isAuthenticated();
+		model.addAttribute("loggedIn", loggedIn);
+		if (loggedIn) {
+			String loginId = ((UserDetails) authentication.getPrincipal()).getUsername();
+			model.addAttribute("loginId", loginId);
+		}
 		return "map";
 	}
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.repository.CartRepository">
-<resultMap id="cartResultMap" type="com.example.demo.entity.Cart">
+<mapper namespace="com.vacancy.repository.CartRepository">
+<resultMap id="cartResultMap" type="com.vacancy.entity.Cart">
     <id property="info_no" column="info_no"/>
     <result property="wish_date" column="wish_date"/>
     <result property="wish_status" column="wish_status"/>
     
-    <collection property="cartProperties" ofType="com.example.demo.entity.CartProperty">
+    <collection property="cartProperties" ofType="com.vacancy.entity.CartProperty">
         <result property="property.info_name" column="info_name"/>
         <result property="property.info_add" column="info_add"/>
     </collection>

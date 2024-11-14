@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.vacancy.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;

@@ -1,14 +1,14 @@
-package com.example.demo.service;
+package com.vacancy.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Cart;
-import com.example.demo.entity.CartProperty;
-import com.example.demo.entity.Property;
-import com.example.demo.repository.CartRepository;
+import com.vacancy.entity.Cart;
+import com.vacancy.entity.CartProperty;
+import com.vacancy.entity.Property;
+import com.vacancy.repository.CartRepository;
 
 @Service
 public class CartServiceImpl implements CartService{

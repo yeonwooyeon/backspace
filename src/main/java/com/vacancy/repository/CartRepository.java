@@ -1,10 +1,10 @@
-package com.example.demo.repository;
+package com.vacancy.repository;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.entity.Cart;
+import com.vacancy.entity.Cart;
 
 @Mapper
 public interface CartRepository {

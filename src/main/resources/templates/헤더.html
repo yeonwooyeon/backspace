@@ -1,0 +1,50 @@
+<header class="헤더">
+		<a class="로고" href="/">
+			<img src="images/logo.png">VACANCY
+		</a>
+
+		<div class="메뉴">
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="map">공실정보</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">공실정보</a>
+			</th:block>
+			<a>|</a>
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="property">관리물건</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">관리물건</a>
+			</th:block>
+			<a>|</a>
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="cart">담은매물</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">담은매물</a>
+			</th:block>
+			<a>|</a>
+			<th:block th:if="${loggedIn}">
+				<a class="호버" href="../adpayment">광고구독</a>				
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a class="호버" onclick="showLoginPopup()">광고구독</a>
+			</th:block>
+		</div>
+
+		<div class="유저메뉴">
+			<th:block th:if="${loggedIn}">
+				<span th:text="${loginId} + '님'"></span>
+			</th:block>
+			<a href="/boards/free">고객센터</a>
+			<th:block th:if="${loggedIn}">
+				<a href="users/myPage/boards">마이페이지</a>
+				<a href="users/logout">로그아웃</a>
+			</th:block>
+			<th:block th:unless="${loggedIn}">
+				<a href="users/login">로그인</a>
+				<a href="users/join">회원가입</a>
+			</th:block>
+		</div>
+	</header>

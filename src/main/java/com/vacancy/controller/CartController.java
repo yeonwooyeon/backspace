@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.vacancy.controller;
 
 import java.security.Principal;
 import java.sql.Timestamp;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Cart;
-import com.example.demo.entity.CartProperty;
-import com.example.demo.entity.CartRequest;
-import com.example.demo.entity.Property;
-import com.example.demo.service.CartService;
-import com.example.demo.service.PropertyService;
 import com.study.basicboard.domain.entity.User;
+import com.vacancy.entity.Cart;
+import com.vacancy.entity.CartProperty;
+import com.vacancy.entity.CartRequest;
+import com.vacancy.entity.Property;
+import com.vacancy.service.CartService;
+import com.vacancy.service.PropertyService;
 
 @Controller
 public class CartController {

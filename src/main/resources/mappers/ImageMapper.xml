@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.repository.ImageRepository">
+<mapper namespace="com.vacancy.repository.ImageRepository">
 
-<resultMap id="ImageResultMap" type="com.example.demo.entity.Image">
+<resultMap id="ImageResultMap" type="com.vacancy.entity.Image">
         <result column="img_no" property="img_no"/>
         <result column="info_no" property="info_no"/>
         <result column="si_insideurl" property="si_insideurl"/>

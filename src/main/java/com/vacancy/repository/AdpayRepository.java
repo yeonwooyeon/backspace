@@ -1,11 +1,11 @@
-package com.example.demo.repository;
+package com.vacancy.repository;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.demo.entity.AdPay;
+import com.vacancy.entity.AdPay;
 
 @Mapper
 public interface AdpayRepository {

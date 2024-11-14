@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.vacancy.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Property;
-import com.example.demo.service.PropertyService;
+import com.vacancy.entity.Property;
+import com.vacancy.service.PropertyService;
 
 @RestController
 public class SearchController {

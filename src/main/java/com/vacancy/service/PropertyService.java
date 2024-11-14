@@ -1,13 +1,13 @@
-package com.example.demo.service;
+package com.vacancy.service;
 
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.entity.Image;
-import com.example.demo.entity.Property;
 import com.study.basicboard.domain.entity.User;
+import com.vacancy.entity.Image;
+import com.vacancy.entity.Property;
 
 public interface PropertyService {
 	void addProperty(Property property, MultipartFile[] photos, MultipartFile operatorFile);

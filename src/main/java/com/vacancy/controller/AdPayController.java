@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.vacancy.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.vacancy.controller;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.example.demo.entity.Image;
-import com.example.demo.entity.Property;
-import com.example.demo.service.PropertyService;
 import com.study.basicboard.domain.entity.User;
+import com.vacancy.entity.Image;
+import com.vacancy.entity.Property;
+import com.vacancy.service.PropertyService;
 
 @Controller
 @RequestMapping("/property")
