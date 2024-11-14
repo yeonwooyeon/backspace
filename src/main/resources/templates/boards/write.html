@@ -1,143 +1,89 @@
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VACANCY</title>
-<link rel="stylesheet" href="/css/index.css">
-<link rel="icon" href="../images/logo.ico" type="image/x-icon">
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
-    }
-    .container {
-        width: 80%;
-        margin: 0 auto;
-    }
-    .row {
-        display: flex;
-        justify-content: center; /* 센터 정렬 */
-        margin-bottom: 30px;
-        align-items: center;
-    }
-    .col-3, .col-6, .col-1, .col-12 {
-        box-sizing: border-box;
-        padding: 10px;
-    }
-    .col-3 { width: 25%; }
-    .col-6 { width: 50%; }
-    .col-1 { width: 8.33%; }
-    .col-12 { width: 100%; }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: center;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-    tr:hover {
-        background-color: #f1f1f1;
-        cursor: pointer;
-    }
-    form {
-        width: 100%;
-        max-width: 600px; /* 폼의 최대 너비 설정 */
-        background-color: #fff;
-        padding: 30px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-    }
-    .form-group {
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column; /* 수직 정렬 */
-    }
-    .form-group label {
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #333;
-    }
-    .form-control, .form-control-file {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    .btn {
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        margin-top: 10px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-    .btn:hover {
-        background-color: #0056b3;
-    }
-</style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="../../css/헤더.css">
+<link rel="stylesheet" href="../css/main.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../images/logo.ico" type="image/x-icon">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
+<style>
+.row {
+	width: 50%;
+	margin: 0 auto; /* 가운데 정렬 */
+	margin-top: 50px;
+}
+
+form {
+	background-color: #f9f9f9;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form .form-group {
+	margin-bottom: 20px;
+}
+
+form .form-group label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 10px;
+}
+
+form .form-control, form .form-control-file {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+form .form-control:focus, form .form-control-file:focus {
+	border-color: #007bff;
+	outline: none;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+form button {
+	font-size: 18px;
+	transition: background-color 0.3s ease;
+}
+
+form button:hover {
+	background-color: #0056b3;
+}
+</style>
+</head>
+
 <body>
-	<header>
-		<div class="logo">
-			<a href="/"> <img src="/images/logo.png" alt="Vacancy Logo"
-				class="logo" id="logo">
-			</a> <span>VACANCY</span>
-		</div>
-		<nav>
-			<a href="map">공실정보</a> <a href="property">관리물건</a> <a href="#">매매정보</a>
-			<a href="#">분양사무실</a>
-		</nav>
-	<div class="user-menu">
-			<a href="users/board">고객센터</a>
+	<div th:replace="헤더.html" />
 
-
-			<!-- 로그인 상태에 따라 버튼 표시 -->
-			<th:block th:if="${loggedIn}">
-				<a href="users/myPage/boards">마이페이지</a>
-				<a href="users/logout">로그아웃</a>
-
-			</th:block>
-			<th:block th:unless="${loggedIn}">
-				<a href="users/login">로그인</a>
-				<a href="users/join">회원가입</a>
-			</th:block>
-		</div>
-	</header>
-<div class="row">
-    <form class="offset-3 col-6 form-group" th:object="${boardCreateRequest}" th:method="post"
-          th:action="|@{/boards/{category} (category=${category})}|" enctype="multipart/form-data">
-        <div class="form-group">
-            <label th:for="title">제목 :</label>
-            <input type="text" th:field="*{title}" class="form-control" style="width: 100%;">
-        </div>
-        <div class="form-group">
-            <label th:for="body">내용 :</label>
-            <textarea rows="10" class="form-control" th:field="*{body}" style="width: 100%;"></textarea>
-        </div>
-        <div class="form-group">
-            <label th:for="uploadImage">이미지 첨부 :</label>
-            <input type="file" th:field="*{uploadImage}" class="form-control-file" style="width: 100%;">
-        </div>
-        <div style="text-align: center;">
-            <button class="btn" type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                등록
-            </button>
-        </div>
-    </form>
-</div>
-<script th:inline="javascript">
+	<div class="row">
+		<form class="offset-3 col-6 form-group" th:object="${boardCreateRequest}" th:method="post" th:action="|@{/boards/{category} (category=${category})}|" enctype="multipart/form-data">
+			<div class="form-group">
+				<label th:for="title">제목 :</label>
+				<input type="text" th:field="*{title}" class="form-control" style="width: 100%;">
+			</div>
+			<div class="form-group">
+				<label th:for="body">내용 :</label>
+				<textarea rows="10" class="form-control" th:field="*{body}" style="width: 100%;"></textarea>
+			</div>
+			<div class="form-group">
+				<label th:for="uploadImage">이미지 첨부 :</label>
+				<input type="file" th:field="*{uploadImage}" class="form-control-file" style="width: 100%;">
+			</div>
+			<div style="text-align: center;">
+				<button class="btn" type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">등록</button>
+			</div>
+		</form>
+	</div>
+	<script th:inline="javascript">
     $("#uploadImage").on("change", (e) => {
 
         let f = e.target.files[0];
