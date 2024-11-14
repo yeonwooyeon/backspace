@@ -62,7 +62,7 @@ form button:hover {
 </head>
 
 <body>
-	<div th:replace="헤더.html" />
+	<div th:replace="~{헤더.html}"></div>
 
 	<div class="row">
 		<form class="offset-3 col-6 form-group" th:object="${boardCreateRequest}" th:method="post" th:action="|@{/boards/{category} (category=${category})}|" enctype="multipart/form-data">

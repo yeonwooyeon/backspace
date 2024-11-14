@@ -100,7 +100,7 @@ div[align="center"] {
 </head>
 <body>
 
-	<div th:replace="헤더.html"/>
+	<div th:replace="~{헤더.html}"></div>
 	
 	<div class="row">
 		<form th:method="post" th:action="@{/users/find/id}">
